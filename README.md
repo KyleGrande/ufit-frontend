@@ -1,7 +1,7 @@
 # ufit-frontend
 A capstone project.
 
-## Setting up your ENVIORMENT
+## Setting up your ENVIRONMENT
 
 ### Installs
 
@@ -9,7 +9,7 @@ A capstone project.
 
 [Node.js (nodejs.org)](https://nodejs.org/en)
 
-Alternatively you can get node version manager like [NVM](https://github.com/nvm-sh/nvm)
+Alternatively, you can get a node version manager like [NVM](https://github.com/nvm-sh/nvm)
 
 ### Getting the Repo
 
@@ -21,7 +21,7 @@ git clone https://github.com/KyleGrande/ufit-frontend.git
 
 ### Start the Application
 
-Then you can CD into the directory, intall the dependencies, and run the app
+Then you can CD into the directory, install the dependencies, and run the app
 
 ```bash
 cd ufit-frontend 
@@ -41,9 +41,9 @@ After starting the application you can scan the QR code in the terminal with you
 
 [Github Docs](https://www.notion.so/Github-Docs-ff612891bbc34fdc9acef33bf75e3cba?pvs=21)
 
-Before anything else and everytime you are going to work on the application you need to get all recent updates
+Before anything else and every time you are going to work on the application you need to get all recent updates
 
-in the directory of either frontend or backend run
+in the directory run
 
 ```bash
 git pull #pull updates
@@ -55,7 +55,7 @@ Then once you want to work on something create a branch, these are created for e
 git checkout -b branch_name. # create and goto branch
 ```
 
-Once you are finished you can push branches to the repo on github using
+Once you are finished you can push branches to the repo on GitHub using
 
 ```bash
 git add . #add all updates
@@ -63,7 +63,7 @@ git commit -m "a message saying what you did"  # commit a message
 git push -u origin branch_name # push your branch and updates to the repo
 ```
 
-Then on the github site in the repository you can see your pull/merge request and accept them.
+Then on the GitHub site in the repository, you can see your pull/merge request and accept them.
 
 Once merged you can return to the main branch
 
