@@ -2,7 +2,10 @@ import * as React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { BottomTabBarHeightCallbackContext, createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import ProgramFeed from './src/screens/ProgramFeed';
+import UserPrograms from './src/screens/UserPrograms';
+import UserSettings from './src/screens/UserSettings';
 
 function MyPrograms() {
   return (
@@ -34,9 +37,19 @@ const Tab = createBottomTabNavigator();
 function MyTabs() {
   return (
     <Tab.Navigator>
-      <Tab.Screen name="Feed" component={HomeFeed} />
-      <Tab.Screen name="Programs" component={MyPrograms} />
-      <Tab.Screen name="Settings" component={MySettings} />
+      <Tab.Screen
+        name="Feed"
+        component={ProgramFeed}
+      />
+      <Tab.Screen 
+        name="User Programs" 
+        component={UserPrograms} 
+        options={{ tabBarBadge: 3 }}
+      />
+      <Tab.Screen 
+        name="Settings" 
+        component={UserSettings} 
+      />
     </Tab.Navigator>
   );
 }
