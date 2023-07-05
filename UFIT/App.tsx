@@ -16,7 +16,7 @@ function MyTabs() {
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
-          if (route.name === 'Feed') {
+          if (route.name === 'Discover') {
             iconName = focused ? 'ios-apps' : 'ios-apps-outline';
           } else if (route.name === 'Programs') {
             iconName = focused ? 'ios-barbell' : 'ios-barbell-outline';
@@ -32,7 +32,7 @@ function MyTabs() {
       })}
     >
       <Tab.Screen
-        name="Feed"
+        name="Discover"
         component={ProgramFeed}
         options={{headerShown: false}}
       />
