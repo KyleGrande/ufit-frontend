@@ -8,6 +8,7 @@ import UserPrograms from './src/screens/UserPrograms';
 import UserSettings from './src/screens/UserSettings';
 import { Ionicons } from '@expo/vector-icons'; 
 
+
 const Tab = createBottomTabNavigator();
 
 function MyTabs() {
@@ -23,12 +24,18 @@ function MyTabs() {
           } else if (route.name === 'Settings') {
             iconName = focused ? 'ios-settings' : 'ios-settings-outline';
           }
-
-          return <Ionicons name={iconName} size={size} color={color} />;
+          return <Ionicons 
+                    name={iconName} 
+                    size={size} 
+                    color={color} 
+                  />;
         },
 
           tabBarActiveTintColor: 'orange',
           tabBarInactiveTintColor: 'gray',
+          tabBarStyle: {
+            height: 100,
+          },
       })}
     >
       <Tab.Screen
@@ -59,12 +66,3 @@ export default function App() {
     </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

@@ -1,15 +1,19 @@
 import * as React from 'react';
 import { Text, View, StyleSheet} from 'react-native';
 
-
-
 export default function ProgramFeed() {
     return (
         <View style={styles.container}>
-            <Text style={styles.headerText}>Discover</Text>
+            <Text style={styles.headerText}>
+                Discover
+            </Text>
             <View style={styles.containerItem}>
-                <Text>A workout:</Text>
-                <Text> none </Text>
+                <Text>
+                    Strength 5x5
+                </Text>
+                <Text> 
+                    Something 
+                </Text>
             </View>
         </View>
     );
@@ -17,11 +21,11 @@ export default function ProgramFeed() {
 
 const styles = StyleSheet.create({
     container: {
-      flex: 1,
-      paddingTop: 100,
-      paddingLeft: 20,
-      alignItems: 'flex-start',
-      justifyContent: 'flex-start',
+        flex: 1,
+        paddingTop: 100,
+        paddingLeft: 20,
+        alignItems: 'flex-start',
+        justifyContent: 'flex-start',
     },
     containerItem: {
         // flex: 1,
@@ -34,10 +38,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 10,
-      },
+    },
     headerText: {
         color: 'gray',
         fontSize: 30,
         fontWeight: 'bold',
     },
-  });
+});
