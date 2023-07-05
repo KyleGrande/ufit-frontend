@@ -9,7 +9,7 @@ export default function UserPrograms( ) {
     return (
         <stack.Navigator initialRouteName='Program'>
             <stack.Screen name="ProgramsMain" component={ProgramsMainScreen} options={{ headerShown: false}}/>
-            <stack.Screen name="Create a Program" component={ProgramCreate}  />
+            <stack.Screen name="Create a Program" component={ProgramCreate} options={{ headerTransparent: true, headerTintColor: 'white'  }}  />
         </stack.Navigator>
     );
 }

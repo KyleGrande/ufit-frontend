@@ -6,49 +6,47 @@ import { BottomTabBarHeightCallbackContext, createBottomTabNavigator } from '@re
 import ProgramFeed from './src/screens/ProgramFeed';
 import UserPrograms from './src/screens/UserPrograms';
 import UserSettings from './src/screens/UserSettings';
-
-function MyPrograms() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>myPrograms</Text>
-    </View>
-  );
-}
-
-function HomeFeed() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>THIS IS THE UFIT APP</Text>
-        <Text> It's gonna be a great app. </Text>
-    </View>
-  );
-}
-
-function MySettings() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>mySettings</Text>
-    </View>
-  );
-}
+import { Ionicons } from '@expo/vector-icons'; 
 
 const Tab = createBottomTabNavigator();
 
 function MyTabs() {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName;
+          if (route.name === 'Feed') {
+            iconName = focused ? 'ios-apps' : 'ios-apps-outline';
+          } else if (route.name === 'Programs') {
+            iconName = focused ? 'ios-barbell' : 'ios-barbell-outline';
+          } else if (route.name === 'Settings') {
+            iconName = focused ? 'ios-settings' : 'ios-settings-outline';
+          }
+
+          return <Ionicons name={iconName} size={size} color={color} />;
+        },
+
+          tabBarActiveTintColor: 'orange',
+          tabBarInactiveTintColor: 'gray',
+      })}
+    >
       <Tab.Screen
         name="Feed"
         component={ProgramFeed}
+        options={{headerShown: false}}
       />
+
       <Tab.Screen 
-        name="User Programs" 
+        name="Programs" 
         component={UserPrograms} 
-        options={{ tabBarBadge: 3 }}
+        options={{ tabBarBadge: 3, headerShown: false }}
       />
+
       <Tab.Screen 
         name="Settings" 
         component={UserSettings} 
+        options={{headerShown: false}}
       />
     </Tab.Navigator>
   );
@@ -57,8 +55,6 @@ function MyTabs() {
 export default function App() {
   return (
     <NavigationContainer>
-      {/* <View style={styles.container}> */}
-        {/* <StatusBar style="auto" /> */}
       <MyTabs />
     </NavigationContainer>
   );
