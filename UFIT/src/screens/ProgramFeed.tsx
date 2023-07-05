@@ -6,7 +6,7 @@ import { Text, View, StyleSheet} from 'react-native';
 export default function ProgramFeed() {
     return (
         <View style={styles.container}>
-            <Text style={styles.text}>Discover</Text>
+            <Text style={styles.headerText}>Discover</Text>
             <View style={styles.containerItem}>
                 <Text>A workout:</Text>
                 <Text> none </Text>
@@ -18,7 +18,6 @@ export default function ProgramFeed() {
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: 'orange',
       paddingTop: 100,
       paddingLeft: 20,
       alignItems: 'flex-start',
@@ -27,7 +26,7 @@ const styles = StyleSheet.create({
     containerItem: {
         // flex: 1,
         flexDirection: 'row',
-        backgroundColor: 'white',
+        backgroundColor: 'blue',
         width: 350,
         height: 200,
         marginTop: 40,
@@ -36,8 +35,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         borderRadius: 10,
       },
-    text: {
-        color: 'white',
+    headerText: {
+        color: 'gray',
         fontSize: 30,
         fontWeight: 'bold',
     },
