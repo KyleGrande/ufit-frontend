@@ -81,7 +81,7 @@ export default function ProgramsMainScreen({ navigation }: ProgramsMainScreenPro
             <View style={styles.programsContainer}>
                 {programs.map((program) => (
                     <Pressable
-                    style={styles.programsContainer2}  
+                        style={styles.programsContainer2}  
                         key={program._id.$oid}
                         onPress={() =>
                             navigation.navigate('Track a Program', { programId: program._id.$oid }) }
