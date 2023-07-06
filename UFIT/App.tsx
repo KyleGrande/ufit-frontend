@@ -25,7 +25,7 @@ function MyTabs() {
             iconName = focused ? 'ios-settings' : 'ios-settings-outline';
           }
           return <Ionicons 
-                    name={iconName} 
+                    name={iconName as any} 
                     size={size} 
                     color={color} 
                   />;
