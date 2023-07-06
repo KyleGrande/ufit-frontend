@@ -1,29 +1,16 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Text, View } from "react-native";
+import {creatingStyles} from '../../style';
 
 export default function ProgramCreate() {
     return (
-        <View style={styles.container}>
-            <Text style={styles.text}>
+        <View style={creatingStyles.viewContainer}>
+            <Text>
                 One day
             </Text>
-            <Text style={styles.text}>
+            <Text>
                 You'll be able to create here
             </Text>
         </View>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: 'blue',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    text: {
-        color: 'white',
-        fontSize: 20,
-        fontWeight: 'bold',
-    },
-});
