@@ -8,7 +8,7 @@ import TrackProgramScreen from './UserProgramsStack/ProgramTracking/TrackProgram
 export type StackParamList = {
     'User Programs': undefined;
     'Create a Program': undefined;
-    'Track a Program': { programId: any };
+    'Track a Program': { programId: string };
 };
 
 
