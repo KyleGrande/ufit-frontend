@@ -21,6 +21,13 @@ export default function TrackSessionScreen({ route }: any){
             <Text style={trackingStyles.titleBarText}>
                 {session.name} 
             </Text>
+            {/* <ScrollView>
+                {session.movementId.map((movementId: string) => (
+                    <Text key={movementId}>
+                        {movementId}
+                    </Text>
+                ))}
+            </ScrollView> */}
         </View>
     );
 }

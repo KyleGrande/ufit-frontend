@@ -14,12 +14,12 @@ const programs = [
         "session": [
             {
                 "name": "Saturday Session",
-                "movementId": "64a1cd444ad713a91cc690d2",
+                "movementId": ["64a1cd444ad713a91cc690d2", "64a1cd444ad713a91cc690d3"],
                 "_id": "64a1dd06bc920f83ce2d357c"
             },
             {
                 "name": "Friday Session",
-                "movementId": "64a1cd444ad713a91cc690d2",
+                "movementId": ["64a1cd444ad713a91cc690d2", "64a1cd444ad713a91cc690d3"],
                 "_id": "64a1dd06bc920f83ce2d357d"
             }
         ],
@@ -96,12 +96,12 @@ export type Program = {
     session: Session[];
     __v: { $numberInt: string };
 };
+
 export interface Session {
     name: string;
-    movementId: string;
+    movementId: Array<string>;
     _id: string;
 }
-
 
 export default function ProgramsMainScreen({ navigation }: ProgramsMainScreenProps){
     return (
@@ -137,4 +137,3 @@ export default function ProgramsMainScreen({ navigation }: ProgramsMainScreenPro
         </View>
     );
 }
-

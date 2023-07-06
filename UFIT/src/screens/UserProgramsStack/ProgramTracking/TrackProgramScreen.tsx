@@ -34,6 +34,11 @@ export default function TrackProgramScreen({ route, navigation }: TrackProgramSc
                             <Text style={trackingStyles.sessionTitle}>
                                 {session.name}
                             </Text>
+                                {session.movementId.map((movementId) => (
+                                <Text key={movementId}>
+                                    {movementId}
+                                </Text>
+                                ))}
                         </Pressable>
                     ))}
                 </ScrollView>

@@ -5,13 +5,13 @@ import ProgramCreate from './UserProgramsStack/ProgramCreation/ProgramCreate';
 import ProgramsMainScreen from './UserProgramsStack/ProgramsMainScreen';
 import TrackProgramScreen from './UserProgramsStack/ProgramTracking/TrackProgramScreen';
 import TrackSessionScreen from './UserProgramsStack/ProgramTracking/TrackSessionScreen';
+
 export type StackParamList = {
     'User Programs': undefined;
     'Create a Program': undefined;
     'Track a Program': { program: any };
     'Track a Session': { session: any };
 };
-
 
 const stack = createNativeStackNavigator<StackParamList>();
 
