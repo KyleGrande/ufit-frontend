@@ -3,11 +3,14 @@ import { Text, View, Button, StyleSheet } from 'react-native';
 import { createNativeStackNavigator, NativeStackNavigationProp } from '@react-navigation/native-stack';
 import ProgramCreate from './UserProgramsStack/ProgramCreation/ProgramCreate'; 
 import ProgramsMainScreen from './UserProgramsStack/ProgramsMainScreen';
+import TrackProgramScreen from './UserProgramsStack/ProgramTracking/TrackProgramScreen';
 
-type StackParamList = {
+export type StackParamList = {
     'User Programs': undefined;
     'Create a Program': undefined;
+    'Track a Program': { programId: string };
 };
+
 
 const stack = createNativeStackNavigator<StackParamList>();
 
@@ -25,9 +28,16 @@ export default function UserPrograms( ) {
                 component={ProgramCreate} 
                 options={{ 
                     headerTransparent: true, 
-                    headerTintColor: 'white'  }}  
+                    headerTintColor: 'white'  }}
+                    
             />
+            <stack.Screen 
+                name="Track a Program" 
+                component={TrackProgramScreen} 
+                options={{ 
+                    headerTransparent: true, 
+                    headerTintColor: 'white'  }}
+                />
         </stack.Navigator>
     );
 }
-
