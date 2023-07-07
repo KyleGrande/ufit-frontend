@@ -4,14 +4,26 @@ import { styles } from './style';
 import API, {Program} from '../api';
 export default function ProgramFeed() {
     const [programs, setPrograms] = React.useState<Program[]>([]);
+    const [error, setError] = React.useState<null | string>(null); // Add this
 
     React.useEffect(() => {
         API.getPrograms().then((response) => {
             console.log(response.data);
             setPrograms(response.data.data);
+            setError(null);
+        })
+        .catch((err) => {
+            console.log(err);
+            setError('Error retrieving data');
         });
     }, []);
-
+    if (error) {
+        return (
+            <View style={styles.viewContainer}>
+                <Text style={styles.titleBarText}>{error}</Text>
+            </View>
+        );
+    }
     return (
         <View>
             <View style={styles.viewContainer}>
