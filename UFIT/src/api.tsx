@@ -7,24 +7,6 @@ export type Program = {
     session: Session[];
     __v: { $numberInt: string };
 };
-type newProgram = {
-    _id: { $oid: string };
-    programName: string;
-    programDescription: string;
-    programCategory: string;
-    userId: { $oid: string };
-    session: Session[];
-    __v: { $numberInt: string };
-};
-type updatedProgram = {
-    _id: { $oid: string };
-    programName: string;
-    programDescription: string;
-    programCategory: string;
-    userId: { $oid: string };
-    session: Session[];
-    __v: { $numberInt: string };
-};
 type Session = {
     name: string;
     movementId: Array<string>;
@@ -40,7 +22,7 @@ export const api = axios.create({
 
 export default {
     getPrograms: () => api.get('/program'),
-    insertProgram: (newProgram) => api.post('/program', newProgram),
-    updateProgram: (updatedProgram) => api.put('/program/by-id', updatedProgram),
-    deleteProgram: (id) => api.delete(`/program/by-id/${id}`),
+    insertProgram: (newProgram: Program) => api.post('/program', newProgram),
+    updateProgram: (updatedProgram: Program) => api.put('/program/by-id', updatedProgram),
+    deleteProgram: (id: string) => api.delete(`/program/by-id/${id}`),
 }
