@@ -4,13 +4,14 @@ import { createNativeStackNavigator, NativeStackNavigationProp } from '@react-na
 import ProgramCreate from './UserProgramsStack/ProgramCreation/ProgramCreate'; 
 import ProgramsMainScreen from './UserProgramsStack/ProgramsMainScreen';
 import TrackProgramScreen from './UserProgramsStack/ProgramTracking/TrackProgramScreen';
+import TrackSessionScreen from './UserProgramsStack/ProgramTracking/TrackSessionScreen';
 
 export type StackParamList = {
     'User Programs': undefined;
     'Create a Program': undefined;
-    'Track a Program': { programId: string };
+    'Track a Program': { program: any };
+    'Track a Session': { session: any };
 };
-
 
 const stack = createNativeStackNavigator<StackParamList>();
 
@@ -36,8 +37,18 @@ export default function UserPrograms( ) {
                 component={TrackProgramScreen} 
                 options={{ 
                     headerTransparent: true, 
-                    headerTintColor: 'white'  }}
-                />
+                    headerTintColor: 'white',
+                    headerTitle: ''  }}
+            />
+            <stack.Screen
+                name="Track a Session"
+                component={TrackSessionScreen}
+                options={{
+                    headerTransparent: true,
+                    headerTintColor: 'white',
+                    headerTitle: ''
+                }}
+            />
         </stack.Navigator>
     );
 }

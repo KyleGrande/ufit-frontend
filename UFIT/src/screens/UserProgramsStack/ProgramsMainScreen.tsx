@@ -1,18 +1,30 @@
 import * as React from 'react';
-import { Text, View, Button, StyleSheet, Pressable, ScrollView } from 'react-native';
+import { Text, View, Button, ScrollView, Pressable } from 'react-native';
 import { createNativeStackNavigator, NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { StackParamList } from '../UserPrograms';
 import {programStyles} from '../style';
 //dummy data
 const programs = [
     {
-        "_id":{"$oid":"64a1d8866724507e67f033eb"},
+        "_id":{"$oid":"64a1dd06bc920f83ce2d357b"},
         "programName":"Strength 5x5",
         "programDescription":"A high intensity strength building program.",
         "programCategory":"strength training",
         "userId":{"$oid":"64a1d8706724507e67f033e9"},
-        "__v":{"$numberInt":"0"}
-    },
+        "session": [
+            {
+                "name": "Saturday Session",
+                "movementId": ["64a1cd444ad713a91cc690d2", "64a1cd444ad713a91cc690d3"],
+                "_id": "64a1dd06bc920f83ce2d357c"
+            },
+            {
+                "name": "Friday Session",
+                "movementId": ["64a1cd444ad713a91cc690d2", "64a1cd444ad713a91cc690d3"],
+                "_id": "64a1dd06bc920f83ce2d357d"
+            }
+        ],
+        "__v": {"$numberInt":"0"}
+    },    
     {
         "_id":{"$oid":"64a1d8a16724507e67f033ec"},
         "programName":"Monster Builder",
@@ -75,6 +87,22 @@ type ProgramsMainScreenProps = {
     navigation: NativeStackNavigationProp<StackParamList, 'User Programs'>;
 };
 
+export type Program = {
+    _id: { $oid: string };
+    programName: string;
+    programDescription: string;
+    programCategory: string;
+    userId: { $oid: string };
+    session: Session[];
+    __v: { $numberInt: string };
+};
+
+export interface Session {
+    name: string;
+    movementId: Array<string>;
+    _id: string;
+}
+
 export default function ProgramsMainScreen({ navigation }: ProgramsMainScreenProps){
     return (
         <View>
@@ -86,10 +114,10 @@ export default function ProgramsMainScreen({ navigation }: ProgramsMainScreenPro
                     {programs.map((program, index) => (
                         <Pressable
                             style={[programStyles.singleProgramContainer, 
-                                {backgroundColor: index % 2 === 0 ? 'orange' : 'blue'}]}  
+                                {backgroundColor: index % 2 === 0 ? 'blue' : 'darkblue'}]}  
                             key={program._id.$oid}
                             onPress={() => navigation.navigate('Track a Program',
-                                { programId: program._id.$oid })}
+                                { program })}
                         >
                             <Text style={programStyles.programTitle}>
                                 {program.programName}
@@ -109,4 +137,3 @@ export default function ProgramsMainScreen({ navigation }: ProgramsMainScreenPro
         </View>
     );
 }
-
