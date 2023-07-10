@@ -87,6 +87,7 @@ type ProgramsMainScreenProps = {
     navigation: NativeStackNavigationProp<StackParamList, 'User Programs'>;
 };
 
+// need to define Program for ts
 export type Program = {
     _id: { $oid: string };
     programName: string;
@@ -96,7 +97,7 @@ export type Program = {
     session: Session[];
     __v: { $numberInt: string };
 };
-
+// same for Session
 export interface Session {
     name: string;
     movementId: Array<string>;

@@ -2,10 +2,12 @@ import * as React from 'react';
 import { Text, View, Button} from 'react-native';
 import { styles } from './style';
 import API, {Program} from '../api';
+
 export default function ProgramFeed() {
     const [programs, setPrograms] = React.useState<Program[]>([]);
-    const [error, setError] = React.useState<null | string>(null); // Add this
+    const [error, setError] = React.useState<null | string>(null);
 
+    // get all programs from the database
     React.useEffect(() => {
         API.getPrograms().then((response) => {
             console.log(response.data);
@@ -17,6 +19,7 @@ export default function ProgramFeed() {
             setError('Error retrieving data');
         });
     }, []);
+    // if there is an error
     if (error) {
         return (
             <View style={styles.viewContainer}>
