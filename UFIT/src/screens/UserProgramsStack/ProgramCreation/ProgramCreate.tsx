@@ -29,7 +29,7 @@ export default function ProgramCreate() {
                             padding: 10,
                             color: 'white',
                             borderColor: 'white'
-                          }}
+                        }}
                         onChangeText={onChangeText}
                         value={text}
                     />
@@ -44,7 +44,7 @@ export default function ProgramCreate() {
                             padding: 10,
                             color: 'white',
                             borderColor: 'white'
-                          }}
+                        }}
                         onChangeText={onChangeNumber}
                         value={number}                                                
                     />

@@ -4,7 +4,7 @@ import { RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { StackParamList } from "../../UserPrograms";
 import { trackingStyles } from '../../style';
-import { Session } from "../ProgramsMainScreen";
+// import { Session } from "../../../api";
 
 // used for accessing route parameters in a type-safe way
 export type TrackSessionScreenRouteProp = RouteProp<StackParamList, 'Track a Session'>;
@@ -13,7 +13,7 @@ type TrackSessionScreenProps = {
     route: TrackSessionScreenRouteProp;
 };
 
-export default function TrackSessionScreen({ route }: any){
+export default function TrackSessionScreen({ route }: TrackSessionScreenProps){
     const { session } = route.params;
 
     return (

@@ -3,7 +3,7 @@ import { Text, View, ScrollView, Pressable } from "react-native";
 import { RouteProp } from '@react-navigation/native';
 import { StackParamList } from "../../UserPrograms";
 import { trackingStyles } from '../../style';
-import { Session } from "../ProgramsMainScreen";
+import { Session } from "../../../api";
 import { createNativeStackNavigator, NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 // used for accessing route parameters in a type-safe way
@@ -25,6 +25,7 @@ export default function TrackProgramScreen({ route, navigation }: TrackProgramSc
             </Text>
             <ScrollView style={trackingStyles.sessionsContainer}>
                     {program.session.map((session:Session) => (
+                        
                         <Pressable
                             key={session._id}
                             style={trackingStyles.singleSessionContainer}
@@ -34,10 +35,11 @@ export default function TrackProgramScreen({ route, navigation }: TrackProgramSc
                             <Text style={trackingStyles.sessionTitle}>
                                 {session.name}
                             </Text>
-                                {session.movementId.map((movementId) => (
-                                <Text key={movementId}>
-                                    {movementId}
-                                </Text>
+                            {/* THIS DOES NOT WORK NEED TO FIX */}
+                                {session.movementId?.map((movement) => (
+                                    <Text key={movement.$oid}>
+                                        {movement.$oid}
+                                    </Text>
                                 ))}
                         </Pressable>
                     ))}
