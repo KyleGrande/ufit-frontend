@@ -34,11 +34,10 @@ export default function TrackProgramScreen({ route, navigation }: TrackProgramSc
                             <Text style={trackingStyles.sessionTitle}>
                                 {session.name}
                             </Text>
-                                  {/* This works but its not suppose to? */}
-                                 {/* and displaying the oid isnt useful anyway */}
-                                {session.movementId?.map((movement) => (
-                                    <Text key={movement}>
-                                        {movement}
+                                 {/* and displaying the oid isnt useful  */}
+                                {session.movementId?.map((movementId) => (
+                                    <Text key={movementId.toString()}>
+                                        {movementId.toString()}
                                     </Text>
                                 ))}
                         </Pressable>
