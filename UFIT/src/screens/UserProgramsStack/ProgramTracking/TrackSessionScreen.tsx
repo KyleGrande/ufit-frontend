@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, View, ScrollView, Pressable } from "react-native";
 import { RouteProp } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+// import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { StackParamList } from "../../UserPrograms";
 import { trackingStyles } from '../../style';
 // import { Session } from "../../../api";

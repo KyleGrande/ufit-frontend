@@ -16,7 +16,6 @@ export default function ProgramCreate() {
                 <Text style={{fontSize:30,fontWeight:'bold',color:'white'}}>
                     Create A Program
                 </Text>
-
                 <SafeAreaView style={{marginTop:40}}>
                     <Text style={{fontSize:20, color: 'white', fontWeight: 'bold'}}>
                         Name:
