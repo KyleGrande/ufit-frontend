@@ -25,7 +25,6 @@ export default function TrackProgramScreen({ route, navigation }: TrackProgramSc
             </Text>
             <ScrollView style={trackingStyles.sessionsContainer}>
                     {program.session.map((session:Session) => (
-                        
                         <Pressable
                             key={session._id}
                             style={trackingStyles.singleSessionContainer}
@@ -35,10 +34,11 @@ export default function TrackProgramScreen({ route, navigation }: TrackProgramSc
                             <Text style={trackingStyles.sessionTitle}>
                                 {session.name}
                             </Text>
-                            {/* THIS DOES NOT WORK NEED TO FIX */}
+                                  {/* This works but its not suppose to? */}
+                                 {/* and displaying the oid isnt useful anyway */}
                                 {session.movementId?.map((movement) => (
-                                    <Text key={movement.$oid}>
-                                        {movement.$oid}
+                                    <Text key={movement}>
+                                        {movement}
                                     </Text>
                                 ))}
                         </Pressable>

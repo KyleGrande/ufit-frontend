@@ -9,8 +9,6 @@ export type Program = {
 };
 export type Session = {
     name: string;
-    // movementId: { $oid: string },
-    // movementId: string[];
     movementId: { $oid: string }[];
     _id: string;
 };
