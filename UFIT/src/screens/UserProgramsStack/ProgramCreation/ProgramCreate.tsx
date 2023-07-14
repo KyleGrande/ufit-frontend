@@ -16,7 +16,6 @@ export default function ProgramCreate() {
                 <Text style={{fontSize:30,fontWeight:'bold',color:'white'}}>
                     Create A Program
                 </Text>
-
                 <SafeAreaView style={{marginTop:40}}>
                     <Text style={{fontSize:20, color: 'white', fontWeight: 'bold'}}>
                         Name:
@@ -29,7 +28,7 @@ export default function ProgramCreate() {
                             padding: 10,
                             color: 'white',
                             borderColor: 'white'
-                          }}
+                        }}
                         onChangeText={onChangeText}
                         value={text}
                     />
@@ -44,7 +43,7 @@ export default function ProgramCreate() {
                             padding: 10,
                             color: 'white',
                             borderColor: 'white'
-                          }}
+                        }}
                         onChangeText={onChangeNumber}
                         value={number}                                                
                     />

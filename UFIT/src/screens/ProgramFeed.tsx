@@ -1,16 +1,17 @@
 import * as React from 'react';
-import { Text, View, Button} from 'react-native';
+import { Text, View, Pressable} from 'react-native';
 import { styles } from './style';
 import API, {Program} from '../api';
 
 export default function ProgramFeed() {
+
     const [programs, setPrograms] = React.useState<Program[]>([]);
     const [error, setError] = React.useState<null | string>(null);
 
     // get all programs from the database
     React.useEffect(() => {
         API.getPrograms().then((response) => {
-            console.log(response.data);
+            // console.log(response.data);
             setPrograms(response.data.data);
             setError(null);
         })
@@ -27,6 +28,7 @@ export default function ProgramFeed() {
             </View>
         );
     }
+
     return (
         <View>
             <View style={styles.viewContainer}>
@@ -40,7 +42,6 @@ export default function ProgramFeed() {
                         </Text>
                     ))}
                 </Text>
-
             </View>
         </View>
     );

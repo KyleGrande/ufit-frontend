@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+
 //stylesheet instead of inline styling
 export const styles = StyleSheet.create({
     viewContainer: {

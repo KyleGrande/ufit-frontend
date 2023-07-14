@@ -3,16 +3,15 @@ export type Program = {
     programName: string;
     programDescription: string;
     programCategory: string;
-    userId: { $oid: string };
+    userId: string;
     session: Session[];
     __v: { $numberInt: string };
 };
-type Session = {
+export type Session = {
     name: string;
-    movementId: Array<string>;
+    movementId: { $oid: string }[];
     _id: string;
 };
-type id = string;
 
 import axios from "axios";
 
