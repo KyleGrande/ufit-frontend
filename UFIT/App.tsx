@@ -6,6 +6,7 @@ import { BottomTabBarHeightCallbackContext, createBottomTabNavigator } from '@re
 import ProgramFeed from './src/screens/ProgramFeed';
 import UserPrograms from './src/screens/UserPrograms';
 import UserSettings from './src/screens/UserSettings';
+import UserAnalytics from './src/screens/UserAnalytics';
 import { Ionicons } from '@expo/vector-icons'; 
 
 
@@ -21,6 +22,8 @@ function MyTabs() {
                     iconName = focused ? 'ios-apps' : 'ios-apps-outline';
                 } else if (route.name === 'Programs') {
                     iconName = focused ? 'ios-barbell' : 'ios-barbell-outline';
+                } else if (route.name === 'Analytics') {
+                    iconName = focused ? 'ios-bar-chart' : 'ios-bar-chart-outline';
                 } else if (route.name === 'Settings') {
                     iconName = focused ? 'ios-settings' : 'ios-settings-outline';
                 }
@@ -45,7 +48,12 @@ function MyTabs() {
             <Tab.Screen 
                 name="Programs" 
                 component={UserPrograms} 
-                options={{ tabBarBadge: 3, headerShown: false }}
+                options={{ headerShown: false }}
+            />
+            <Tab.Screen 
+                name="Analytics" 
+                component={UserAnalytics} 
+                options={{ headerShown: false }}
             />
             <Tab.Screen 
                 name="Settings" 
