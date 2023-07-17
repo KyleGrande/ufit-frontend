@@ -38,21 +38,8 @@ export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
               Name:
               <Text style={{ flexDirection: "row", color: "red" }}>*</Text>
             </Text>
-            <TextInput
-              style={{
-                height: 40,
-                margin: 12,
-                borderWidth: 1,
-                padding: 10,
-                color: "white",
-                borderColor: "white",
-              }}
-              onChangeText={onChangeName}
-              value={name}
-            />
-            <Text style={{ fontSize: 20, color: "white", fontWeight: "bold" }}>
-              Description:
-              <Text style={{ flexDirection: "row", color: "red" }}>*</Text>
+            <Text style={{ color: "#CECACA", fontSize: 16 }}>
+              (What is the name of this awesome program?)
             </Text>
             <TextInput
               style={{
@@ -62,9 +49,33 @@ export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
                 padding: 10,
                 color: "white",
                 borderColor: "white",
+                borderRadius: 20
+              }}
+              onChangeText={onChangeName}
+              value={name}
+            />
+            <Text style={{ fontSize: 20, color: "white", fontWeight: "bold" }}>
+              Description:
+              <Text style={{ flexDirection: "row", color: "red" }}>*</Text>
+            </Text>
+            <Text style={{ color: "#CECACA", fontSize: 16 }}>
+              (How would you define your gym program?)
+            </Text>
+            <TextInput
+              style={{
+                height: 40,
+                margin: 12,
+                borderWidth: 1,
+                padding: 10,
+                color: "white",
+                borderColor: "white", 
+                paddingBottom: 100,
+                borderRadius:20               
               }}
               onChangeText={onChangeDescription}
               value={description}
+              multiline = {true}
+              numberOfLines={4}
             />
             <Text
               style={{
@@ -79,7 +90,7 @@ export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
               <Text style={{ color: "red" }}>*</Text>
             </Text>
             <Text style={{ color: "#CECACA", fontSize: 16 }}>
-              (You are required to create at least one session)
+              (This helps others find your awesome gym program!)
             </Text>
             <Picker
               style={{ color: "white", marginTop: 0, paddingTop: 0 }}
@@ -104,9 +115,12 @@ export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
               paddingBottom: 0,
             }}
           >
-            Sessions:
+            Session(s):
             <Text style={{ flexDirection: "row", color: "red" }}>*</Text>
           </Text>
+          <Text style={{ color: "#CECACA", fontSize: 16 }}>
+              (You need a minimum of 1 session)
+            </Text>
           <View>
             <Button
               title="Add Session"

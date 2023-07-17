@@ -35,7 +35,10 @@ export default function ProgramSessionCreate({
           <SafeAreaView style={{ marginTop: 40 }}>
             <Text style={{ fontSize: 20, color: "white", fontWeight: "bold" }}>
               Session Name:
-              <Text style={{ flexDirection: "row", color: "red" }}>*</Text>
+              <Text style={{ flexDirection: "row", color: "red" }}>*</Text>              
+            </Text>
+            <Text style={{ color: "#CECACA", fontSize: 16 }}>
+              (What is this workout session going to be called?)
             </Text>
             <TextInput
               style={{
@@ -45,6 +48,7 @@ export default function ProgramSessionCreate({
                 padding: 10,
                 color: "white",
                 borderColor: "white",
+                borderRadius: 20
               }}
               onChangeText={onChangeSessionName}
               value={sessionName}
@@ -61,7 +65,9 @@ export default function ProgramSessionCreate({
               Rest Days:
               <Text style={{ flexDirection: "row", color: "red" }}>*</Text>
             </Text>
-
+            <Text style={{ color: "#CECACA", fontSize: 16 }}>
+              (The number of rest days after this workout session)
+            </Text>
             <Picker
               style={{ color: "white", marginTop: 0, paddingTop: 0 }}
               selectedValue={restdays}

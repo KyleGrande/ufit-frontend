@@ -8,6 +8,7 @@ import {
 import { StackParamList } from "../../UserPrograms";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Picker } from "@react-native-picker/picker";
+import { Linking } from "react-native";
 type ProgramsMainScreenProps = {
   navigation: NativeStackNavigationProp<StackParamList, "User Programs">;
 };
@@ -78,6 +79,9 @@ export default function ProgramMovementCreate({
               Section
               <Text style={{ flexDirection: "row", color: "red" }}>*</Text>:
             </Text>
+            <Text style={{ color: "#CECACA", fontSize: 16 }}>
+              (Choose the best place for your movement)
+            </Text>
 
             <Picker
               style={{ color: "white", marginTop: 0, paddingTop: 0 }}
@@ -94,6 +98,9 @@ export default function ProgramMovementCreate({
               Name
               <Text style={{ flexDirection: "row", color: "red" }}>*</Text>
             </Text>
+            <Text style={{ color: "#CECACA", fontSize: 16 }}>
+              (Name of your movement)
+            </Text>
 
             <TextInput
               style={{
@@ -103,6 +110,7 @@ export default function ProgramMovementCreate({
                 padding: 10,
                 color: "white",
                 borderColor: "white",
+                borderRadius: 20,
               }}
               onChangeText={onChangeMovementName}
               value={movementName}
@@ -111,6 +119,10 @@ export default function ProgramMovementCreate({
             <Text style={{ fontSize: 20, color: "white", fontWeight: "bold" }}>
               Type Of Tracking
               <Text style={{ flexDirection: "row", color: "red" }}>*</Text>:
+            </Text>
+            <Text style={{ color: "#CECACA", fontSize: 16 }}>
+              (This will determine how the movement will be tracked during your
+              workouts)
             </Text>
             <View>
               <Picker
@@ -548,7 +560,10 @@ export default function ProgramMovementCreate({
             <Text style={{ fontSize: 20, color: "white", fontWeight: "bold" }}>
               Describe your movement
             </Text>
-
+            <Text style={{ color: "#CECACA", fontSize: 16 }}>
+              (If you could describe this movement in as few words as
+              possible...)
+            </Text>
             <TextInput
               style={{
                 height: 40,
@@ -557,27 +572,42 @@ export default function ProgramMovementCreate({
                 padding: 10,
                 color: "white",
                 borderColor: "white",
+                borderRadius: 20,  
+                paddingBottom: 100              
               }}
               onChangeText={onChangeMovementDesc}
               value={movementDesc}
+              multiline = {true}
+              numberOfLines={4}
             />
-
-            <Text style={{ fontSize: 20, color: "white", fontWeight: "bold" }}>
-              Movement Link
-            </Text>
-
-            <TextInput
-              style={{
-                height: 40,
-                margin: 12,
-                borderWidth: 1,
-                padding: 10,
-                color: "white",
-                borderColor: "white",
-              }}
-              onChangeText={onChangeMovementLink}
-              value={movementLink}
-            />
+            <View style={{ paddingBottom: 100 }}>
+              <Text
+                style={{ fontSize: 20, color: "white", fontWeight: "bold" }}
+              >
+                Movement Link
+              </Text>
+              <Text
+                style={{ color: "#CECACA", fontSize: 16 }}
+                onPress={() =>
+                  Linking.openURL("https://www.youtube.com/watch?v=xvFZjo5PgG0")
+                }
+              >
+                (https://www.youtube.com/watch?v=xvFZjo5PgG0)
+              </Text>
+              <TextInput
+                style={{
+                  height: 40,
+                  margin: 12,
+                  borderWidth: 1,
+                  padding: 10,
+                  color: "white",
+                  borderColor: "white",
+                  borderRadius: 20,
+                }}
+                onChangeText={onChangeMovementLink}
+                value={movementLink}
+              />
+            </View>
           </SafeAreaView>
           <View style={{ flex: 1 }}>
             <Button
