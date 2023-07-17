@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, Button, ScrollView, TextInput } from "react-native";
 import { creatingStyles } from "../../style";
 import {
@@ -21,11 +21,10 @@ export default function ProgramMovementCreate({
     "post",
   ]);
   const [movementName, onChangeMovementName] = useState("");
-  const [selectedTracking, setSelectedTracking] = useState([
-    "setsreps",
-    "rounds",
-    "timer",
-  ]);
+  const [selectedTracking, setSelectedTracking] = useState("setsreps");
+  useEffect(() => {
+    console.log(selectedTracking);
+  }, [selectedTracking])
   const [movementDesc, onChangeMovementDesc] = useState("");
   const [movementLink, onChangeMovementLink] = useState("");
   return (
@@ -35,8 +34,11 @@ export default function ProgramMovementCreate({
           Add Movement
         </Text>
 
-        <ScrollView style = {{width: '100%', height: '90%'}} contentContainerStyle={{flexGrow: 1}}>
-          <SafeAreaView style={{ height: '100%', flex:1 }}>
+        <ScrollView
+          style={{ width: "100%", height: "90%" }}
+          contentContainerStyle={{ flexGrow: 1 }}
+        >
+          <SafeAreaView style={{ height: "100%", flex: 1 }}>
             <Text style={{ fontSize: 20, color: "white", fontWeight: "bold" }}>
               Section
               <Text style={{ flexDirection: "row", color: "red" }}>*</Text>:
@@ -75,17 +77,38 @@ export default function ProgramMovementCreate({
               Type Of Tracking
               <Text style={{ flexDirection: "row", color: "red" }}>*</Text>:
             </Text>
+            <View>
+              <Picker
+                style={{ color: "white", marginTop: 0, paddingTop: 0 }}
+                selectedValue={selectedTracking}
+                onValueChange={(itemValue: any) =>
+                  setSelectedTracking(itemValue)
+                }
+                itemStyle={{ color: "white", fontSize: 40 }}
+              >
+                <Picker.Item label="Sets/Reps" value="setsreps" />
+                <Picker.Item label="Round Timer" value="rounds" />
+                <Picker.Item label="Timer" value="timer" />
+              </Picker>
 
-            <Picker
-              style={{ color: "white", marginTop: 0, paddingTop: 0 }}
-              selectedValue={selectedTracking}
-              onValueChange={(itemValue: any) => setSelectedTracking(itemValue)}
-              itemStyle={{ color: "white", fontSize: 40 }}
-            >
-              <Picker.Item label="Sets/Reps" value="setsreps" />
-              <Picker.Item label="Round Timer" value="rounds" />
-              <Picker.Item label="Timer" value="timer" />
-            </Picker>
+              {selectedTracking.includes("setsreps") && (
+                <View>
+                  <Text>Sets and Reps</Text>
+                </View>
+              )}
+
+              {selectedTracking.includes("rounds") && (
+                <View>
+                  <Text>Rounds</Text>
+                </View>
+              )}
+
+              {selectedTracking.includes("timer") && (
+                <View>
+                  <Text>Timer</Text>
+                </View>
+              )}
+            </View>
 
             <Text style={{ fontSize: 20, color: "white", fontWeight: "bold" }}>
               Describe your movement
@@ -121,7 +144,7 @@ export default function ProgramMovementCreate({
               value={movementLink}
             />
           </SafeAreaView>
-          <View style = {{flex:1}}>
+          <View style={{ flex: 1 }}>
             <Button
               title="Save Movement"
               color="orange"
@@ -130,11 +153,8 @@ export default function ProgramMovementCreate({
                 navigation.navigate("Create a Session");
               }}
             />
-        </View>
+          </View>
         </ScrollView>
-
-        
-
       </View>
     </View>
   );
