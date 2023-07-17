@@ -34,12 +34,14 @@ export default function ProgramMovementCreate({
         <Text style={{ fontSize: 30, fontWeight: "bold", color: "white" }}>
           Add Movement
         </Text>
-        <ScrollView>
-          <SafeAreaView>
+
+        <ScrollView style = {{width: '100%', height: '90%'}} contentContainerStyle={{flexGrow: 1}}>
+          <SafeAreaView style={{ height: '100%', flex:1 }}>
             <Text style={{ fontSize: 20, color: "white", fontWeight: "bold" }}>
               Section
               <Text style={{ flexDirection: "row", color: "red" }}>*</Text>:
             </Text>
+
             <Picker
               style={{ color: "white", marginTop: 0, paddingTop: 0 }}
               selectedValue={selectedSection}
@@ -50,10 +52,12 @@ export default function ProgramMovementCreate({
               <Picker.Item label="Main Movement" value="main" />
               <Picker.Item label="Post Movement" value="post" />
             </Picker>
+
             <Text style={{ fontSize: 20, color: "white", fontWeight: "bold" }}>
               Name
               <Text style={{ flexDirection: "row", color: "red" }}>*</Text>
             </Text>
+
             <TextInput
               style={{
                 height: 40,
@@ -66,6 +70,7 @@ export default function ProgramMovementCreate({
               onChangeText={onChangeMovementName}
               value={movementName}
             />
+
             <Text style={{ fontSize: 20, color: "white", fontWeight: "bold" }}>
               Type Of Tracking
               <Text style={{ flexDirection: "row", color: "red" }}>*</Text>:
@@ -98,6 +103,7 @@ export default function ProgramMovementCreate({
               onChangeText={onChangeMovementDesc}
               value={movementDesc}
             />
+
             <Text style={{ fontSize: 20, color: "white", fontWeight: "bold" }}>
               Movement Link
             </Text>
@@ -115,16 +121,20 @@ export default function ProgramMovementCreate({
               value={movementLink}
             />
           </SafeAreaView>
-
-          <Button
-            title="Save Movement"
-            color="orange"
-            onPress={() => {
-              console.log("Adding Movement to program");
-              navigation.navigate("Create a Session");
-            }}
-          />
+          <View style = {{flex:1}}>
+            <Button
+              title="Save Movement"
+              color="orange"
+              onPress={() => {
+                console.log("Adding Movement to program");
+                navigation.navigate("Create a Session");
+              }}
+            />
+        </View>
         </ScrollView>
+
+        
+
       </View>
     </View>
   );
