@@ -3,10 +3,13 @@ import { Text, View, SafeAreaView, TextInput } from "react-native";
 import {creatingStyles} from '../../style';
 import {Picker} from '@react-native-picker/picker';
 
+// TODO:
+// Add styling to style sheet file
+
 export default function ProgramCreate() {
     const [text, onChangeText] = React.useState('Placeholder Text');
     const [number, onChangeNumber] = React.useState('Placeholder Text');
-    const [selectedLanguage, setSelectedLanguage] = useState(['java','js']);
+    const [selectedProgram, setSelectedProgram] = useState(['strength','yoga']);
 
     return (
         <View style={creatingStyles.viewContainer}>
@@ -52,16 +55,21 @@ export default function ProgramCreate() {
                     </Text>
                     <Picker
                         style = {{color:'white'}}
-                        selectedValue={selectedLanguage}
+                        selectedValue={selectedProgram}
                         onValueChange={(itemValue:any) =>
-                            setSelectedLanguage(itemValue)
-                        }>
-                        <Picker.Item style={{color:'white'}} label="Java" value="java" />
-                        <Picker.Item label="JavaScript" value="js" />
+                            setSelectedProgram(itemValue)
+                        }
+                        itemStyle = {{color: "white", fontSize: 40}}
+                        >
+                        <Picker.Item label="Strength" value="strength" />
+                        <Picker.Item label="Yoga" value="yoga" />
                     </Picker>
 
                 </SafeAreaView>
-                
+                    {/* Add session button --> new page pop up --> 
+                        1. Persist data of this page in Object, 
+                        2. Open new session form page
+                    */}
             </View>
         </View>
     );
