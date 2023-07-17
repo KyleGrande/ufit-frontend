@@ -21,9 +21,9 @@ type ProgramsMainScreenProps = {
 };
 
 export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
-  const [name, onChangeName] = React.useState("Placeholder Text");
-  const [description, onChangeDescription] = React.useState("Placeholder Text");
-  const [selectedProgram, setSelectedProgram] = useState(["strength", "yoga"]);
+  const [name, onChangeName] = React.useState("");
+  const [description, onChangeDescription] = React.useState("");
+  const [selectedProgram, setSelectedProgram] = useState("strength");
 
   return (
     <View style={creatingStyles.viewContainer}>
@@ -77,10 +77,10 @@ export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
             >
               Category:
               <Text style={{ color: "red" }}>*</Text>
-              
             </Text>
-            <Text style={{ color: "#CECACA", fontSize:16 }}>(You are required to create 
-              at least one session)</Text>
+            <Text style={{ color: "#CECACA", fontSize: 16 }}>
+              (You are required to create at least one session)
+            </Text>
             <Picker
               style={{ color: "white", marginTop: 0, paddingTop: 0 }}
               selectedValue={selectedProgram}
