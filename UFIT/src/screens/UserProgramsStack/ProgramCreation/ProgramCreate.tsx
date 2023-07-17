@@ -76,8 +76,11 @@ export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
               }}
             >
               Category:
-              <Text style={{ flexDirection: "row", color: "red" }}>*</Text>
+              <Text style={{ color: "red" }}>*</Text>
+              
             </Text>
+            <Text style={{ color: "#CECACA", fontSize:16 }}>(You are required to create 
+              at least one session)</Text>
             <Picker
               style={{ color: "white", marginTop: 0, paddingTop: 0 }}
               selectedValue={selectedProgram}
@@ -92,6 +95,18 @@ export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
                         1. Persist data of this page in Object, 
                         2. Open new session form page
                     */}
+          <Text
+            style={{
+              fontSize: 20,
+              color: "white",
+              fontWeight: "bold",
+              marginBottom: 0,
+              paddingBottom: 0,
+            }}
+          >
+            Sessions:
+            <Text style={{ flexDirection: "row", color: "red" }}>*</Text>
+          </Text>
           <View>
             <Button
               title="Add Session"
@@ -107,7 +122,6 @@ export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
               color="orange"
               onPress={() => {
                 console.log(name, description, selectedProgram);
-                
               }}
             />
           </View>
