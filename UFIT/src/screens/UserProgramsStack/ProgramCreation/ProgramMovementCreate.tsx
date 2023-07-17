@@ -115,7 +115,7 @@ export default function ProgramMovementCreate({
               onChangeText={onChangeMovementName}
               value={movementName}
             />
-
+            {/* TODO: Different type of tracking have different types of progression per workout session */}
             <Text style={{ fontSize: 20, color: "white", fontWeight: "bold" }}>
               Type Of Tracking
               <Text style={{ flexDirection: "row", color: "red" }}>*</Text>:

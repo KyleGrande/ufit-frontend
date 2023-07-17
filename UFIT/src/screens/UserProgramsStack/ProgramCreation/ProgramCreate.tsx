@@ -119,7 +119,7 @@ export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
             <Text style={{ flexDirection: "row", color: "red" }}>*</Text>
           </Text>
           <Text style={{ color: "#CECACA", fontSize: 16 }}>
-              (You need a minimum of 1 session)
+              (You need a minimum of 1 session to publish)
             </Text>
           <View>
             <Button
