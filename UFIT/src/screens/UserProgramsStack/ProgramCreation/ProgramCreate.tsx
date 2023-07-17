@@ -1,12 +1,16 @@
 import React, {useState} from "react";
-import { Text, View, SafeAreaView, TextInput } from "react-native";
+import { Text, View, Button, SafeAreaView, TextInput, ScrollView } from "react-native";
 import {creatingStyles} from '../../style';
 import {Picker} from '@react-native-picker/picker';
-
+import { createNativeStackNavigator, NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { StackParamList } from '../../UserPrograms';
 // TODO:
 // Add styling to style sheet file
+type ProgramsMainScreenProps = {
+    navigation: NativeStackNavigationProp<StackParamList, 'User Programs'>;
+};
 
-export default function ProgramCreate() {
+export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
     const [text, onChangeText] = React.useState('Placeholder Text');
     const [number, onChangeNumber] = React.useState('Placeholder Text');
     const [selectedProgram, setSelectedProgram] = useState(['strength','yoga']);
@@ -15,10 +19,11 @@ export default function ProgramCreate() {
         <View style={creatingStyles.viewContainer}>
             <View style = {{paddingLeft:15}}>
                 
-                
+            <ScrollView>
                 <Text style={{fontSize:30,fontWeight:'bold',color:'white'}}>
                     Create A Program
                 </Text>
+
                 <SafeAreaView style={{marginTop:40}}>
                     <Text style={{fontSize:20, color: 'white', fontWeight: 'bold'}}>
                         Name:
@@ -52,12 +57,12 @@ export default function ProgramCreate() {
                         onChangeText={onChangeNumber}
                         value={number}                                                
                     />
-                    <Text style={{fontSize:20, color: 'white', fontWeight: 'bold'}}>
+                    <Text style={{fontSize:20, color: 'white', fontWeight: 'bold', marginBottom:0, paddingBottom:0}}>
                         Category:
                         <Text style = {{flexDirection: "row", color: "red"}}>*</Text>
                     </Text>
                     <Picker
-                        style = {{color:'white'}}
+                        style = {{color:'white', marginTop:0, paddingTop:0}}
                         selectedValue={selectedProgram}
                         onValueChange={(itemValue:any) =>
                             setSelectedProgram(itemValue)
@@ -73,6 +78,15 @@ export default function ProgramCreate() {
                         1. Persist data of this page in Object, 
                         2. Open new session form page
                     */}
+                <View>
+                <Button 
+                        title="Add Session" 
+                        color='orange' 
+                        onPress={() => 
+                            navigation.navigate('Create a Program')} 
+                    />
+                </View>
+                </ScrollView>
             </View>
         </View>
     );
