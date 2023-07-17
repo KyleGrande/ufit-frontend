@@ -26,7 +26,7 @@ export default function ProgramMovementCreate({
         color="orange"
         onPress={() => {
           console.log("Adding Movement to program");
-          //navigation.navigate('Create a Session')
+          navigation.navigate('Create a Session')
         }}
       />
     </View>

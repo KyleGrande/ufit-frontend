@@ -1,4 +1,5 @@
-import { View, Text, Button, ScrollView } from "react-native";
+import React, { useState } from "react";
+import { View, Text, Button, ScrollView, TextInput, SafeAreaView } from "react-native";
 import { creatingStyles } from "../../style";
 import {
   createNativeStackNavigator,
@@ -13,12 +14,34 @@ type ProgramsMainScreenProps = {
 export default function ProgramSessionCreate({
   navigation,
 }: ProgramsMainScreenProps) {
+  const [sessionName, onChangeSessionName] = React.useState("");
+  const [sessionSection, onChangeSessionSection] = React.useState("");
   return (
     <View style={creatingStyles.viewContainer}>
       <View style={{ paddingLeft: 15 }}>
-        <Text style={{ fontSize: 30, fontWeight: "bold", color: "white" }}>
-          Session
-        </Text>
+        <ScrollView>
+          <Text style={{ fontSize: 30, fontWeight: "bold", color: "white" }}>
+            Session
+          </Text>
+          <SafeAreaView>
+            <Text style={{ fontSize: 20, color: "white", fontWeight: "bold" }}>
+              Session Name:
+              <Text style={{ flexDirection: "row", color: "red" }}>*</Text>
+            </Text>
+            <TextInput
+              style={{
+                height: 40,
+                margin: 12,
+                borderWidth: 1,
+                padding: 10,
+                color: "white",
+                borderColor: "white",
+              }}
+              onChangeText={onChangeSessionName}
+              value={sessionName}
+            />
+          </SafeAreaView>
+        </ScrollView>
       </View>
 
       <Button
@@ -26,7 +49,16 @@ export default function ProgramSessionCreate({
         color="orange"
         onPress={() => {
           console.log("Adding Movement to program");
-          navigation.navigate('Create a Movement')
+          navigation.navigate("Create a Movement");
+        }}
+      />
+
+      <Button
+        title="Save Session"
+        color="orange"
+        onPress={() => {
+          console.log("Creating session");
+          navigation.navigate("Create a Program");
         }}
       />
     </View>

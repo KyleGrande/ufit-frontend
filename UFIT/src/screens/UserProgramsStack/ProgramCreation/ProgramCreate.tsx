@@ -101,6 +101,15 @@ export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
                 navigation.navigate("Create a Session");
               }}
             />
+
+            <Button
+              title="Publish Program"
+              color="orange"
+              onPress={() => {
+                console.log(name, description, selectedProgram);
+                
+              }}
+            />
           </View>
         </ScrollView>
       </View>
