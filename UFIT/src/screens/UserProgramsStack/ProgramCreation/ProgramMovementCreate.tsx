@@ -22,9 +22,6 @@ export default function ProgramMovementCreate({
   ]);
   const [movementName, onChangeMovementName] = useState("");
   const [selectedTracking, setSelectedTracking] = useState("setsreps");
-  useEffect(() => {
-    console.log(selectedTracking);
-  }, [selectedTracking])
   const [movementDesc, onChangeMovementDesc] = useState("");
   const [movementLink, onChangeMovementLink] = useState("");
   return (
