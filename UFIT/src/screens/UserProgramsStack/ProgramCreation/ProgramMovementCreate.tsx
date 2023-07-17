@@ -52,6 +52,12 @@ export default function ProgramMovementCreate({
   const [selectedRestMinute, setSelectedRestMinute] = useState("0");
   const [selectedRestSecond, setSelectedRestSecond] = useState("0");
 
+  {
+    /*General Time Data*/
+  }
+  const [selectedGMinute, setSelectedGMinute] = useState("0");
+  const [selectedGSecond, setSelectedGSecond] = useState("0");
+
   // TODO
   // Add more white space for easy scrolling experience
 
@@ -450,7 +456,90 @@ export default function ProgramMovementCreate({
 
               {selectedTracking.includes("timer") && (
                 <View>
-                  <Text>Timer</Text>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      alignItems: "stretch",
+                      height: 200,
+                    }}
+                  >
+                    <View style={{ width: "50%" }}>
+                      <Text
+                        style={{
+                          fontSize: 20,
+                          color: "white",
+                          fontWeight: "bold",
+                          textAlign: "center",
+                        }}
+                      >
+                        Minutes
+                        <Text style={{ flexDirection: "row", color: "red" }}>
+                          *
+                        </Text>
+                        :
+                      </Text>
+                      <Picker
+                        style={{ color: "white", marginTop: 0, paddingTop: 0 }}
+                        selectedValue={selectedGMinute}
+                        onValueChange={(itemValue: any) =>
+                          setSelectedGMinute(itemValue)
+                        }
+                        itemStyle={{ color: "white", fontSize: 30 }}
+                      >
+                        <Picker.Item label="0" value="0" />
+                        <Picker.Item label="1" value="1" />
+                        <Picker.Item label="2" value="2" />
+                        <Picker.Item label="3" value="3" />
+                        <Picker.Item label="4" value="4" />
+                        <Picker.Item label="5" value="5" />
+                        <Picker.Item label="6" value="6" />
+                        <Picker.Item label="7" value="7" />
+                        <Picker.Item label="8" value="8" />
+                        <Picker.Item label="9" value="9" />
+                        <Picker.Item label="10" value="10" />
+                      </Picker>
+                    </View>
+                    <View style={{ width: "50%" }}>
+                      <Text
+                        style={{
+                          fontSize: 20,
+                          color: "white",
+                          fontWeight: "bold",
+                          textAlign: "center",
+                        }}
+                      >
+                        Seconds
+                        <Text style={{ flexDirection: "row", color: "red" }}>
+                          *
+                        </Text>
+                        :
+                      </Text>
+                      <Picker
+                        style={{
+                          color: "white",
+                          marginTop: 0,
+                          paddingTop: 0,
+                        }}
+                        selectedValue={selectedGSecond}
+                        onValueChange={(itemValue: any) =>
+                          setSelectedGSecond(itemValue)
+                        }
+                        itemStyle={{ color: "white", fontSize: 30 }}
+                      >
+                        <Picker.Item label="0" value="0" />
+                        <Picker.Item label="1" value="1" />
+                        <Picker.Item label="2" value="2" />
+                        <Picker.Item label="3" value="3" />
+                        <Picker.Item label="4" value="4" />
+                        <Picker.Item label="5" value="5" />
+                        <Picker.Item label="6" value="6" />
+                        <Picker.Item label="7" value="7" />
+                        <Picker.Item label="8" value="8" />
+                        <Picker.Item label="9" value="9" />
+                        <Picker.Item label="10" value="10" />
+                      </Picker>
+                    </View>
+                  </View>
                 </View>
               )}
             </View>
