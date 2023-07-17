@@ -20,10 +20,41 @@ export default function ProgramMovementCreate({
     "main",
     "post",
   ]);
-  const [movementName, onChangeMovementName] = useState("");
+
+  {
+    /*Form--Picker Data*/
+  }
   const [selectedTracking, setSelectedTracking] = useState("setsreps");
+
+  {
+    /*Form--Text Data*/
+  }
+  const [movementName, onChangeMovementName] = useState("");
   const [movementDesc, onChangeMovementDesc] = useState("");
   const [movementLink, onChangeMovementLink] = useState("");
+
+  {
+    /*Sets/Reps Data*/
+  }
+  const [selectedSet, setSelectedSet] = useState("0");
+  const [selectedRep, setSelectedRep] = useState("0");
+
+  {
+    /*Round Timer Data*/
+  }
+  const [selectedRound, setSelectedRound] = useState("0");
+  const [selectedMinute, setSelectedMinute] = useState("0");
+  const [selectedSecond, setSelectedSecond] = useState("0");
+
+  {
+    /*Rest Time Data*/
+  }
+  const [selectedRestMinute, setSelectedRestMinute] = useState("0");
+  const [selectedRestSecond, setSelectedRestSecond] = useState("0");
+
+  // TODO
+  // Add more white space for easy scrolling experience
+
   return (
     <View style={creatingStyles.viewContainer}>
       <View style={{ paddingLeft: 15 }}>
@@ -90,13 +121,330 @@ export default function ProgramMovementCreate({
 
               {selectedTracking.includes("setsreps") && (
                 <View>
-                  <Text>Sets and Reps</Text>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      alignItems: "stretch",
+                      height: 200,
+                    }}
+                  >
+                    <View style={{ width: "50%" }}>
+                      <Text
+                        style={{
+                          fontSize: 20,
+                          color: "white",
+                          fontWeight: "bold",
+                          textAlign: "center",
+                        }}
+                      >
+                        Sets
+                        <Text style={{ flexDirection: "row", color: "red" }}>
+                          *
+                        </Text>
+                        :
+                      </Text>
+                      <Picker
+                        style={{ color: "white", marginTop: 0, paddingTop: 0 }}
+                        selectedValue={selectedSet}
+                        onValueChange={(itemValue: any) =>
+                          setSelectedSet(itemValue)
+                        }
+                        itemStyle={{ color: "white", fontSize: 30 }}
+                      >
+                        <Picker.Item label="0" value="0" />
+                        <Picker.Item label="1" value="1" />
+                        <Picker.Item label="2" value="2" />
+                        <Picker.Item label="3" value="3" />
+                        <Picker.Item label="4" value="4" />
+                        <Picker.Item label="5" value="5" />
+                        <Picker.Item label="6" value="6" />
+                        <Picker.Item label="7" value="7" />
+                        <Picker.Item label="8" value="8" />
+                        <Picker.Item label="9" value="9" />
+                        <Picker.Item label="10" value="10" />
+                      </Picker>
+                    </View>
+                    <View style={{ width: "50%" }}>
+                      <Text
+                        style={{
+                          fontSize: 20,
+                          color: "white",
+                          fontWeight: "bold",
+                          textAlign: "center",
+                        }}
+                      >
+                        Reps
+                        <Text style={{ flexDirection: "row", color: "red" }}>
+                          *
+                        </Text>
+                        :
+                      </Text>
+                      <Picker
+                        style={{
+                          color: "white",
+                          marginTop: 0,
+                          paddingTop: 0,
+                        }}
+                        selectedValue={selectedRep}
+                        onValueChange={(itemValue: any) =>
+                          setSelectedRep(itemValue)
+                        }
+                        itemStyle={{ color: "white", fontSize: 30 }}
+                      >
+                        <Picker.Item label="0" value="0" />
+                        <Picker.Item label="1" value="1" />
+                        <Picker.Item label="2" value="2" />
+                        <Picker.Item label="3" value="3" />
+                        <Picker.Item label="4" value="4" />
+                        <Picker.Item label="5" value="5" />
+                        <Picker.Item label="6" value="6" />
+                        <Picker.Item label="7" value="7" />
+                        <Picker.Item label="8" value="8" />
+                        <Picker.Item label="9" value="9" />
+                        <Picker.Item label="10" value="10" />
+                      </Picker>
+                    </View>
+                  </View>
                 </View>
               )}
 
               {selectedTracking.includes("rounds") && (
                 <View>
-                  <Text>Rounds</Text>
+                  <View>
+                    <Text
+                      style={{
+                        fontSize: 20,
+                        color: "white",
+                        fontWeight: "bold",
+                        marginBottom: 10,
+                      }}
+                    >
+                      Round Time
+                      <Text style={{ flexDirection: "row", color: "red" }}>
+                        *
+                      </Text>
+                      :
+                    </Text>
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        alignItems: "stretch",
+                        height: 200,
+                      }}
+                    >
+                      <View style={{ width: "33%" }}>
+                        <Text
+                          style={{
+                            fontSize: 12,
+                            color: "white",
+                            fontWeight: "bold",
+                            textAlign: "center",
+                          }}
+                        >
+                          Rounds:
+                        </Text>
+                        <Picker
+                          style={{
+                            color: "white",
+                            marginTop: 0,
+                            paddingTop: 0,
+                          }}
+                          selectedValue={selectedRound}
+                          onValueChange={(itemValue: any) =>
+                            setSelectedRound(itemValue)
+                          }
+                          itemStyle={{ color: "white", fontSize: 30 }}
+                        >
+                          <Picker.Item label="0" value="0" />
+                          <Picker.Item label="1" value="1" />
+                          <Picker.Item label="2" value="2" />
+                          <Picker.Item label="3" value="3" />
+                          <Picker.Item label="4" value="4" />
+                          <Picker.Item label="5" value="5" />
+                          <Picker.Item label="6" value="6" />
+                          <Picker.Item label="7" value="7" />
+                          <Picker.Item label="8" value="8" />
+                          <Picker.Item label="9" value="9" />
+                          <Picker.Item label="10" value="10" />
+                        </Picker>
+                      </View>
+
+                      <View style={{ width: "33%" }}>
+                        <Text
+                          style={{
+                            fontSize: 12,
+                            color: "white",
+                            fontWeight: "bold",
+                            textAlign: "center",
+                          }}
+                        >
+                          Minutes:
+                        </Text>
+
+                        <Picker
+                          style={{
+                            color: "white",
+                            marginTop: 0,
+                            paddingTop: 0,
+                          }}
+                          selectedValue={selectedMinute}
+                          onValueChange={(itemValue: any) =>
+                            setSelectedMinute(itemValue)
+                          }
+                          itemStyle={{ color: "white", fontSize: 30 }}
+                        >
+                          <Picker.Item label="0" value="0" />
+                          <Picker.Item label="1" value="1" />
+                          <Picker.Item label="2" value="2" />
+                          <Picker.Item label="3" value="3" />
+                          <Picker.Item label="4" value="4" />
+                          <Picker.Item label="5" value="5" />
+                          <Picker.Item label="6" value="6" />
+                          <Picker.Item label="7" value="7" />
+                          <Picker.Item label="8" value="8" />
+                          <Picker.Item label="9" value="9" />
+                          <Picker.Item label="10" value="10" />
+                        </Picker>
+                      </View>
+
+                      <View style={{ width: "33%" }}>
+                        <Text
+                          style={{
+                            fontSize: 12,
+                            color: "white",
+                            fontWeight: "bold",
+                            textAlign: "center",
+                          }}
+                        >
+                          Seconds:
+                        </Text>
+                        <Picker
+                          style={{
+                            color: "white",
+                            marginTop: 0,
+                            paddingTop: 0,
+                          }}
+                          selectedValue={selectedSecond}
+                          onValueChange={(itemValue: any) =>
+                            setSelectedSecond(itemValue)
+                          }
+                          itemStyle={{ color: "white", fontSize: 30 }}
+                        >
+                          <Picker.Item label="0" value="0" />
+                          <Picker.Item label="1" value="1" />
+                          <Picker.Item label="2" value="2" />
+                          <Picker.Item label="3" value="3" />
+                          <Picker.Item label="4" value="4" />
+                          <Picker.Item label="5" value="5" />
+                          <Picker.Item label="6" value="6" />
+                          <Picker.Item label="7" value="7" />
+                          <Picker.Item label="8" value="8" />
+                          <Picker.Item label="9" value="9" />
+                          <Picker.Item label="10" value="10" />
+                        </Picker>
+                      </View>
+                    </View>
+                  </View>
+
+                  {/* Rest Time form */}
+                  <View>
+                    <Text
+                      style={{
+                        fontSize: 20,
+                        color: "white",
+                        fontWeight: "bold",
+                        marginBottom: 10,
+                      }}
+                    >
+                      Rest Time
+                      <Text style={{ flexDirection: "row", color: "red" }}>
+                        *
+                      </Text>
+                      :
+                    </Text>
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        alignItems: "stretch",
+                        height: 200,
+                      }}
+                    >
+                      <View style={{ width: "33%" }}>
+                        <Text
+                          style={{
+                            fontSize: 12,
+                            color: "white",
+                            fontWeight: "bold",
+                            textAlign: "center",
+                          }}
+                        >
+                          Minutes:
+                        </Text>
+
+                        <Picker
+                          style={{
+                            color: "white",
+                            marginTop: 0,
+                            paddingTop: 0,
+                          }}
+                          selectedValue={selectedRestMinute}
+                          onValueChange={(itemValue: any) =>
+                            setSelectedRestMinute(itemValue)
+                          }
+                          itemStyle={{ color: "white", fontSize: 30 }}
+                        >
+                          <Picker.Item label="0" value="0" />
+                          <Picker.Item label="1" value="1" />
+                          <Picker.Item label="2" value="2" />
+                          <Picker.Item label="3" value="3" />
+                          <Picker.Item label="4" value="4" />
+                          <Picker.Item label="5" value="5" />
+                          <Picker.Item label="6" value="6" />
+                          <Picker.Item label="7" value="7" />
+                          <Picker.Item label="8" value="8" />
+                          <Picker.Item label="9" value="9" />
+                          <Picker.Item label="10" value="10" />
+                        </Picker>
+                      </View>
+
+                      <View style={{ width: "33%" }}>
+                        <Text
+                          style={{
+                            fontSize: 12,
+                            color: "white",
+                            fontWeight: "bold",
+                            textAlign: "center",
+                          }}
+                        >
+                          Seconds:
+                        </Text>
+                        <Picker
+                          style={{
+                            color: "white",
+                            marginTop: 0,
+                            paddingTop: 0,
+                          }}
+                          selectedValue={selectedRestSecond}
+                          onValueChange={(itemValue: any) =>
+                            setSelectedRestSecond(itemValue)
+                          }
+                          itemStyle={{ color: "white", fontSize: 30 }}
+                        >
+                          <Picker.Item label="0" value="0" />
+                          <Picker.Item label="1" value="1" />
+                          <Picker.Item label="2" value="2" />
+                          <Picker.Item label="3" value="3" />
+                          <Picker.Item label="4" value="4" />
+                          <Picker.Item label="5" value="5" />
+                          <Picker.Item label="6" value="6" />
+                          <Picker.Item label="7" value="7" />
+                          <Picker.Item label="8" value="8" />
+                          <Picker.Item label="9" value="9" />
+                          <Picker.Item label="10" value="10" />
+                        </Picker>
+                      </View>
+                    </View>
+                  </View>
                 </View>
               )}
 
