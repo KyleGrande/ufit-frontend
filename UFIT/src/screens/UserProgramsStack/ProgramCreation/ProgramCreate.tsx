@@ -22,6 +22,7 @@ export default function ProgramCreate() {
                 <SafeAreaView style={{marginTop:40}}>
                     <Text style={{fontSize:20, color: 'white', fontWeight: 'bold'}}>
                         Name:
+                        <Text style = {{flexDirection: "row", color: "red"}}>*</Text>
                     </Text>
                     <TextInput
                         style={{
@@ -37,6 +38,7 @@ export default function ProgramCreate() {
                     />
                     <Text style={{fontSize:20, color: 'white', fontWeight: 'bold'}}>
                         Description:
+                        <Text style = {{flexDirection: "row", color: "red"}}>*</Text>
                     </Text>
                     <TextInput
                         style={{
@@ -52,6 +54,7 @@ export default function ProgramCreate() {
                     />
                     <Text style={{fontSize:20, color: 'white', fontWeight: 'bold'}}>
                         Category:
+                        <Text style = {{flexDirection: "row", color: "red"}}>*</Text>
                     </Text>
                     <Picker
                         style = {{color:'white'}}
