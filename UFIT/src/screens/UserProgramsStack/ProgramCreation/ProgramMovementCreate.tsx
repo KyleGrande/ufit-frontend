@@ -60,6 +60,7 @@ export default function ProgramMovementCreate({
 
   // TODO
   // Add more white space for easy scrolling experience
+  // add progression to each movement, depending on the tracking type
 
   return (
     <View style={creatingStyles.viewContainer}>
