@@ -28,7 +28,7 @@ export default function ProgramSessionCreate({
   return (
     <View style={creatingStyles.viewContainer}>
       <View style={{ paddingLeft: 15 }}>
-        <ScrollView style = {{height: '90%'}}>
+        <ScrollView style={{ height: "90%" }}>
           <Text style={{ fontSize: 30, fontWeight: "bold", color: "white" }}>
             Session
           </Text>
