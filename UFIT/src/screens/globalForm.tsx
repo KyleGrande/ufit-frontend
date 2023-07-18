@@ -2,11 +2,12 @@
 // Extract user id from cookie
 
 module.exports = {
+    userId: 123, // hard coded guest 
     programName: null,
     programDescription: null,
     programCategory: null,
     programSessions: [],
-    userId: 123, // hard coded guest 
+    sessions: [] // description of form session storage below
   };
 
   /*
