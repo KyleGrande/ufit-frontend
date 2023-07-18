@@ -10,6 +10,7 @@ import ProgramMovementCreate from "./UserProgramsStack/ProgramCreation/ProgramMo
 import ProgramsMainScreen from "./UserProgramsStack/ProgramsMainScreen";
 import TrackProgramScreen from "./UserProgramsStack/ProgramTracking/TrackProgramScreen";
 import TrackSessionScreen from "./UserProgramsStack/ProgramTracking/TrackSessionScreen";
+import TimerScreen from "./UserProgramsStack/ProgramTracking/TimerScreen";
 import { Program, Session } from "../api";
 
 export type StackParamList = {
@@ -19,6 +20,7 @@ export type StackParamList = {
   "Create a Movement": undefined;
   "Track a Program": { program: Program }; //takes a program object maybe in the future userID?
   "Track a Session": { session: Session }; //takes a session object maybe in the future userID?
+  'TimerScreen': {time: number};
 };
 
 const stack = createNativeStackNavigator<StackParamList>();
@@ -69,6 +71,15 @@ export default function UserPrograms() {
       <stack.Screen
         name="Track a Session"
         component={TrackSessionScreen}
+        options={{
+          headerTransparent: true,
+          headerTintColor: "white",
+          headerTitle: "",
+        }}
+      />
+      <stack.Screen
+        name="TimerScreen"
+        component={TimerScreen}
         options={{
           headerTransparent: true,
           headerTintColor: "white",
