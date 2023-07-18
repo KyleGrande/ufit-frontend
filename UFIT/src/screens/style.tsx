@@ -52,6 +52,16 @@ export const programStyles = StyleSheet.create({
         color: 'white',
         padding: 5,
     },
+    touchableOpacityStyle: {
+        position: "relative",
+        width: "100%",
+        height: 50,
+        alignItems: "center",
+        justifyContent: "center",
+        // right: 30,
+        bottom: 30,
+        borderRadius: 10,
+    },
 });
 
 export const trackingStyles = StyleSheet.create({
@@ -94,7 +104,7 @@ export const trackingStyles = StyleSheet.create({
     sessionTitle: {
         fontSize: 20,
         fontWeight: 'bold',
-        color: 'white',
+        color: 'Black',
         padding: 5,
     },
     bubbleContainer: {
@@ -183,5 +193,28 @@ export const timerStyles = StyleSheet.create({
         alignItems: 'center',
         height: '100%',
         backgroundColor: 'blue',
+    },
+});
+
+export const userSetting = StyleSheet.create({
+    textInput: {
+      width: "95%",
+      padding: 12,
+      borderColor: "#ffffff",
+      marginTop: 12,
+      color: "#ffffff",
+      marginLeft: 10,
+      marginRight: 10,
+    },
+    settingText: {
+      color: "#ffffff",
+      fontSize: 18,
+      paddingLeft: 20,
+    },
+    inputContainer: {
+      borderWidth: 1,
+      borderColor: '#000',
+      borderRadius: 8,
+      // paddingHorizontal: 12,
     },
 });
