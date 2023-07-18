@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import { Text, View, ScrollView, Pressable } from "react-native";
+import { Text, View, ScrollView, Pressable, TouchableOpacity } from "react-native";
 import { RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { StackParamList } from "../../UserPrograms";
@@ -68,7 +68,7 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps){
                         </View>
                         }
                         {movement.typeTracking.type === 'timer' &&
-                            <Pressable
+                            <TouchableOpacity
                                 style = {trackingStyles.timerButton}
                                 onPress={() => gotoTimer(movement.typeTracking.time ?? 0)}>
                             <View>
@@ -76,18 +76,19 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps){
                                     Timer
                                 </Text>
                             </View>
-                        </Pressable>
+                        </TouchableOpacity>
                         }
                     </View>
                 ))}
-                <Pressable
+                <TouchableOpacity
+                    style = {trackingStyles.timerButton}
                     onPress={() => console.log(trackingData)}>
                     <View>
                         <Text>
                             Submit
                         </Text>
                     </View>
-                </Pressable>
+                </TouchableOpacity>
             </ScrollView>
         </View>
     );
