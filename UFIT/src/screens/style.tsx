@@ -107,3 +107,44 @@ export const creatingStyles = StyleSheet.create({
     },
 });
 
+export const FeedStyles = StyleSheet.create({
+    viewContainer: {
+        paddingTop: 100,
+        height: '100%',
+    },
+    programsContainer: {
+        width: '100%',
+        marginTop: 20,
+        paddingRight: 40,
+        paddingLeft: 40,
+
+    },
+    singleProgramContainer: {
+        alignItems: 'flex-start',
+        justifyContent: 'flex-start',
+        height: 180,
+        marginTop: 20,
+        borderRadius: 10,
+        paddingLeft: 10,
+    },
+    buttonContainer: {
+        width: '100%',
+        backgroundColor: 'white',
+        height: 50,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    titleBarText: {
+        paddingLeft: 20,
+        color: 'gray',
+        fontSize: 30,
+        fontWeight: 'bold',
+    },
+    programTitle: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: 'white',
+        padding: 5,
+    },
+});
+
