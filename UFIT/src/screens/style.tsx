@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+
 //stylesheet instead of inline styling
 export const styles = StyleSheet.create({
   viewContainer: {
@@ -139,4 +140,24 @@ export const userSetting = StyleSheet.create({
     borderRadius: 8,
     // paddingHorizontal: 12,
   },
+
+export const repBubbleStyles = StyleSheet.create({
+    bubble: {
+        margin: 10,
+        width: 35,
+        height: 35,
+        borderRadius: 50,
+        borderWidth: 1,
+        borderColor: 'gray',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+});
+export const timerStyles = StyleSheet.create({
+    viewContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100%',
+        backgroundColor: 'blue',
+    },
 });

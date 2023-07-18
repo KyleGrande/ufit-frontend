@@ -9,7 +9,7 @@ import {
   NativeStackNavigationProp,
 } from "@react-navigation/native-stack";
 import LinearGradient from "../../../component/LinearGradient";
-// import LinearGradient from "react-native-linear-gradient";
+
 
 // used for accessing route parameters in a type-safe way
 export type TrackProgramScreenRouteProp = RouteProp<
@@ -28,39 +28,43 @@ export default function TrackProgramScreen({
 }: TrackProgramScreenProps) {
   const { program } = route.params;
 
-  return (
-    <LinearGradient
+    return (
+            <LinearGradient
       top="#2E34BC"
       bottom="#EA9CFD"
       style={{ minHeight: "100%" }}
     >
-      {/* <View style={trackingStyles.viewContainer}> */}
-      <View style={{ paddingTop: 100 }}>
-        <Text style={trackingStyles.titleBarText}>{program?.programName}</Text>
-
+          {/* <View style={trackingStyles.viewContainer}> */}
+          <View style={{ paddingTop: 100 }}>
+            <Text style={trackingStyles.titleBarText}>
+                {program.programName} 
+            </Text>
         <ScrollView
           style={{
             ...trackingStyles.sessionsContainer,
             ...trackingStyles.grow,
             minHeight: "100%",
           }}
-        >
-          {program?.session?.map((session: Session) => (
-            <Pressable
-              key={session._id}
-              style={trackingStyles.singleSessionContainer}
-              onPress={() =>
-                navigation.navigate("Track a Session", { session })
-              }
-            >
-              <Text style={trackingStyles.sessionTitle}>{session?.name}</Text>
-              {session?.movementId?.map((movementId) => (
-                <Text key={movementId}>{movementId}</Text>
-              ))}
-            </Pressable>
-          )) || <Text>No data</Text>}
-        </ScrollView>
-      </View>
-    </LinearGradient>
-  );
+        >                    {program.session.map((session:Session) => (
+                        <Pressable
+                            key={session._id}
+                            style={trackingStyles.singleSessionContainer}
+                            onPress={() => navigation.navigate('Track a Session',
+                                { session })}
+                        >
+                            <Text style={trackingStyles.sessionTitle}>
+                                {session.name}
+                            </Text>
+                                 {/* and displaying the oid isnt useful  */}
+                                {session.movementId?.map((movementId) => (
+                                    <Text key={movementId.toString()}>
+                                        {movementId.toString()}
+                                    </Text>
+                                ))}
+                        </Pressable>
+                    ))}
+                </ScrollView>
+        </View>
+              </LinearGradient>
+    );
 }
