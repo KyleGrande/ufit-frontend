@@ -14,8 +14,11 @@ import {
   NativeStackNavigationProp,
 } from "@react-navigation/native-stack";
 import { StackParamList } from "../../UserPrograms";
+let FORM = require("../../globalForm.tsx");
+
 // TODO:
 // Add styling to style sheet file
+// Persist object state on change or on button click event?
 type ProgramsMainScreenProps = {
   navigation: NativeStackNavigationProp<StackParamList, "User Programs">;
 };
@@ -125,8 +128,11 @@ export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
             <Button
               title="Add Session"
               color="orange"
-              onPress={() => {
-                console.log(name, description, selectedProgram);
+              onPress={() => {                
+                FORM.programName = name;
+                FORM.programDescription = description;
+                FORM.programCategory = selectedProgram;
+                console.log(FORM);
                 navigation.navigate("Create a Session");
               }}
             />
