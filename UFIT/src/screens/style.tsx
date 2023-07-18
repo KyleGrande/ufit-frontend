@@ -94,8 +94,24 @@ export const trackingStyles = StyleSheet.create({
     sessionTitle: {
         fontSize: 20,
         fontWeight: 'bold',
-        color: 'black',
+        color: 'white',
         padding: 5,
+    },
+    bubbleContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-evenly',
+        alignItems: 'center',
+        // backgroundColor: 'red',
+    },
+    timerButton: {
+        margin: 10,
+        marginLeft: 20,
+        width: 100,
+        height: 35,
+        borderRadius: 50,
+        backgroundColor: 'white',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
 });
 
@@ -106,4 +122,23 @@ export const creatingStyles = StyleSheet.create({
         backgroundColor: 'blue',
     },
 });
-
+export const repBubbleStyles = StyleSheet.create({
+    bubble: {
+        margin: 10,
+        width: 35,
+        height: 35,
+        borderRadius: 50,
+        borderWidth: 1,
+        borderColor: 'gray',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+});
+export const timerStyles = StyleSheet.create({
+    viewContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100%',
+        backgroundColor: 'blue',
+    },
+});
