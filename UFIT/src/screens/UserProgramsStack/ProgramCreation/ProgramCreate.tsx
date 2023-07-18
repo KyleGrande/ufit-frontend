@@ -14,7 +14,7 @@ import {
   NativeStackNavigationProp,
 } from "@react-navigation/native-stack";
 import { StackParamList } from "../../UserPrograms";
-let FORM = require("../../globalForm.tsx");
+
 
 // TODO:
 // Add styling to style sheet file
@@ -129,10 +129,7 @@ export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
               title="Add Session"
               color="orange"
               onPress={() => {                
-                FORM.programName = name;
-                FORM.programDescription = description;
-                FORM.programCategory = selectedProgram;
-                console.log(FORM);
+
                 navigation.navigate("Create a Session");
               }}
             />

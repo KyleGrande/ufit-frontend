@@ -14,7 +14,7 @@ import {
 } from "@react-navigation/native-stack";
 import { StackParamList } from "../../UserPrograms";
 import { Picker } from "@react-native-picker/picker";
-let FORM = require("../../globalForm.tsx");
+
 type ProgramsMainScreenProps = {
   navigation: NativeStackNavigationProp<StackParamList, "User Programs">;
 };
