@@ -5,6 +5,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { StackParamList } from "../../UserPrograms";
 import { trackingStyles, repBubbleStyles } from '../../style';
 import RepBubble from '../../../components/RepBubble'
+import LinearGradient from "../../../component/LinearGradient";
 // import { Session } from "../../../api";
 import { useNavigation } from "@react-navigation/native";
 const movements = [
@@ -35,10 +36,13 @@ const movements = [
 ];
 
 // used for accessing route parameters in a type-safe way
-export type TrackSessionScreenRouteProp = RouteProp<StackParamList, 'Track a Session'>;
+export type TrackSessionScreenRouteProp = RouteProp<
+  StackParamList,
+  "Track a Session"
+>;
 
 type TrackSessionScreenProps = {
-    route: TrackSessionScreenRouteProp;
+  route: TrackSessionScreenRouteProp;
 };
 
 export default function TrackSessionScreen({ route }: TrackSessionScreenProps){
@@ -52,6 +56,11 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps){
     }
 
     return (
+   <LinearGradient
+      top="#2E34BC"
+      bottom="#EA9CFD"
+      style={{ minHeight: "100%" }}
+    >
         <View style={trackingStyles.viewContainer}>
             <Text style={trackingStyles.titleBarText}>
                 {session.name} 
@@ -91,5 +100,6 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps){
                 </TouchableOpacity>
             </ScrollView>
         </View>
+      </LinearGradient>
     );
 }

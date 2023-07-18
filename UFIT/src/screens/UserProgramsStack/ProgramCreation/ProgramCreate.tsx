@@ -14,6 +14,8 @@ import {
   NativeStackNavigationProp,
 } from "@react-navigation/native-stack";
 import { StackParamList } from "../../UserPrograms";
+import LinearGradient from "../../../component/LinearGradient";
+
 // TODO:
 // Add styling to style sheet file
 type ProgramsMainScreenProps = {
@@ -26,6 +28,8 @@ export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
   const [selectedProgram, setSelectedProgram] = useState("strength");
 
   return (
+        <View style={{ minHeight: "100%" }}>
+      <LinearGradient top="#000" bottom="#EA9CFD" style={{ minHeight: "100%" }}>
     <View style={creatingStyles.viewContainer}>
       <View style={{ paddingLeft: 15 }}>
         <ScrollView>
@@ -141,6 +145,7 @@ export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
           </View>
         </ScrollView>
       </View>
+       </LinearGradient>
     </View>
   );
 }

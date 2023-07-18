@@ -1,6 +1,6 @@
 import * as React from 'react';
-// import { StatusBar } from 'expo-status-bar';
-// import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
+import { Platform, StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { BottomTabBarHeightCallbackContext, createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import ProgramFeed from './src/screens/ProgramFeed';
@@ -13,6 +13,9 @@ import { Ionicons } from '@expo/vector-icons';
 const Tab = createBottomTabNavigator();
 
 function MyTabs() {
+    let height=70;
+    if(Platform.OS==="ios") height=100;
+
     return (
         <Tab.Navigator
             screenOptions={({ route }) => ({
@@ -36,7 +39,7 @@ function MyTabs() {
                 tabBarActiveTintColor: 'orange',
                 tabBarInactiveTintColor: 'gray',
                 tabBarStyle: {
-                height: 100,
+                height,
                 },
             })}
         >
