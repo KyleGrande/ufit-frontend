@@ -1,7 +1,5 @@
 {
   "dependencies": {
-    "@react-native-picker/picker": "^2.4.10",
-    "expo": "^49.0.3",
-    "expo-cli": "^6.3.10"
+    "@react-native-picker/picker": "^2.4.10"
   }
 }
