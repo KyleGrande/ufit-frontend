@@ -8,10 +8,26 @@ import UserPrograms from './src/screens/UserPrograms';
 import UserSettings from './src/screens/UserSettings';
 import UserAnalytics from './src/screens/UserAnalytics';
 import { Ionicons } from '@expo/vector-icons'; 
-
+import { useEffect, useState } from 'react';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import UserAuth from './src/screens/UserAuth';
 
 const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
 
+function StackDecider() {
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    
+    return (
+        <Stack.Navigator>
+            {isLoggedIn ? (
+                <Stack.Screen name="App" component={MyTabs} options={{headerShown: false}} />
+            ) : (
+                <Stack.Screen name="Auth" component={() => <UserAuth setIsLoggedIn={setIsLoggedIn} />} options={{headerShown: false}}/>
+            )}
+        </Stack.Navigator>
+    );
+}
 function MyTabs() {
     return (
         <Tab.Navigator
@@ -67,7 +83,7 @@ function MyTabs() {
 export default function App() {
     return (
         <NavigationContainer>
-            <MyTabs />
+            <StackDecider />
         </NavigationContainer>
     );
 }
