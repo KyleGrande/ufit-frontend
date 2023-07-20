@@ -20,10 +20,12 @@ export type StackParamList = {
   "Create a Movement": undefined;
   "Track a Program": { program: Program }; //takes a program object maybe in the future userID?
   "Track a Session": { session: Session }; //takes a session object maybe in the future userID?
-  'TimerScreen': {time: number};
+  'TimerScreen': {time: number, movementName: string};
 };
 
 const stack = createNativeStackNavigator<StackParamList>();
+
+
 
 export default function UserPrograms() {
   return (
@@ -81,6 +83,7 @@ export default function UserPrograms() {
         name="TimerScreen"
         component={TimerScreen}
         options={{
+          presentation: 'modal',
           headerTransparent: true,
           headerTintColor: "white",
           headerTitle: "",
