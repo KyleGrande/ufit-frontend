@@ -76,6 +76,7 @@ export const trackingStyles = StyleSheet.create({
         color: 'white',
         fontSize: 30,
         fontWeight: 'bold',
+        letterSpacing: 1.2,
     },
     programDescription: {
         paddingTop: 20,
@@ -172,6 +173,12 @@ export const FeedStyles = StyleSheet.create({
         color: 'white',
         padding: 5,
     },
+    programDescription: {
+        fontSize: 12,
+        color: 'white',
+        padding: 5,
+        
+    },
 });
 
 export const repBubbleStyles = StyleSheet.create({
@@ -217,4 +224,24 @@ export const userSetting = StyleSheet.create({
       borderRadius: 8,
       // paddingHorizontal: 12,
     },
+});
+
+export const discoverProgramStyles = StyleSheet.create({
+    programDescription: {
+        paddingTop: 20,
+        color: 'white',
+        fontSize: 17,
+        paddingLeft: 20,
+        paddingRight: 70,
+        marginBottom: 60,
+        letterSpacing: -.05,
+    },
+    theProgramTitle: {
+        paddingLeft: 20,
+        color: 'white',
+        fontSize: 25,
+        fontWeight: 'bold',
+        letterSpacing: 1,
+    },
+
 });

@@ -1,11 +1,16 @@
-// THIS SCREEN CAN BE REMOVED ILL LEAVE IT HERE JUST INCASE
-
 import * as React from 'react';
 import { Text, View, Pressable, ScrollView} from 'react-native';
-import { FeedStyles } from './style';
-import API, {Program} from '../api';
+import { FeedStyles } from '../style';
+import API, {Program} from '../../api';
+// import { StackNavigationProp } from '@react-navigation/stack';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { StackParamList } from '../UserDiscover';
 
-export default function ProgramFeed() {
+type DiscoverHomeScreenProps = {
+    navigation: NativeStackNavigationProp<StackParamList, 'Discover'>;
+};
+
+export default function DiscoverHomeScreen({navigation: navigator}: DiscoverHomeScreenProps) {
 
     const [programs, setPrograms] = React.useState<Program[]>([]);
     const [error, setError] = React.useState<null | string>(null);
@@ -44,11 +49,14 @@ export default function ProgramFeed() {
                             style={[FeedStyles.singleProgramContainer, 
                                 {backgroundColor: index % 2 === 0 ? 'blue' : 'darkblue'}]}  
                             key={program._id}
-                            onPress={() => navigation.navigate('Program View',
+                            onPress={() => navigator.navigate('Program',
                                 { program })}
                         >
                             <Text style={FeedStyles.programTitle}>
                                 {program.programName}
+                            </Text>
+                            <Text style={FeedStyles.programDescription}>
+                                {program.programDescription.substring(0, 100) + '...'}
                             </Text>
                         </Pressable>
                     ))}

@@ -11,6 +11,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useEffect, useState } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import UserAuth from './src/screens/UserAuth';
+import UserDiscover from './src/screens/UserDiscover';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -58,7 +59,7 @@ function MyTabs() {
         >
             <Tab.Screen
                 name="Discover"
-                component={ProgramFeed}
+                component={UserDiscover}
                 options={{headerShown: false}}
             />
             <Tab.Screen 
