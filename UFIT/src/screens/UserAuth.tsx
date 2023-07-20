@@ -23,8 +23,12 @@ export default function UserAuth({setIsLoggedIn: setIsLoggedIn}: UserAuthProps) 
             }
         }
         >
-            <AuthStack.Screen name="Login" component={() => <Login setIsLoggedIn={setIsLoggedIn} />} />
-            <AuthStack.Screen name="Signup" component={Signup} />
+        <AuthStack.Screen 
+            name="Login" 
+            component={Login} 
+            initialParams={{ setIsLoggedIn: setIsLoggedIn }} 
+        />            
+        <AuthStack.Screen name="Signup" component={Signup} />
         </AuthStack.Navigator>
     );
 }
