@@ -218,3 +218,21 @@ export const userSetting = StyleSheet.create({
       // paddingHorizontal: 12,
     },
 });
+
+export const discoverProgramStyles = StyleSheet.create({
+    programDescription: {
+        paddingTop: 20,
+        color: 'white',
+        fontSize: 16,
+        paddingLeft: 20,
+        paddingRight: 70,
+        marginBottom: 60,
+    },
+    theProgramTitle: {
+        paddingLeft: 20,
+        color: 'white',
+        fontSize: 25,
+        fontWeight: 'bold',
+    },
+
+});

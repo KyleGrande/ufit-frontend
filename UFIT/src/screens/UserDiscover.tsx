@@ -23,6 +23,7 @@ export default function UserPrograms() {
             options={{
                 headerTransparent: true,
                 headerTintColor: "white",
+                headerShown: false,             
             }}
         />
         <stack.Screen
