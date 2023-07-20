@@ -51,6 +51,8 @@ export const programStyles = StyleSheet.create({
         fontWeight: 'bold',
         color: 'white',
         padding: 5,
+        letterSpacing: 1.2,
+
     },
     touchableOpacityStyle: {
         position: "relative",
@@ -152,7 +154,7 @@ export const FeedStyles = StyleSheet.create({
         height: 180,
         marginTop: 20,
         borderRadius: 10,
-        paddingLeft: 10,
+        padding: 10,
     },
     buttonContainer: {
         width: '100%',
@@ -172,6 +174,8 @@ export const FeedStyles = StyleSheet.create({
         fontWeight: 'bold',
         color: 'white',
         padding: 5,
+        letterSpacing: 1,
+
     },
     programDescription: {
         fontSize: 12,
