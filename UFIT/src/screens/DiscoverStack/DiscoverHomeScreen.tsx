@@ -6,7 +6,8 @@ import API, {Program} from '../../api';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { StackParamList } from '../UserDiscover';
 import LinearGradient from '../../components/LinearGradient';
-
+import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
+import { getGradientColors } from '../../components/getGradient';
 type DiscoverHomeScreenProps = {
     navigation: NativeStackNavigationProp<StackParamList, 'Discover'>;
 };
@@ -38,11 +39,6 @@ export default function DiscoverHomeScreen({navigation: navigator}: DiscoverHome
     }
 
     return (
-    //     <LinearGradient
-    //     top="#FCC064"
-    //     bottom="#EA9CFD"
-    //     style={{ minHeight: "100%" }}
-    //   >
         <View>
             <View style={FeedStyles.viewContainer}>
                 <Text style={FeedStyles.titleBarText}>
@@ -52,23 +48,28 @@ export default function DiscoverHomeScreen({navigation: navigator}: DiscoverHome
                 >
                     {programs.map((program, index) => (
                         <Pressable
-                            style={[FeedStyles.singleProgramContainer, 
-                                {backgroundColor: index % 2 === 0 ? 'blue' : 'darkblue'}]}  
+                            // style={[FeedStyles.singleProgramContainer, 
+                            //     {backgroundColor: index % 2 === 0 ? 'blue' : 'darkblue'}]}  
                             key={program._id}
                             onPress={() => navigator.navigate('Program',
                                 { program })}
                         >
+                            <LinearGradient
+                                top={getGradientColors(program.programCategory)[0]}
+                                bottom={getGradientColors(program.programCategory)[1]}
+                                style={FeedStyles.singleProgramContainer}
+                            >
                             <Text style={FeedStyles.programTitle}>
                                 {program.programName}
                             </Text>
                             <Text style={FeedStyles.programDescription}>
                                 {program.programDescription.substring(0, 100) + '...'}
                             </Text>
+                            </LinearGradient>
                         </Pressable>
                     ))}
                 </ScrollView>
             </View>
         </View>
-        // </LinearGradient>
     );
 }

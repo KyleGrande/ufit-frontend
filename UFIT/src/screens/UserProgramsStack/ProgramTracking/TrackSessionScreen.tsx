@@ -7,6 +7,7 @@ import { trackingStyles, repBubbleStyles } from '../../style';
 import RepBubble from '../../../components/RepBubble'
 // import { Session } from "../../../api";
 import { useNavigation } from "@react-navigation/native";
+
 const movements = [
     {
         _id: "64b4421b415706cb0ce13a24",
@@ -52,7 +53,7 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps){
     }
 
     return (
-        <View style={trackingStyles.viewContainer}>
+        <View style={[trackingStyles.viewContainer]}>
             <Text style={trackingStyles.titleBarText}>
                 {session.name} 
             </Text>

@@ -51,6 +51,8 @@ export const programStyles = StyleSheet.create({
         fontWeight: 'bold',
         color: 'white',
         padding: 5,
+        letterSpacing: 1.2,
+
     },
     touchableOpacityStyle: {
         position: "relative",
@@ -68,7 +70,7 @@ export const trackingStyles = StyleSheet.create({
     viewContainer: {
         paddingTop: 100,
         height: '100%',
-        backgroundColor: 'blue',
+        // backgroundColor: 'blue',
     },
     titleBarText: {
         paddingTop: 20,
@@ -90,7 +92,7 @@ export const trackingStyles = StyleSheet.create({
         marginTop: 20,
         paddingRight: 40,
         paddingLeft: 40,
-        backgroundColor: 'blue',
+        // backgroundColor: 'blue',
         height: '80%',
     },
     singleSessionContainer: {
@@ -152,7 +154,7 @@ export const FeedStyles = StyleSheet.create({
         height: 180,
         marginTop: 20,
         borderRadius: 10,
-        paddingLeft: 10,
+        padding: 10,
     },
     buttonContainer: {
         width: '100%',
@@ -172,6 +174,8 @@ export const FeedStyles = StyleSheet.create({
         fontWeight: 'bold',
         color: 'white',
         padding: 5,
+        letterSpacing: 1,
+
     },
     programDescription: {
         fontSize: 12,
