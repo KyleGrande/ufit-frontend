@@ -55,6 +55,9 @@ export default function DiscoverHomeScreen({navigation: navigator}: DiscoverHome
                             <Text style={FeedStyles.programTitle}>
                                 {program.programName}
                             </Text>
+                            <Text style={FeedStyles.programDescription}>
+                                {program.programDescription.substring(0, 100) + '...'}
+                            </Text>
                         </Pressable>
                     ))}
                 </ScrollView>
