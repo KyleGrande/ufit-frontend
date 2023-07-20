@@ -38,11 +38,11 @@ export default function DiscoverHomeScreen({navigation: navigator}: DiscoverHome
     }
 
     return (
-        <LinearGradient
-        top="#FCC064"
-        bottom="#EA9CFD"
-        style={{ minHeight: "100%" }}
-      >
+    //     <LinearGradient
+    //     top="#FCC064"
+    //     bottom="#EA9CFD"
+    //     style={{ minHeight: "100%" }}
+    //   >
         <View>
             <View style={FeedStyles.viewContainer}>
                 <Text style={FeedStyles.titleBarText}>
@@ -69,6 +69,6 @@ export default function DiscoverHomeScreen({navigation: navigator}: DiscoverHome
                 </ScrollView>
             </View>
         </View>
-        </LinearGradient>
+        // </LinearGradient>
     );
 }
