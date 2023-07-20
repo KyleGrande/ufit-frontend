@@ -68,7 +68,7 @@ export const trackingStyles = StyleSheet.create({
     viewContainer: {
         paddingTop: 100,
         height: '100%',
-        backgroundColor: 'blue',
+        // backgroundColor: 'blue',
     },
     titleBarText: {
         paddingTop: 20,
@@ -90,7 +90,7 @@ export const trackingStyles = StyleSheet.create({
         marginTop: 20,
         paddingRight: 40,
         paddingLeft: 40,
-        backgroundColor: 'blue',
+        // backgroundColor: 'blue',
         height: '80%',
     },
     singleSessionContainer: {

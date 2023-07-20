@@ -5,7 +5,8 @@ import { StackParamList } from "../../UserPrograms";
 import { trackingStyles } from '../../style';
 import { Session } from "../../../api";
 import { createNativeStackNavigator, NativeStackNavigationProp } from '@react-navigation/native-stack';
-
+import { getGradientColors } from "../../../components/getGradient";
+import LinearGradient from "../../../components/LinearGradient";
 // used for accessing route parameters in a type-safe way
 export type TrackProgramScreenRouteProp = RouteProp<StackParamList, 'Track a Program'>;
 
@@ -19,6 +20,11 @@ export default function TrackProgramScreen({ route, navigation }: TrackProgramSc
     const { program } = route.params;
 
     return (
+        <LinearGradient
+        top={getGradientColors(program.programCategory)[0]}
+        bottom={getGradientColors(program.programCategory)[1]}
+        style={{ minHeight: "100%" }}
+        >
         <View style={trackingStyles.viewContainer}>
             <Text style={trackingStyles.titleBarText}>
                 {program.programName} 
@@ -31,6 +37,7 @@ export default function TrackProgramScreen({ route, navigation }: TrackProgramSc
                             onPress={() => navigation.navigate('Track a Session',
                                 { session })}
                         >
+                            
                             <Text style={trackingStyles.sessionTitle}>
                                 {session.name}
                             </Text>
@@ -44,5 +51,6 @@ export default function TrackProgramScreen({ route, navigation }: TrackProgramSc
                     ))}
                 </ScrollView>
         </View>
+        </LinearGradient>
     );
 }
