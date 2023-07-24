@@ -15,6 +15,7 @@ import {
 } from "@react-navigation/native-stack";
 import { StackParamList } from "../../UserPrograms";
 import { useForm, Controller } from 'react-hook-form';
+import { useFormContext } from "../../StateContext";
 // TODO:
 // Add styling to style sheet file
 
@@ -26,7 +27,7 @@ export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
   const [name, onChangeName] = React.useState("");
   const [description, onChangeDescription] = React.useState("");
   const [selectedProgram, setSelectedProgram] = useState("strength");
-  const { control, handleSubmit } = useForm();
+  const { control, handleSubmit } = useFormContext();
   
 
   const onSubmit = (data:any) => {
@@ -81,62 +82,100 @@ export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
               */}
             {fieldState?.error && (
               <Text style={{ fontSize: 20, color: 'red' }}>{fieldState.error.message}</Text>
-            )}
-            
+            )}            
             </View>
             )}
           />
-            
-            <Text style={{ fontSize: 20, color: "white", fontWeight: "bold" }}>
-              Description:
-              <Text style={{ flexDirection: "row", color: "red" }}>*</Text>
-            </Text>
-            <Text style={{ color: "#CECACA", fontSize: 16 }}>
-              (How would you define your gym program?)
-            </Text>
-            <TextInput
-              style={{
-                height: 40,
-                margin: 12,
-                borderWidth: 1,
-                padding: 10,
-                color: "white",
-                borderColor: "white", 
-                paddingBottom: 100,
-                borderRadius:20               
+         
+            <Controller
+              control = {control}
+              rules={{
+                required: true
               }}
-              onChangeText={onChangeDescription}
-              value={description}
-              multiline = {true}
-              numberOfLines={4}
+              name="programDescription"
+              render={({field, fieldState})=>(
+                <View>
+                <Text style={{ fontSize: 20, color: "white", fontWeight: "bold" }}>
+                  Description:                
+                  <Text style={{ flexDirection: "row", color: "red" }}>
+                    *
+                  </Text>                
+                </Text>
+
+                <Text style={{ color: "#CECACA", fontSize: 16 }}>
+                  (How would you define your gym program?)
+                </Text>
+                
+                <TextInput
+                  style={{
+                    height: 100,
+                    margin: 12,
+                    borderWidth: 1,
+                    padding: 10,
+                    color: "white",
+                    borderColor: "white",                     
+                    borderRadius:20               
+                  }}
+                  onChangeText={field.onChange}
+                  value={field.value}
+                  multiline = {true}
+                  numberOfLines={4}
+                  placeholder="Description"
+                  placeholderTextColor="white"
+                />
+
+                {/* {fieldState?.error && (
+                <Text style={{ fontSize: 20, color: 'red' }}>{fieldState.error.message}</Text>
+                )}  */}
+
+              </View>
+              )}
+              />
+            
+            <Controller
+              control = {control}             
+              name="programCategory"
+              rules={{
+                required: true
+              }}
+              render={({ field, fieldState }) => (
+                <View>
+                  <Text
+                  style={{
+                    fontSize: 20,
+                    color: "white",
+                    fontWeight: "bold",
+                    marginBottom: 0,
+                    paddingBottom: 0,
+                  }}
+                  >
+                  Category:
+                    <Text style={{ color: "red" }}>
+                      *
+                    </Text>
+                  </Text>
+                <Text style={{ color: "#CECACA", fontSize: 16 }}>
+                  (This helps others find your awesome gym program!)
+                </Text>
+
+                <Picker
+                  style={{ color: "white", marginTop: 0, paddingTop: 0 }}
+                  selectedValue={field.value}
+                  onValueChange={(itemValue) => field.onChange(itemValue)}
+                  itemStyle={{ color: "white", fontSize: 40 }}
+                >
+                  <Picker.Item label="SELECT" value="undefined" />
+                  <Picker.Item label="Strength" value="strength" />
+                  <Picker.Item label="Yoga" value="yoga" />
+                </Picker>
+
+                {fieldState?.error && (
+                  <Text style={{ fontSize: 20, color: 'red' }}>{fieldState.error.message}</Text>
+                )}
+                </View>
+              )}
             />
-
-            
-
-            <Text
-              style={{
-                fontSize: 20,
-                color: "white",
-                fontWeight: "bold",
-                marginBottom: 0,
-                paddingBottom: 0,
-              }}
-            >
-              Category:
-              <Text style={{ color: "red" }}>*</Text>
-            </Text>
-            <Text style={{ color: "#CECACA", fontSize: 16 }}>
-              (This helps others find your awesome gym program!)
-            </Text>
-            <Picker
-              style={{ color: "white", marginTop: 0, paddingTop: 0 }}
-              selectedValue={selectedProgram}
-              onValueChange={(itemValue: any) => setSelectedProgram(itemValue)}
-              itemStyle={{ color: "white", fontSize: 40 }}
-            >
-              <Picker.Item label="Strength" value="strength" />
-              <Picker.Item label="Yoga" value="yoga" />
-            </Picker>
+           
           </SafeAreaView>
           {/* 
           Add session button --> new page pop up --> 
@@ -153,13 +192,16 @@ export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
             }}
           >
             Session(s):
-            <Text style={{ flexDirection: "row", color: "red" }}>*</Text>
+            <Text style={{ flexDirection: "row", color: "red" }}>
+              *
+            </Text>
           </Text>
+
           <Text style={{ color: "#CECACA", fontSize: 16 }}>
               (You need a minimum of 1 session to publish)
-            </Text>
+          </Text>
+          
           <View style={{justifyContent: 'center'}}>
-
             <Button
               title="Add Session"
               color="orange"
@@ -175,6 +217,7 @@ export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
             />
           </View>
         </ScrollView>
+
       </View>
     </View>
   );

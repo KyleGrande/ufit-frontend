@@ -5,6 +5,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 interface FormData {
     programName: string;
+    programDescription: string;
+    programCategory: string;
+    
 }
 
 interface FormContextValue extends UseFormReturn<FormData>{}
@@ -19,11 +22,21 @@ export const useFormContext = () => {
     return context;
 }
 
+{/*
+TODO:
+    default picker value can be chosen from this context;
+    Without moving 
+*/}
+
 const FormProvider = ({children}) => {
     const methods = useForm<FormData>({
-        defaultValues: {},
+        defaultValues: {
+            programCategory: "undefined"
+        },
         resolver: yupResolver(yup.object().shape({
             programName: yup.string().required('First name is Required'),
+            programDescription: yup.string().required('Program Description is Required'),
+            programCategory: yup.string().required('Please select an option').oneOf(['strength', 'yoga']),            
         })),
     });    
       
