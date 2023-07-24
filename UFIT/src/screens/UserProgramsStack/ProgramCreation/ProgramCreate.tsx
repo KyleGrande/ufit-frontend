@@ -14,11 +14,10 @@ import {
   NativeStackNavigationProp,
 } from "@react-navigation/native-stack";
 import { StackParamList } from "../../UserPrograms";
-
-
+import { useForm, Controller } from 'react-hook-form';
 // TODO:
 // Add styling to style sheet file
-// Persist object state on change or on button click event?
+
 type ProgramsMainScreenProps = {
   navigation: NativeStackNavigationProp<StackParamList, "User Programs">;
 };
@@ -27,6 +26,13 @@ export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
   const [name, onChangeName] = React.useState("");
   const [description, onChangeDescription] = React.useState("");
   const [selectedProgram, setSelectedProgram] = useState("strength");
+  const { control, handleSubmit } = useForm();
+  
+
+  const onSubmit = (data:any) => {
+    console.log('Form Data:', data);
+    navigation.navigate('Create a Session');
+  };
 
   return (
     <View style={creatingStyles.viewContainer}>
@@ -35,28 +41,52 @@ export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
           <Text style={{ fontSize: 30, fontWeight: "bold", color: "white" }}>
             Create A Program
           </Text>
-
+        
           <SafeAreaView style={{ marginTop: 40 }}>
-            <Text style={{ fontSize: 20, color: "white", fontWeight: "bold" }}>
-              Name:
+          
+          <Controller 
+            control={control}
+            rules={{
+              required: true
+            }}
+            name="programName"
+            render={({ field, fieldState }) => (
+            <View>
+              <Text style={{ fontSize: 20, color: "white", fontWeight: "bold" }}>
+                Name:
               <Text style={{ flexDirection: "row", color: "red" }}>*</Text>
-            </Text>
-            <Text style={{ color: "#CECACA", fontSize: 16 }}>
-              (What is the name of this awesome program?)
-            </Text>
-            <TextInput
-              style={{
-                height: 40,
-                margin: 12,
-                borderWidth: 1,
-                padding: 10,
-                color: "white",
-                borderColor: "white",
-                borderRadius: 20
-              }}
-              onChangeText={onChangeName}
-              value={name}
-            />
+              </Text>
+              
+              <Text style={{ color: "#CECACA", fontSize: 16 }}>
+                (What is the name of this awesome program?)
+              </Text>
+              <TextInput
+                style={{
+                  height: 40,
+                  margin: 12,
+                  borderWidth: 1,
+                  padding: 10,
+                  color: "white",
+                  borderColor: "white",
+                  borderRadius: 20,                  
+                }}
+                onChangeText={field.onChange}
+                value={field.value}
+                placeholder="Program Name"
+                placeholderTextColor = "white"
+              />
+              {/* 
+              TODO: 
+              - Get 'Yup' resolver message to show up on form failure
+              */}
+            {fieldState?.error && (
+              <Text style={{ fontSize: 20, color: 'red' }}>{fieldState.error.message}</Text>
+            )}
+            
+            </View>
+            )}
+          />
+            
             <Text style={{ fontSize: 20, color: "white", fontWeight: "bold" }}>
               Description:
               <Text style={{ flexDirection: "row", color: "red" }}>*</Text>
@@ -80,6 +110,9 @@ export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
               multiline = {true}
               numberOfLines={4}
             />
+
+            
+
             <Text
               style={{
                 fontSize: 20,
@@ -105,10 +138,11 @@ export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
               <Picker.Item label="Yoga" value="yoga" />
             </Picker>
           </SafeAreaView>
-          {/* Add session button --> new page pop up --> 
-                        1. Persist data of this page in Object, 
-                        2. Open new session form page
-                    */}
+          {/* 
+          Add session button --> new page pop up --> 
+            1. Persist data of this page in Object, 
+            2. Open new session form page
+          */}
           <Text
             style={{
               fontSize: 20,
@@ -124,21 +158,19 @@ export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
           <Text style={{ color: "#CECACA", fontSize: 16 }}>
               (You need a minimum of 1 session to publish)
             </Text>
-          <View>
+          <View style={{justifyContent: 'center'}}>
+
             <Button
               title="Add Session"
               color="orange"
-              onPress={() => {                
-
-                navigation.navigate("Create a Session");
-              }}
+              onPress={handleSubmit(onSubmit)}
             />
 
             <Button
               title="Publish Program"
               color="orange"
               onPress={() => {
-                console.log(name, description, selectedProgram);
+                console.log('Publish program')                
               }}
             />
           </View>
