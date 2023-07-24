@@ -19,7 +19,7 @@ export const useFormContext = () => {
     return context;
 }
 
-const FormProvider: React.FC = ({children}) => {
+const FormProvider = ({children}) => {
     const methods = useForm<FormData>({
         defaultValues: {},
         resolver: yupResolver(yup.object().shape({
