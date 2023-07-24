@@ -1,5 +1,6 @@
 import * as React from "react";
 // import { Text, View, Button, StyleSheet } from 'react-native';
+import { NavigationContainer } from "@react-navigation/native";
 import {
   createNativeStackNavigator,
   NativeStackNavigationProp,
@@ -11,7 +12,7 @@ import ProgramsMainScreen from "./UserProgramsStack/ProgramsMainScreen";
 import TrackProgramScreen from "./UserProgramsStack/ProgramTracking/TrackProgramScreen";
 import TrackSessionScreen from "./UserProgramsStack/ProgramTracking/TrackSessionScreen";
 import { Program, Session } from "../api";
-
+import  FormProvider  from "./StateContext";
 export type StackParamList = {
   "User Programs": undefined; // will be UserPrograms from the DB eventually
   "Create a Program": undefined; //takes nothing maybe userID?
@@ -33,30 +34,49 @@ export default function UserPrograms() {
           headerShown: false,
         }}
       />
+            
+      <stack.Screen 
+      name="Create a Program"
+      options={{
+        headerTransparent: true,
+        headerTintColor: "white",
+      }}
+      > 
+        {(props) => (
+          <FormProvider>
+            <ProgramCreate {...props}></ProgramCreate>
+          </FormProvider>
+        )}           
+      </stack.Screen>
+
       <stack.Screen
-        name="Create a Program"
-        component={ProgramCreate}
+        name="Create a Session"        
         options={{
           headerTransparent: true,
           headerTintColor: "white",
         }}
-      />
+      >
+        {(props) => (
+          <FormProvider>
+            <ProgramSessionCreate {...props}></ProgramSessionCreate>
+          </FormProvider>
+        )} 
+        </stack.Screen>
+
       <stack.Screen
-        name="Create a Session"
-        component={ProgramSessionCreate}
+        name="Create a Movement"        
         options={{
           headerTransparent: true,
           headerTintColor: "white",
         }}
-      />
-      <stack.Screen
-        name="Create a Movement"
-        component={ProgramMovementCreate}
-        options={{
-          headerTransparent: true,
-          headerTintColor: "white",
-        }}
-      />
+      >
+        {(props) => (
+          <FormProvider>
+            <ProgramMovementCreate {...props}></ProgramMovementCreate>
+          </FormProvider>
+        )} 
+      </stack.Screen>
+
       <stack.Screen
         name="Track a Program"
         component={TrackProgramScreen}
@@ -66,6 +86,7 @@ export default function UserPrograms() {
           headerTitle: "",
         }}
       />
+      
       <stack.Screen
         name="Track a Session"
         component={TrackSessionScreen}
