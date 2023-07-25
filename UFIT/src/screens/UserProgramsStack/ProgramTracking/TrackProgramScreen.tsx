@@ -54,3 +54,4 @@ export default function TrackProgramScreen({ route, navigation }: TrackProgramSc
         </LinearGradient>
     );
 }
+    

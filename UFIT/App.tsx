@@ -84,8 +84,8 @@ function MyTabs() {
 export default function App() {
     return (
         <NavigationContainer>
-            {/* <StackDecider /> */}
-            <MyTabs />
+            <StackDecider />
+            {/* <MyTabs /> */}
         </NavigationContainer>
     );
 }
