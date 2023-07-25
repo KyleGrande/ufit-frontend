@@ -29,7 +29,7 @@ const movements = [
         movementLink: "anabarcari1991@gmail.com",
         typeTracking: {
             type: 'timer',
-            time: 60,
+            time: 121,
             rounds: 3,
         }
     }
@@ -47,8 +47,8 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps){
     const [trackingData, setTrackingData] = useState({});
     const navigation = useNavigation<NativeStackNavigationProp<StackParamList, 'Track a Session'>>();
 
-    const gotoTimer = (time: number) => {
-        navigation.navigate('TimerScreen', {time});
+    const gotoTimer = (time: number, movementName: string) => {
+        navigation.navigate('TimerScreen', {time, movementName});
         console.log('TimerScreen')
     }
 
@@ -71,7 +71,7 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps){
                         {movement.typeTracking.type === 'timer' &&
                             <TouchableOpacity
                                 style = {trackingStyles.timerButton}
-                                onPress={() => gotoTimer(movement.typeTracking.time ?? 0)}>
+                                onPress={() => gotoTimer(movement.typeTracking.time ?? 0, movement.movementName)}>
                             <View>
                                 <Text>
                                     Timer

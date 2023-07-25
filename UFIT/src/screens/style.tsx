@@ -203,7 +203,6 @@ export const timerStyles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         height: '100%',
-        backgroundColor: 'blue',
     },
 });
 
