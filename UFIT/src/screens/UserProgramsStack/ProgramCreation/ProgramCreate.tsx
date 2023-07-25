@@ -18,21 +18,22 @@ import { useForm, Controller } from 'react-hook-form';
 import { useFormContext } from "../../StateContext";
 // TODO:
 // Add styling to style sheet file
-
+// Add more white space for easy scrolling experience
 type ProgramsMainScreenProps = {
   navigation: NativeStackNavigationProp<StackParamList, "User Programs">;
 };
 
 export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
-  const [name, onChangeName] = React.useState("");
-  const [description, onChangeDescription] = React.useState("");
-  const [selectedProgram, setSelectedProgram] = useState("strength");
-  const { control, handleSubmit } = useFormContext();
-  
+  const { control, handleSubmit, setValue, getValues } = useFormContext();
+
+  // const addSession = (sessionData:any) => {
+  //   const currentSessions = getValues('sessions') || [];
+  //   setValue('sessions', [...currentSessions, sessionData]);
+    
+  // }
 
   const onSubmit = (data:any) => {
-    console.log('Form Data:', data);
-    navigation.navigate('Create a Session');
+    console.log('Form Data:', data);    
   };
 
   return (
@@ -124,9 +125,9 @@ export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
                   placeholderTextColor="white"
                 />
 
-                {/* {fieldState?.error && (
+                {fieldState?.error && (
                 <Text style={{ fontSize: 20, color: 'red' }}>{fieldState.error.message}</Text>
-                )}  */}
+                )} 
 
               </View>
               )}
@@ -206,13 +207,14 @@ export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
               title="Add Session"
               color="orange"
               onPress={handleSubmit(onSubmit)}
+              
             />
 
             <Button
               title="Publish Program"
               color="orange"
-              onPress={() => {
-                console.log('Publish program')                
+              onPress={()=>{
+                console.log('Publish');
               }}
             />
           </View>
