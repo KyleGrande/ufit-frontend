@@ -46,8 +46,13 @@ const FormProvider = ({children}) => {
         }))
     });    
     
+    const sessionsFieldArray = useFieldArray({
+        control: methods.control,
+        name: 'sessions'
+    });
+
     return (
-        <FormContext.Provider value = {{...methods }}>
+        <FormContext.Provider value = {{...methods, ...sessionsFieldArray }}>
             {children}
         </FormContext.Provider>
     )    
