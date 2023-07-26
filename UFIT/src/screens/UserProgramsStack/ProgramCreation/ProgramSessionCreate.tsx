@@ -17,7 +17,7 @@ import { Picker } from "@react-native-picker/picker";
 import { useForm, Controller, useFieldArray } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-
+import { useRoute } from "@react-navigation/native";
 type ProgramsMainScreenProps = {
   navigation: NativeStackNavigationProp<StackParamList, "User Programs">;
 };
@@ -28,9 +28,10 @@ interface SessionData {
   movements: Object[];
 }
 
-export default function ProgramSessionCreate({navigation,route}: ProgramsMainScreenProps) {
+export default function ProgramSessionCreate({navigation}: ProgramsMainScreenProps) {
   // Form state management + form validation
-  const {addSession} = route.params;
+  const route = useRoute();
+  const {addSession} = route.params || function(data:any){console.log(data)};
   
   const methods = useForm<SessionData>({
     defaultValues: {

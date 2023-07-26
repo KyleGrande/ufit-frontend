@@ -16,6 +16,7 @@ import {
 import { StackParamList } from "../../UserPrograms";
 import { useForm, Controller } from 'react-hook-form';
 import { useFormContext } from "../../StateContext";
+
 // TODO:
 // Add styling to style sheet file
 // Add more white space for easy scrolling experience
@@ -25,14 +26,9 @@ type ProgramsMainScreenProps = {
 
 export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
   const { control, handleSubmit, getValues, setValue } = useFormContext();
-
-  // const addSession = (sessionData:any) => {
-  //   const currentSessions = getValues('sessions') || [];
-  //   setValue('sessions', [...currentSessions, sessionData]);
-    
-  // }
-
+  
   const addSession = (session:object) => {
+    console.log("Adding session");
     const sessions = getValues('sessions') || [];
     setValue('sessions', [...sessions, session ]);
   }

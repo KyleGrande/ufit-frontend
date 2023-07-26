@@ -12,7 +12,7 @@ import { Linking } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-
+import { useRoute } from "@react-navigation/native";
 
 type ProgramsMainScreenProps = {
   navigation: NativeStackNavigationProp<StackParamList, "User Programs">;
@@ -27,25 +27,30 @@ interface MovementData {
   movementLink: string | undefined; // Effect: resolver is underlined red   
   trackingData: {
     trackingType: string;
-    reps: string;
-    sets: string;
-    rounds: string;
-    roundMin: string;
-    roundSec: string;
-    restMin: string;
-    restSec: string;
-    genMin: string;
-    genSec: string;
+    reps: string | undefined;
+    sets: string | undefined;
+    rounds: string | undefined;
+    roundMin: string | undefined;
+    roundSec: string | undefined;
+    restMin: string | undefined;
+    restSec: string | undefined;
+    genMin: string | undefined;
+    genSec: string | undefined;
   };
 }
 
 export default function ProgramMovementCreate({
-  navigation, route
+  navigation
 }: ProgramsMainScreenProps) {
   
-  
+  const route = useRoute();
   // add Movement to session data
   const {addMovement} = route.params;
+
+  const onSubmit = (data:any) => {
+    addMovement(data);
+    navigation.navigate("Create a Session");
+  }
 
   // Movement Form validation and react-hook-form state with 'useForm'
   const {
@@ -767,10 +772,7 @@ export default function ProgramMovementCreate({
             <Button
               title="Save Movement"
               color="orange"
-              onPress={() => {
-                console.log("Adding Movement to program");
-                navigation.navigate("Create a Session");
-              }}
+              onPress={handleSubmit(onSubmit)}
             />
           </View>
         </ScrollView>
