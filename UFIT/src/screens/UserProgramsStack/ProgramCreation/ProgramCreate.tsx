@@ -24,7 +24,7 @@ type ProgramsMainScreenProps = {
 };
 
 export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
-  const { control, handleSubmit, setValue, getValues } = useFormContext();
+  const { control, handleSubmit, getValues, setValue } = useFormContext();
 
   // const addSession = (sessionData:any) => {
   //   const currentSessions = getValues('sessions') || [];
@@ -32,9 +32,19 @@ export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
     
   // }
 
+  const addSession = (session:object) => {
+    const sessions = getValues('sessions') || [];
+    setValue('sessions', [...sessions, session ]);
+  }
+
+  const removeSession = (index:number) => {
+    const sessions = getValues('sessions') || [];
+    setValue('sessions', sessions.filter((_,i)=> i !== index));
+  }
+
   const onSubmit = (data:any) => {            
     console.log('Form Data:', data);
-    navigation.navigate("Create a Session");
+    navigation.navigate("Create a Session", {addSession});
   };
 
   return (
