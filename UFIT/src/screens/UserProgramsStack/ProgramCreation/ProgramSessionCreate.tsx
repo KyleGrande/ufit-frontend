@@ -14,7 +14,7 @@ import {
 } from "@react-navigation/native-stack";
 import { StackParamList } from "../../UserPrograms";
 import { Picker } from "@react-native-picker/picker";
-import { useForm, Controller } from "react-hook-form";
+import { useForm, Controller, useFieldArray } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 
@@ -25,18 +25,14 @@ type ProgramsMainScreenProps = {
 interface SessionData {
   sessionName: string;
   restDays: string;
-  // movements: [];
+  movements: Object[];
 }
 
 export default function ProgramSessionCreate({navigation,route}: ProgramsMainScreenProps) {
   // Form state management + form validation
   const {addSession} = route.params;
   
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<SessionData>({
+  const methods = useForm<SessionData>({
     defaultValues: {
       sessionName: "Hello Ricardo",
       restDays: "3",      
@@ -45,13 +41,38 @@ export default function ProgramSessionCreate({navigation,route}: ProgramsMainScr
       yup.object().shape({
         sessionName: yup.string().required("Session name is required"),
         restDays: yup.string().required("Rest days are required"),
-        // movements: yup
-        //   .array()
-        //   .of(yup.object())
+        movements: yup
+          .array()
+          .of(yup.object())
           // .min(1, "Minimum of 1 movement is required") // test without movements         
       })
     ),
   });
+  
+  // register movements array
+  const movementsFieldArray = useFieldArray({
+    control: methods.control,
+    name: 'movements'
+  });
+  
+  const {
+    control,
+    handleSubmit,
+    getValues,
+    setValue,
+    formState: { errors },
+  } = methods;
+
+  // Passed to movement form
+  const addMovement = (movement:object) => {
+    const movements = getValues('movements') || [];
+    setValue('movements', [...movements, movement]);
+  }
+
+  const removeMovement = (index:number) => {
+    const movements = getValues('movements') || [];
+    setValue('movements', movements.filter((_,i) => i !== index))
+  }
 
   const onSessionSubmit = (data:any) => {    
     // use passed by function to store in programs sessions array
@@ -61,7 +82,7 @@ export default function ProgramSessionCreate({navigation,route}: ProgramsMainScr
   }
 
   // const [sessionName, onChangeSessionName] = React.useState("");
-  const [restdays, onChangeRestDay] = React.useState("0");
+  //const [restdays, onChangeRestDay] = React.useState("0");
 
   return (
     <View style={creatingStyles.viewContainer}>
@@ -153,7 +174,7 @@ export default function ProgramSessionCreate({navigation,route}: ProgramsMainScr
               color="orange"
               onPress={() => {
                 console.log("Adding Movement to program");
-                navigation.navigate("Create a Movement");
+                navigation.navigate("Create a Movement", {addMovement});
               }}
             />
 

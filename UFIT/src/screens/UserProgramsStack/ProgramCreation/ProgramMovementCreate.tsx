@@ -40,8 +40,12 @@ interface MovementData {
 }
 
 export default function ProgramMovementCreate({
-  navigation,
+  navigation, route
 }: ProgramsMainScreenProps) {
+  
+  
+  // add Movement to session data
+  const {addMovement} = route.params;
 
   // Movement Form validation and react-hook-form state with 'useForm'
   const {
@@ -90,49 +94,6 @@ export default function ProgramMovementCreate({
       })
     ),
   })
-
-  const [selectedSection, setSelectedSection] = useState([
-    "warmup",
-    "main",
-    "post",
-  ]);
-
-  {
-    /*Form--Picker Data*/
-  }
-  const [selectedTracking, setSelectedTracking] = useState("setsreps");
-
-  {
-    /*Form--Text Data*/
-  }
-  const [movementName, onChangeMovementName] = useState("");
-  const [movementDesc, onChangeMovementDesc] = useState("");
-  const [movementLink, onChangeMovementLink] = useState("");
-
-  {
-    /*Sets/Reps Data*/
-  }
-  const [selectedSet, setSelectedSet] = useState("0");
-  const [selectedRep, setSelectedRep] = useState("0");
-
-  {
-    /*Round Timer Data*/
-  }
-  const [selectedRound, setSelectedRound] = useState("0");
-  const [selectedMinute, setSelectedMinute] = useState("0");
-  const [selectedSecond, setSelectedSecond] = useState("0");
-
-  {
-    /*Rest Time Data*/
-  }
-  const [selectedRestMinute, setSelectedRestMinute] = useState("0");
-  const [selectedRestSecond, setSelectedRestSecond] = useState("0");
-
-  {
-    /*General Time Data*/
-  }
-  const [selectedGMinute, setSelectedGMinute] = useState("0");
-  const [selectedGSecond, setSelectedGSecond] = useState("0");
 
   // TODO
   // Add more white space for easy scrolling experience
@@ -451,10 +412,8 @@ export default function ProgramMovementCreate({
                                 marginTop: 0,
                                 paddingTop: 0,
                               }}
-                              selectedValue={selectedMinute}
-                              onValueChange={(itemValue: any) =>
-                                setSelectedMinute(itemValue)
-                              }
+                              selectedValue={field.value}
+                              onValueChange={field.onChange}
                               itemStyle={{ color: "white", fontSize: 30 }}
                             >
                               <Picker.Item label="0" value="0" />
@@ -497,10 +456,8 @@ export default function ProgramMovementCreate({
                             marginTop: 0,
                             paddingTop: 0,
                           }}
-                          selectedValue={selectedSecond}
-                          onValueChange={(itemValue: any) =>
-                            setSelectedSecond(itemValue)
-                          }
+                          selectedValue={field.value}
+                          onValueChange={field.onChange}
                           itemStyle={{ color: "white", fontSize: 30 }}
                         >
                           <Picker.Item label="0" value="0" />
@@ -570,10 +527,8 @@ export default function ProgramMovementCreate({
                                 marginTop: 0,
                                 paddingTop: 0,
                               }}
-                              selectedValue={selectedRestMinute}
-                              onValueChange={(itemValue: any) =>
-                                setSelectedRestMinute(itemValue)
-                              }
+                              selectedValue={field.value}
+                              onValueChange={field.onChange}
                               itemStyle={{ color: "white", fontSize: 30 }}
                             >
                               <Picker.Item label="0" value="0" />
@@ -736,58 +691,77 @@ export default function ProgramMovementCreate({
                 </View>
               ):null}
             </View>
-
-            <Text style={{ fontSize: 20, color: "white", fontWeight: "bold" }}>
-              Describe your movement
-            </Text>
-            <Text style={{ color: "#CECACA", fontSize: 16 }}>
-              (If you could describe this movement in as few words as
-              possible...)
-            </Text>
-            <TextInput
-              style={{
-                height: 40,
-                margin: 12,
-                borderWidth: 1,
-                padding: 10,
-                color: "white",
-                borderColor: "white",
-                borderRadius: 20,  
-                paddingBottom: 100              
-              }}
-              onChangeText={onChangeMovementDesc}
-              value={movementDesc}
-              multiline = {true}
-              numberOfLines={4}
-            />
-            <View style={{ paddingBottom: 100 }}>
-              <Text
-                style={{ fontSize: 20, color: "white", fontWeight: "bold" }}
-              >
-                Movement Link
-              </Text>
-              <Text
-                style={{ color: "#CECACA", fontSize: 16 }}
-                onPress={() =>
-                  Linking.openURL("https://www.youtube.com/watch?v=xvFZjo5PgG0")
-                }
-              >
-                (https://www.youtube.com/watch?v=xvFZjo5PgG0)
-              </Text>
-              <TextInput
-                style={{
-                  height: 40,
-                  margin: 12,
-                  borderWidth: 1,
-                  padding: 10,
-                  color: "white",
-                  borderColor: "white",
-                  borderRadius: 20,
-                }}
-                onChangeText={onChangeMovementLink}
-                value={movementLink}
-              />
+          
+          <Controller 
+            control={control}
+            name="movementDescription"
+            render={({field,fieldState}) => (
+              <View>
+                <Text style={{ fontSize: 20, color: "white", fontWeight: "bold" }}>
+                  Describe your movement
+                </Text>
+                <Text style={{ color: "#CECACA", fontSize: 16 }}>
+                  (If you could describe this movement in as few words as
+                  possible...)
+                </Text>
+                <TextInput
+                  style={{
+                    height: 40,
+                    margin: 12,
+                    borderWidth: 1,
+                    padding: 10,
+                    color: "white",
+                    borderColor: "white",
+                    borderRadius: 20,  
+                    paddingBottom: 100              
+                  }}
+                  onChangeText={field.onChange}
+                  value={field.value}
+                  multiline = {true}
+                  numberOfLines={4}
+                />
+              </View>
+            )}
+          />
+          
+          <Controller 
+            control= {control}
+            name="movementLink"
+            rules={{
+              required: true
+            }}
+            render={({field,fieldState})=> (
+              <View style={{ paddingBottom: 100 }}>
+                <Text
+                  style={{ fontSize: 20, color: "white", fontWeight: "bold" }}
+                >
+                  Movement Link
+                </Text>
+                <Text
+                  style={{ color: "#CECACA", fontSize: 16 }}
+                  onPress={() =>
+                    Linking.openURL("https://www.youtube.com/watch?v=xvFZjo5PgG0")
+                  }
+                >
+                  (https://www.youtube.com/watch?v=xvFZjo5PgG0)
+                </Text>
+                <TextInput
+                  style={{
+                    height: 40,
+                    margin: 12,
+                    borderWidth: 1,
+                    padding: 10,
+                    color: "white",
+                    borderColor: "white",
+                    borderRadius: 20,
+                  }}
+                  onChangeText={field.onChange}
+                  value={field.value}
+                />
             </View>
+            )}
+          />
+            
           </SafeAreaView>
           <View style={{ flex: 1 }}>
             <Button
