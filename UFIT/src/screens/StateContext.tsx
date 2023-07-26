@@ -3,40 +3,12 @@ import { useFieldArray, useForm, UseFormReturn } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-interface Tracking {
-    type: string;
-    trackingDetails: object;
-    reps: number;
-    sets: number;
-    rounds: number;
-    roundMinute: number;
-    roundSecond: number;
-    restMinute: number;
-    restSecond: number;
-    gMinute: number;
-    gSecond: number;
-}
-
-
-interface Movement {
-    section: string;
-    movementName: string;
-    movementDescription: string;
-    movementLink: string;    
-    tracking: Tracking;
-}
-
-interface Session {
-    sessionName: string;
-    restDays: number;
-    movements: Movement[];
-}
 
 interface FormData {
     programName: string;
     programDescription: string;
     programCategory: string;
-    sessions: Session[];    
+    sessions: Object[];    
 }
 
 
@@ -69,32 +41,9 @@ const FormProvider = ({children}) => {
             sessions: yup
                 .array()
                 .of(
-                    yup.object().shape({
-                        sessionName: yup.string().required('Session name is required'),
-                        restDays: yup.number().required('Rest days are required'),
-                        movements: yup.array().of(
-                            yup.object().shape({
-                                section: yup.string().required('Movement section is require'),
-                                movementName: yup.string().required('asdas'),
-                                movementDescription: yup.string().required("sedasda"),
-                                movementLink: yup.string().required('asdasd'),
-                                tracking: yup.object().shape({
-                                    type: yup.string().required('dasdasd'),                                    
-                                    reps: yup.number(),
-                                    sets: yup.number(),
-                                    rounds: yup.number(),
-                                    roundMinute: yup.number(),
-                                    roundSecond: yup.number(),
-                                    restMinute: yup.number(),
-                                    restSecond: yup.number(),
-                                    gMinute: yup.number(),
-                                    gSecond: yup.number(),
-                                }),
-                            })
-                        )
-                    })
+                    yup.object()
                 )
-                .required('Sessions are required'),
+                .min(1, 'Minimum of 1 session is required to publish a program').required('Sessions are required'),
         }))
     });    
     
