@@ -25,7 +25,8 @@ interface MovementData {
   movementName: string;
   movementDescription: string;
   movementLink: string | undefined; // Effect: resolver is underlined red 
-  trackingType: {};
+  trackingType: string;
+  trackingData: {};
 }
 
 export default function ProgramMovementCreate({
@@ -36,13 +37,16 @@ export default function ProgramMovementCreate({
   const {
     control,
     handleSubmit,
+    getValues,
+    watch,
     formState: { errors }
   } = useForm<MovementData>({
     defaultValues: {
       section: "post", // TODO: set to warmup, post is used as test
-      movementName: "",
-      movementDescription: "",
-      movementLink: ""
+      movementName: "Hello World!",
+      movementDescription: "Cool",
+      movementLink: "youtube./com",
+      trackingType: "setsreps"
     },
     resolver: yupResolver(
       yup.object().shape({
@@ -50,7 +54,8 @@ export default function ProgramMovementCreate({
         movementName: yup.string().required("Movement name is required"),
         movementDescription: yup.string().required("Movement description is required"),
         movementLink: yup.string().notRequired(),
-        trackingType: yup.object().required('Tracking Required')
+        trackingType: yup.string().required('Tracking Type Required'),
+        trackingData: yup.object().required('Tracking Required')
       })
     ),
   })
@@ -144,55 +149,78 @@ export default function ProgramMovementCreate({
               )}
             />
            
-           
+          <Controller
+            control={control}
+            rules= {{
+              required: true
+            }}
+            name="movementName"
+            render={({ field, fieldState}) => (
+              <View>
+              <Text style={{ fontSize: 20, color: "white", fontWeight: "bold" }}>
+                Name
+                <Text style={{ flexDirection: "row", color: "red" }}>*</Text>          
+              </Text>
+              
+              <Text style={{ color: "#CECACA", fontSize: 16 }}>
+                (Name of your movement)
+              </Text>
 
-
-
-            <Text style={{ fontSize: 20, color: "white", fontWeight: "bold" }}>
-              Name
-              <Text style={{ flexDirection: "row", color: "red" }}>*</Text>
-            </Text>
-            <Text style={{ color: "#CECACA", fontSize: 16 }}>
-              (Name of your movement)
-            </Text>
-
-            <TextInput
-              style={{
-                height: 40,
-                margin: 12,
-                borderWidth: 1,
-                padding: 10,
-                color: "white",
-                borderColor: "white",
-                borderRadius: 20,
+              <TextInput
+                style={{
+                  height: 40,
+                  margin: 12,
+                  borderWidth: 1,
+                  padding: 10,
+                  color: "white",
+                  borderColor: "white",
+                  borderRadius: 20,
+                }}
+                onChangeText={field.onChange}
+                value={field.value}                
+              />
+              </View>
+            )}
+          />
+            
+            <Controller 
+              control = {control}
+              rules = {{
+                required: true
               }}
-              onChangeText={onChangeMovementName}
-              value={movementName}
-            />
-            {/* TODO: Different type of tracking have different types of progression per workout session */}
-            <Text style={{ fontSize: 20, color: "white", fontWeight: "bold" }}>
-              Type Of Tracking
-              <Text style={{ flexDirection: "row", color: "red" }}>*</Text>:
-            </Text>
-            <Text style={{ color: "#CECACA", fontSize: 16 }}>
-              (This will determine how the movement will be tracked during your
-              workouts)
-            </Text>
-            <View>
-              <Picker
-                style={{ color: "white", marginTop: 0, paddingTop: 0 }}
-                selectedValue={selectedTracking}
-                onValueChange={(itemValue: any) =>
-                  setSelectedTracking(itemValue)
-                }
-                itemStyle={{ color: "white", fontSize: 40 }}
-              >
-                <Picker.Item label="Sets/Reps" value="setsreps" />
-                <Picker.Item label="Round Timer" value="rounds" />
-                <Picker.Item label="Timer" value="timer" />
-              </Picker>
+              name="trackingType"
+              render={({ field, fieldState }) => (
+                <View>
+                    <Text style={{ fontSize: 20, color: "white", fontWeight: "bold" }}>
+                      Type Of Tracking
+                    <Text style={{ flexDirection: "row", color: "red" }}>*</Text>:
+                  </Text>
 
-              {selectedTracking.includes("setsreps") && (
+                  <Text style={{ color: "#CECACA", fontSize: 16 }}>
+                    (This will determine how the movement will be tracked during your
+                    workouts)
+                  </Text>
+                  
+                  <Picker
+                    style={{ color: "white", marginTop: 0, paddingTop: 0 }}
+                    selectedValue={field.value}
+                    onValueChange={field.onChange}
+                    itemStyle={{ color: "white", fontSize: 40 }}
+                  >
+                    <Picker.Item label="Sets/Reps" value="setsreps" />
+                    <Picker.Item label="Round Timer" value="rounds" />
+                    <Picker.Item label="Timer" value="timer" />
+                  </Picker>
+
+       
+                </View>
+              )}
+            />
+            
+            <View>
+              {
+              watch("trackingType") == "setsreps"
+               && (
                 <View>
                   <View
                     style={{
@@ -281,7 +309,9 @@ export default function ProgramMovementCreate({
                 </View>
               )}
 
-              {selectedTracking.includes("rounds") && (
+              {
+              watch("trackingType") == "rounds"
+               && (
                 <View>
                   <View>
                     <Text
@@ -521,7 +551,7 @@ export default function ProgramMovementCreate({
                 </View>
               )}
 
-              {selectedTracking.includes("timer") && (
+              {watch("trackingType") == "timer" && (
                 <View>
                   <View
                     style={{
