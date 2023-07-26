@@ -28,10 +28,10 @@ interface SessionData {
   // movements: [];
 }
 
-export default function ProgramSessionCreate({
-  navigation,
-}: ProgramsMainScreenProps) {
+export default function ProgramSessionCreate({navigation,route}: ProgramsMainScreenProps) {
   // Form state management + form validation
+  const {addSession} = route.params;
+  
   const {
     control,
     handleSubmit,
@@ -55,7 +55,8 @@ export default function ProgramSessionCreate({
 
   const onSessionSubmit = (data:any) => {    
     // use passed by function to store in programs sessions array
-    //navigation.navigate("Create a Program");
+    addSession(data);
+    navigation.navigate("Create a Program");
     console.log('Form Data:', data);
   }
 
