@@ -32,8 +32,9 @@ export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
     
   // }
 
-  const onSubmit = (data:any) => {
-    console.log('Form Data:', data);    
+  const onSubmit = (data:any) => {            
+    console.log('Form Data:', data);
+    navigation.navigate("Create a Session");
   };
 
   return (
@@ -206,8 +207,7 @@ export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
             <Button
               title="Add Session"
               color="orange"
-              onPress={handleSubmit(onSubmit)}
-              
+              onPress={handleSubmit(onSubmit)}              
             />
 
             <Button

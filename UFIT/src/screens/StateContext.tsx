@@ -42,8 +42,7 @@ const FormProvider = ({children}) => {
                 .array()
                 .of(
                     yup.object()
-                )
-                .min(1, 'Minimum of 1 session is required to publish a program').required('Sessions are required'),
+                ),                
         }))
     });    
     
