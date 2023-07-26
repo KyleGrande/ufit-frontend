@@ -3,7 +3,6 @@ import * as React from 'react';
 // import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { BottomTabBarHeightCallbackContext, createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import ProgramFeed from './src/screens/ProgramFeed';
 import UserPrograms from './src/screens/UserPrograms';
 import UserSettings from './src/screens/UserSettings';
 import UserAnalytics from './src/screens/UserAnalytics';
