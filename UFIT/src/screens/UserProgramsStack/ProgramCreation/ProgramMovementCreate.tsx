@@ -9,13 +9,52 @@ import { StackParamList } from "../../UserPrograms";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Picker } from "@react-native-picker/picker";
 import { Linking } from "react-native";
+import { useForm, Controller } from "react-hook-form";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+
+
 type ProgramsMainScreenProps = {
   navigation: NativeStackNavigationProp<StackParamList, "User Programs">;
 };
 
+// Movement Form Schema
+
+interface MovementData {
+  section: string;
+  movementName: string;
+  movementDescription: string;
+  movementLink: string | undefined; // Effect: resolver is underlined red 
+  trackingType: {};
+}
+
 export default function ProgramMovementCreate({
   navigation,
 }: ProgramsMainScreenProps) {
+
+  // Movement Form validation and react-hook-form state with 'useForm'
+  const {
+    control,
+    handleSubmit,
+    formState: { errors }
+  } = useForm<MovementData>({
+    defaultValues: {
+      section: "setsreps",
+      movementName: "",
+      movementDescription: "",
+      movementLink: ""
+    },
+    resolver: yupResolver(
+      yup.object().shape({
+        section: yup.string().required("Movement section is required"),
+        movementName: yup.string().required("Movement name is required"),
+        movementDescription: yup.string().required("Movement description is required"),
+        movementLink: yup.string().notRequired(),
+        trackingType: yup.object().required('Tracking Required')
+      })
+    ),
+  })
+
   const [selectedSection, setSelectedSection] = useState([
     "warmup",
     "main",
@@ -75,24 +114,39 @@ export default function ProgramMovementCreate({
           contentContainerStyle={{ flexGrow: 1 }}
         >
           <SafeAreaView style={{ height: "100%", flex: 1 }}>
-            <Text style={{ fontSize: 20, color: "white", fontWeight: "bold" }}>
-              Section
-              <Text style={{ flexDirection: "row", color: "red" }}>*</Text>:
-            </Text>
-            <Text style={{ color: "#CECACA", fontSize: 16 }}>
-              (Choose the best place for your movement)
-            </Text>
 
-            <Picker
-              style={{ color: "white", marginTop: 0, paddingTop: 0 }}
-              selectedValue={selectedSection}
-              onValueChange={(itemValue: any) => setSelectedSection(itemValue)}
-              itemStyle={{ color: "white", fontSize: 40 }}
-            >
-              <Picker.Item label="Warm up" value="warmup" />
-              <Picker.Item label="Main Movement" value="main" />
-              <Picker.Item label="Post Movement" value="post" />
-            </Picker>
+            <Controller
+              control={control}
+              rules={{
+                required: true
+              }}
+              name="section"
+              render={({field, fieldState})=> (
+                <View>
+                  <Text style={{ fontSize: 20, color: "white", fontWeight: "bold" }}>
+                    Section
+                  <Text style={{ flexDirection: "row", color: "red" }}>*</Text>:
+                  </Text>
+                  <Text style={{ color: "#CECACA", fontSize: 16 }}>
+                    (Choose the best place for your movement)
+                  </Text>
+                  <Picker
+                    style={{ color: "white", marginTop: 0, paddingTop: 0 }}
+                    selectedValue={field.value}
+                    onValueChange={field.onChange}
+                    itemStyle={{ color: "white", fontSize: 40 }}
+                  >
+                    <Picker.Item label="Warm up" value="warmup" />
+                    <Picker.Item label="Main Movement" value="main" />
+                    <Picker.Item label="Post Movement" value="post" />
+                  </Picker>
+                </View>
+              )}
+            />
+           
+           
+
+
 
             <Text style={{ fontSize: 20, color: "white", fontWeight: "bold" }}>
               Name
