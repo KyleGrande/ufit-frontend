@@ -98,7 +98,8 @@ export const trackingStyles = StyleSheet.create({
     singleSessionContainer: {
         alignItems: 'flex-start',
         justifyContent: 'center',
-        height: 70,
+        // height: 70,
+        minHeight: 70,
         marginTop: 20,
         borderRadius: 10,
         paddingLeft: 10,
@@ -245,6 +246,33 @@ export const discoverProgramStyles = StyleSheet.create({
         fontSize: 25,
         fontWeight: 'bold',
         letterSpacing: 1,
+    },
+    
+    movementContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        padding: 5,
+        marginTop: 5,
+    }, 
+    movementText: {
+        fontSize: 15,
+        // marginBottom: 5,
+    },
+    singleSessionContainer: {
+        // alignItems: 'flex-start',
+        // justifyContent: 'center',
+        minHeight: 70,
+        marginBottom: 20,
+        borderRadius: 10,
+        paddingLeft: 10,
+        paddingRight: 10,
+        backgroundColor: 'white',
+    },
+    sessionTitle: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: 'white',
+        // padding: 5,
     },
 
 });

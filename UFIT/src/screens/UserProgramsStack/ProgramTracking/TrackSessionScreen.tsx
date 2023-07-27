@@ -8,32 +8,6 @@ import RepBubble from '../../../components/RepBubble'
 // import { Session } from "../../../api";
 import { useNavigation } from "@react-navigation/native";
 
-const movements = [
-    {
-        _id: "64b4421b415706cb0ce13a24",
-        section: "yoga1",
-        movementName: "Upper body stretch",
-        movementDescription: "Stretches for the upper body",
-        movementLink: "anabarcari1991@gmail.com",
-        typeTracking: {
-            type: 'reps',
-            sets: 5,
-            reps: 10
-        }
-    },
-    {
-        _id: "64b4421b415706cb0ce13a25",
-        section: "yoga2",
-        movementName: "Lower body stretch",
-        movementDescription: "Stretches for the lower body",
-        movementLink: "anabarcari1991@gmail.com",
-        typeTracking: {
-            type: 'timer',
-            time: 121,
-            rounds: 3,
-        }
-    }
-];
 
 // used for accessing route parameters in a type-safe way
 export type TrackSessionScreenRouteProp = RouteProp<StackParamList, 'Track a Session'>;
@@ -43,7 +17,7 @@ type TrackSessionScreenProps = {
 };
 
 export default function TrackSessionScreen({ route }: TrackSessionScreenProps){
-    const { session } = route.params;
+    const { session, movements } = route.params;
     const [trackingData, setTrackingData] = useState({});
     const navigation = useNavigation<NativeStackNavigationProp<StackParamList, 'Track a Session'>>();
 
@@ -53,7 +27,7 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps){
     }
 
     return (
-        <View style={[trackingStyles.viewContainer]}>
+        <View style={[trackingStyles.viewContainer, {backgroundColor:'lightblue'}]}>
             <Text style={trackingStyles.titleBarText}>
                 {session.name} 
             </Text>

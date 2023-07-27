@@ -24,4 +24,5 @@ export default {
     insertProgram: (newProgram: Program) => api.post('/program', newProgram),
     updateProgram: (updatedProgram: Program) => api.put('/program/by-id', updatedProgram),
     deleteProgram: (id: string) => api.delete(`/program/by-id/${id}`),
+    getMovementByIds: (ids: string[]) => api.post(`/movement/by-ids/`, {ids}),
 }
