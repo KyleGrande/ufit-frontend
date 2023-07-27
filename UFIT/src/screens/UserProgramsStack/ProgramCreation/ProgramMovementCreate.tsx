@@ -47,11 +47,13 @@ export default function ProgramMovementCreate({
 }: ProgramMovementCreateProps) {    
   // add Movement to session data
   const {addMovement} = route.params;
+  const {addSession} = route.params;
 
   const onSubmit = (data:any) => {
-    console.log(data);
+    // console.log(data);
     addMovement(data);
-    navigation.navigate("Create a Session", (data)  );
+    navigation.navigate("Create a Session", {addSession: addSession});
+    console.log(data)
   }
 
   // Movement Form validation and react-hook-form state with 'useForm'

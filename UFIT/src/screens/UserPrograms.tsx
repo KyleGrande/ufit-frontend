@@ -16,11 +16,12 @@ import  FormProvider  from "./StateContext";
 export type StackParamList = {
   "User Programs": undefined; // will be UserPrograms from the DB eventually
   "Create a Program": undefined; //takes nothing maybe userID?
-  "Create a Session": { addSession: any };
-  "Create a Movement": { addMovement: any };
+  "Create a Session": { addSession: any }; //takes a session object maybe in the future userID?
+  "Create a Movement": { addMovement: any, addSession: any };
   "Track a Program": { program: Program }; //takes a program object maybe in the future userID?
   "Track a Session": { session: Session }; //takes a session object maybe in the future userID?
 };
+// Login: { setIsLoggedIn: (value: boolean) => void };
 
 const stack = createNativeStackNavigator<StackParamList>();
 
@@ -64,17 +65,21 @@ export default function UserPrograms() {
         </stack.Screen>
 
       <stack.Screen
-        name="Create a Movement"        
+        name="Create a Movement"   
+
         options={{
           headerTransparent: true,
           headerTintColor: "white",
         }}
+        initialParams={
+          {addMovement: (value: any) => {console.log(value)}}
+        }
       >
         {(props) => (
           <FormProvider>
             <ProgramMovementCreate {...props}></ProgramMovementCreate>
           </FormProvider>
-        )} 
+        )}         
       </stack.Screen>
 
       <stack.Screen

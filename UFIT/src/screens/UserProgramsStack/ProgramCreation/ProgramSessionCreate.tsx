@@ -81,9 +81,12 @@ export default function ProgramSessionCreate({navigation,route}: ProgramSessionC
 
   const onSessionSubmit = (data:any) => {    
     // use passed by function to store in programs sessions array
+    console.log('Form Data1:', data);
     addSession(data);
+    // navigation.goBack();
     navigation.navigate("Create a Program");
-    console.log('Form Data:', data);
+    console.log(data)
+
   }
 
   // const [sessionName, onChangeSessionName] = React.useState("");
@@ -179,7 +182,7 @@ export default function ProgramSessionCreate({navigation,route}: ProgramSessionC
               color="orange"
               onPress={() => {
                 console.log("Adding Movement to program");
-                navigation.navigate("Create a Movement", {addMovement: addMovement});
+                navigation.navigate("Create a Movement", {addMovement: addMovement, addSession: addSession});
               }}
             />
 

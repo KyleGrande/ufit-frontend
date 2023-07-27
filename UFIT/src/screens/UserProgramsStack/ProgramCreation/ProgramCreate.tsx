@@ -16,6 +16,7 @@ import {
 import { StackParamList } from "../../UserPrograms";
 import { useForm, Controller } from 'react-hook-form';
 import { useFormContext } from "../../StateContext";
+import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 
 // TODO:
 // Add styling to style sheet file
@@ -220,7 +221,11 @@ export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
               title="Publish Program"
               color="orange"
               onPress={()=>{
-                console.log('Publish');
+                const sessions = getValues('sessions') || []; // get sessions or default to empty array
+                const movements = sessions.map(session => session.movements);
+                const allMovements = movements.flat();
+                console.log('Form Data:', getValues());
+                console.log('All Movements:', allMovements);
               }}
             />
           </View>
