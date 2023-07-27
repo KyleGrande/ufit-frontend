@@ -19,6 +19,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useRoute } from "@react-navigation/native";
 import { RouteProp } from "@react-navigation/native";
+import MovementComponent from "../components/MovementCard";
 
 export type ProgramSessionCreateRouteProp = RouteProp<StackParamList, 'Create a Session'>;
 
@@ -41,6 +42,7 @@ export default function ProgramSessionCreate({navigation,route}: ProgramSessionC
     defaultValues: {
       sessionName: "Hello Ricardo",
       restDays: "3",      
+      movements: []
     },
     resolver: yupResolver(
       yup.object().shape({
@@ -65,6 +67,7 @@ export default function ProgramSessionCreate({navigation,route}: ProgramSessionC
     handleSubmit,
     getValues,
     setValue,
+    watch,
     formState: { errors },
   } = methods;
 
@@ -88,7 +91,7 @@ export default function ProgramSessionCreate({navigation,route}: ProgramSessionC
     console.log(data)
 
   }
-
+  var movementsLength = watch('movements').length;
   // const [sessionName, onChangeSessionName] = React.useState("");
   //const [restdays, onChangeRestDay] = React.useState("0");
 
@@ -174,6 +177,58 @@ export default function ProgramSessionCreate({navigation,route}: ProgramSessionC
               </View>
             )}
           />
+            
+            
+            {
+              movementsLength > 0 ? <Text style={{
+                fontSize: 20,
+                color: "white",
+                fontWeight: "bold",
+                marginTop: 40,
+              }}>Movements</Text> : null
+            }
+            <View style = {{justifyContent: 'center', alignContent: 'center'}}>
+            {
+              watch('movements').filter(movement => movement.section === 'warmup').length != 0 ? <Text style={{
+                fontSize: 16,
+                color: "white",
+                fontWeight: "bold"                
+              }}>Warm up</Text> : null
+            }
+            </View>
+            {                            
+              watch('movements').filter(movement => movement.section === 'warmup').map(data =>(
+                <MovementComponent movement = {data} />
+              ))              
+            }
+            <View style = {{justifyContent: 'center', alignContent: 'center'}}>
+             {
+              watch('movements').filter(movement => movement.section === 'main').length != 0 ? <Text style={{
+                fontSize: 16,
+                color: "white",
+                fontWeight: "bold"                
+              }}>Main movement(s)</Text> : null
+            }
+            </View>
+            {
+              watch('movements').filter(movement => movement.section === 'main').map(data =>(
+                <MovementComponent movement = {data} />
+              ))
+            }            
+             {
+              watch('movements').filter(movement => movement.section === 'post').length != 0 ? <Text style={{
+                fontSize: 16,
+                color: "white",
+                fontWeight: "bold"                
+              }}>Post Movement(s)</Text> : null
+            }
+            <View style = {{justifyContent: 'center', alignContent: 'center'}}>
+            {
+              watch('movements').filter(movement => movement.section === 'post').map(data =>(
+                <MovementComponent movement = {data} />
+              ))
+            }
+            </View> 
             
           </SafeAreaView>
           <View>
