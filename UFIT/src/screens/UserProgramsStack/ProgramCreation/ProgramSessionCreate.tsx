@@ -18,8 +18,13 @@ import { useForm, Controller, useFieldArray } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useRoute } from "@react-navigation/native";
-type ProgramsMainScreenProps = {
+import { RouteProp } from "@react-navigation/native";
+
+export type ProgramSessionCreateRouteProp = RouteProp<StackParamList, 'Create a Session'>;
+
+type ProgramSessionCreateProps = {
   navigation: NativeStackNavigationProp<StackParamList, "User Programs">;
+  route: ProgramSessionCreateRouteProp;
 };
 
 interface SessionData {
@@ -28,10 +33,9 @@ interface SessionData {
   movements: Object[];
 }
 
-export default function ProgramSessionCreate({navigation}: ProgramsMainScreenProps) {
-  // Form state management + form validation
-  const route = useRoute();
-  const {addSession} = route.params || function(data:any){console.log(data)};
+export default function ProgramSessionCreate({navigation,route}: ProgramSessionCreateProps) {
+  // Form state management + form validation  
+  const {addSession} = route.params;
   
   const methods = useForm<SessionData>({
     defaultValues: {
@@ -77,9 +81,12 @@ export default function ProgramSessionCreate({navigation}: ProgramsMainScreenPro
 
   const onSessionSubmit = (data:any) => {    
     // use passed by function to store in programs sessions array
+    console.log('Form Data1:', data);
     addSession(data);
+    // navigation.goBack();
     navigation.navigate("Create a Program");
-    console.log('Form Data:', data);
+    console.log(data)
+
   }
 
   // const [sessionName, onChangeSessionName] = React.useState("");
@@ -175,7 +182,7 @@ export default function ProgramSessionCreate({navigation}: ProgramsMainScreenPro
               color="orange"
               onPress={() => {
                 console.log("Adding Movement to program");
-                navigation.navigate("Create a Movement", {addMovement});
+                navigation.navigate("Create a Movement", {addMovement: addMovement, addSession: addSession});
               }}
             />
 
