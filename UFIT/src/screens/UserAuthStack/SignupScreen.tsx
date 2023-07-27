@@ -1,9 +1,27 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, Alert } from 'react-native';
+import { View, TextInput, Button, Alert, TouchableOpacity, Text } from 'react-native';
+import {loginStyles} from '../style';
+import Logo from '../../components/ufitsvg';
+import LinearGradient from '../../components/LinearGradient';
+import { RouteProp } from '@react-navigation/native';
+import { createNativeStackNavigator, NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { StackParamList } from '../UserAuth';
 
-const SignupScreen: React.FC = () => {
+interface SignupScreenProps {
+  route: RouteProp<StackParamList, 'Signup'>;
+  navigation: NativeStackNavigationProp<StackParamList, 'Signup'>;
+}
+
+export default function SignupScreen({ route, navigation }: SignupScreenProps) {
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  
+
+  
 
   const handleSignup = () => {
     // Check if the username and password meet your requirements
@@ -30,21 +48,72 @@ const SignupScreen: React.FC = () => {
   };
 
   return (
-    <View>
+    <LinearGradient
+    top="#FCC064"
+    bottom="#EA9CFD"
+    style={{ minHeight: "100%" }}
+  >
+<View style={loginStyles.viewContainer}>
+      <View style={{height:350, alignItems: 'center', justifyContent: 'center', marginBottom: -70, marginTop: -300}}>
+        <Logo />
+        </View>
+
       <TextInput
-        placeholder="Username"
-        value={username}
+        style={loginStyles.inputContainer}
+        placeholder="First Name"
+        value={firstName}
         onChangeText={setUsername}
       />
       <TextInput
+        style={loginStyles.inputContainer}
+        placeholder="Last Name"
+        secureTextEntry
+        value={lastName}
+        onChangeText={setPassword}
+      />
+        <TextInput
+        style={loginStyles.inputContainer}
+        placeholder="Phone Number"
+        secureTextEntry
+        value={phoneNumber}
+        onChangeText={setPassword}
+      />
+        <TextInput
+        style={loginStyles.inputContainer}
+        placeholder="Email"
+        secureTextEntry
+        value={email}
+        onChangeText={setPassword}
+      />
+        <TextInput
+        style={loginStyles.inputContainer}
+        placeholder="Username"
+        secureTextEntry
+        value={username}
+        onChangeText={setPassword}
+      />
+        <TextInput
+        style={loginStyles.inputContainer}
         placeholder="Password"
         secureTextEntry
         value={password}
         onChangeText={setPassword}
       />
-      <Button title="Sign up" onPress={handleSignup} />
+      <TouchableOpacity 
+        onPress={handleSignup}
+        style={{width: '90%'}} 
+      >
+        <View style={loginStyles.buttonContainer}>
+          <Text
+          style={{color: 'white', fontWeight: 'bold'}}>Signup</Text>
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity 
+        onPress={() => navigation.navigate('Login')} 
+      >
+        <Text>Already have an account? Log in here!</Text>
+      </TouchableOpacity>
     </View>
+    </LinearGradient>
   );
 };
-
-export default SignupScreen;
