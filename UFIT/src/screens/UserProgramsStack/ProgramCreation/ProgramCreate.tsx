@@ -26,7 +26,7 @@ type ProgramsMainScreenProps = {
 
 export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
   const { control, handleSubmit, getValues, setValue } = useFormContext();
-  
+
   const addSession = (session:object) => {
     console.log("Adding session");
     const sessions = getValues('sessions') || [];
@@ -40,7 +40,7 @@ export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
 
   const onSubmit = (data:any) => {            
     console.log('Form Data:', data);
-    navigation.navigate("Create a Session", {addSession});
+    navigation.navigate("Create a Session", {addSession: addSession});
   };
 
   return (

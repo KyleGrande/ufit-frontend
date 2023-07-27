@@ -13,9 +13,12 @@ import { useForm, Controller } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useRoute } from "@react-navigation/native";
+import { RouteProp } from "@react-navigation/native";
 
-type ProgramsMainScreenProps = {
+export type ProgramMovementCreateRouteProp = RouteProp<StackParamList, 'Create a Movement'>;
+type ProgramMovementCreateProps = {
   navigation: NativeStackNavigationProp<StackParamList, "User Programs">;
+  route: ProgramMovementCreateRouteProp;
 };
 
 // Movement Form Schema
@@ -40,14 +43,13 @@ interface MovementData {
 }
 
 export default function ProgramMovementCreate({
-  navigation
-}: ProgramsMainScreenProps) {
-  
-  const route = useRoute();
+  navigation, route
+}: ProgramMovementCreateProps) {    
   // add Movement to session data
   const {addMovement} = route.params;
 
   const onSubmit = (data:any) => {
+    console.log(data);
     addMovement(data);
     navigation.navigate("Create a Session");
   }
