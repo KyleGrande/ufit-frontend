@@ -30,7 +30,7 @@ const FormProvider = ({children}) => {
             programName: '',
             programDescription: '',
             programCategory: "undefined",   
-            // sessions:[]         
+            sessions:[]         
         },
         resolver: yupResolver(yup.object().shape({
             programName: yup.string().required('First name is Required'),
