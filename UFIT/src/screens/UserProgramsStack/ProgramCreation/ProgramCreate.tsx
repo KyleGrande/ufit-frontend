@@ -14,10 +14,11 @@ import {
   NativeStackNavigationProp,
 } from "@react-navigation/native-stack";
 import { StackParamList } from "../../UserPrograms";
-import { useForm, Controller } from 'react-hook-form';
+import { useForm, Controller, Form } from 'react-hook-form';
 import { useFormContext } from "../../StateContext";
 import MovementComponent from "../components/MovementCard";
 import SessionComponent from "../components/SessionComponent";
+import FormErrorMsg from "../components/FormErrorMsg";
 // TODO:
 // Add styling to style sheet file
 // Add more white space for easy scrolling experience
@@ -39,9 +40,9 @@ export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
     setValue('sessions', sessions.filter((_,i)=> i !== index));
   }
 
-  const onSubmit = (data:any) => {            
-    console.log('Form Data:', data);
-    navigation.navigate("Create a Session", {addSession: addSession});
+  const onSubmit = (data:any) => {     
+    console.log('Send data to database');
+    console.log('Form Data:', data);    
   };
 
   return (
@@ -85,13 +86,9 @@ export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
                 placeholder="Program Name"
                 placeholderTextColor = "white"
               />
-              {/* 
-              TODO: 
-              - Get 'Yup' resolver message to show up on form failure
-              */}
-            {fieldState?.error && (
-              <Text style={{ fontSize: 20, color: 'red' }}>{fieldState.error.message}</Text>
-            )}            
+              {fieldState?.error && (
+                <FormErrorMsg fieldState = {fieldState} />                
+              )}           
             </View>
             )}
           />
@@ -134,7 +131,7 @@ export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
                 />
 
                 {fieldState?.error && (
-                <Text style={{ fontSize: 20, color: 'red' }}>{fieldState.error.message}</Text>
+                  <FormErrorMsg fieldState = {fieldState} />                
                 )} 
 
               </View>
@@ -177,10 +174,11 @@ export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
                   <Picker.Item label="Strength" value="strength" />
                   <Picker.Item label="Yoga" value="yoga" />
                 </Picker>
-
+                
                 {fieldState?.error && (
-                  <Text style={{ fontSize: 20, color: 'red' }}>{fieldState.error.message}</Text>
-                )}
+                <FormErrorMsg fieldState = {fieldState} />                
+                )} 
+                
                 </View>
               )}
             />
@@ -220,19 +218,20 @@ export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
             <Button
               title="Add Session"
               color="orange"
-              onPress={handleSubmit(onSubmit)}              
+              onPress={() => {
+                // const sessions = getValues('sessions') || []; // get sessions or default to empty array
+                // const movements = sessions.map(session => session.movements);
+                // const allMovements = movements.flat();
+                // console.log('Form Data:', getValues());
+                // console.log('All Movements:', allMovements);
+                navigation.navigate("Create a Session", {addSession: addSession});
+              }}              
             />
 
             <Button
               title="Publish Program"
               color="orange"
-              onPress={()=>{
-                const sessions = getValues('sessions') || []; // get sessions or default to empty array
-                const movements = sessions.map(session => session.movements);
-                const allMovements = movements.flat();
-                console.log('Form Data:', getValues());
-                console.log('All Movements:', allMovements);
-              }}
+              onPress={handleSubmit(onSubmit)}
             />
           </View>
         </ScrollView>
