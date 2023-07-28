@@ -5,7 +5,7 @@ import { View, Text } from 'react-native';
 const MovementComponent = ({ movement }:any) => {
     return (
         
-            <View style = {{flexDirection: 'row', justifyContent: 'space-between', backgroundColor: 'white', width: 300, padding: 20, margin: 10}}>
+            <View style = {{flexDirection: 'row', justifyContent: 'space-between', backgroundColor: 'white', width: 300, padding: 20, margin: 10, borderRadius: 20}}>
                 <View>
                     <Text>{movement.movementName}</Text>
                     
