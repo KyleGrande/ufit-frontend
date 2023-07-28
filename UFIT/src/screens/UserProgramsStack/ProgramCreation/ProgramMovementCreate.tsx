@@ -64,7 +64,7 @@ export default function ProgramMovementCreate({
     formState: { errors }
   } = useForm<MovementData>({
     defaultValues: {
-      section: "", // TODO: set to warmup, post is used as test
+      section: "warmup",
       movementName: "",
       movementDescription: "",
       movementLink: "",  
