@@ -16,8 +16,8 @@ import {
 import { StackParamList } from "../../UserPrograms";
 import { useForm, Controller } from 'react-hook-form';
 import { useFormContext } from "../../StateContext";
-import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
-
+import MovementComponent from "../components/MovementCard";
+import SessionComponent from "../components/SessionComponent";
 // TODO:
 // Add styling to style sheet file
 // Add more white space for easy scrolling experience
@@ -26,7 +26,7 @@ type ProgramsMainScreenProps = {
 };
 
 export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
-  const { control, handleSubmit, getValues, setValue } = useFormContext();
+  const { control, handleSubmit, getValues, setValue, watch } = useFormContext();
 
   const addSession = (session:object) => {
     console.log("Adding session");
@@ -45,7 +45,7 @@ export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
   };
 
   return (
-    <View style={creatingStyles.viewContainer}>
+    <View style={{...creatingStyles.viewContainer,paddingRight: 20}}>
       <View style={{ paddingLeft: 15 }}>
         <ScrollView>
           <Text style={{ fontSize: 30, fontWeight: "bold", color: "white" }}>
@@ -210,6 +210,12 @@ export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
               (You need a minimum of 1 session to publish)
           </Text>
           
+            {
+              watch('sessions').map(ufit => (
+                <SessionComponent session = {ufit} />
+              ))
+            }
+
           <View style={{justifyContent: 'center'}}>
             <Button
               title="Add Session"
