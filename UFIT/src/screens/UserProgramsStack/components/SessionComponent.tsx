@@ -14,7 +14,7 @@ const SessionComponent = ({ session }:any) => {
                 paddingBottom: 0,
             }}
             >
-                {session.sessionName}                
+                {session.name}
             </Text>
                 <View style = {{backgroundColor: "white", borderRadius: 20}}>
                 {session.movements.map((movement:any) => (
