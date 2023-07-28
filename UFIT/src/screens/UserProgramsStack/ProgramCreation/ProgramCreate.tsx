@@ -40,7 +40,7 @@ export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
     setValue('sessions', [...sessions, session ]);
   }
 
-  const removeSession = (index:number) => {
+  const deleteSession = (index:number) => {
     const sessions = getValues('sessions') || [];
     setValue('sessions', sessions.filter((_,i)=> i !== index));
   }
