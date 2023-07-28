@@ -14,7 +14,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useRoute } from "@react-navigation/native";
 import { RouteProp } from "@react-navigation/native";
-
+import FormErrorMsg from "../components/FormErrorMsg";
 export type ProgramMovementCreateRouteProp = RouteProp<StackParamList, 'Create a Movement'>;
 type ProgramMovementCreateProps = {
   navigation: NativeStackNavigationProp<StackParamList, "User Programs">;
@@ -28,7 +28,7 @@ interface MovementData {
   movementName: string;
   movementDescription: string;
   movementLink: string | undefined; // Effect: resolver is underlined red   
-  trackingData: {
+  typeTracking: {
     trackingType: string;
     reps: string | undefined;
     sets: string | undefined;
@@ -49,8 +49,7 @@ export default function ProgramMovementCreate({
   const {addMovement} = route.params;
   const {addSession} = route.params;
 
-  const onSubmit = (data:any) => {
-    // console.log(data);
+  const onSubmit = (data:any) => {    
     addMovement(data);
     navigation.navigate("Create a Session", {addSession: addSession});
     console.log(data)
@@ -65,11 +64,11 @@ export default function ProgramMovementCreate({
     formState: { errors }
   } = useForm<MovementData>({
     defaultValues: {
-      section: "post", // TODO: set to warmup, post is used as test
-      movementName: "Hello World!",
-      movementDescription: "Cool",
-      movementLink: "youtube./com",  
-      trackingData: {
+      section: "", // TODO: set to warmup, post is used as test
+      movementName: "",
+      movementDescription: "",
+      movementLink: "",  
+      typeTracking: {
         trackingType: "setsreps",
         reps: "0",
         sets: "0",
@@ -88,7 +87,7 @@ export default function ProgramMovementCreate({
         movementName: yup.string().required("Movement name is required"),
         movementDescription: yup.string().required("Movement description is required"),
         movementLink: yup.string().notRequired(),        
-        trackingData: yup.object().shape({
+        typeTracking: yup.object().shape({
           trackingType: yup.string().required('Tracking Type Required'),
           reps: yup.string(),
           sets: yup.string(),
@@ -146,6 +145,9 @@ export default function ProgramMovementCreate({
                     <Picker.Item label="Main Movement" value="main" />
                     <Picker.Item label="Post Movement" value="post" />
                   </Picker>
+                  {fieldState?.error && (
+                    <FormErrorMsg fieldState = {fieldState} />                
+                  )} 
                 </View>
               )}
             />
@@ -180,6 +182,9 @@ export default function ProgramMovementCreate({
                 onChangeText={field.onChange}
                 value={field.value}                
               />
+                  {fieldState?.error && (
+                    <FormErrorMsg fieldState = {fieldState} />                
+                  )} 
               </View>
             )}
           />
@@ -189,7 +194,7 @@ export default function ProgramMovementCreate({
               rules = {{
                 required: true
               }}
-              name="trackingData.trackingType"
+              name="typeTracking.trackingType"
               render={({ field, fieldState }) => (
                 <View>
                     <Text style={{ fontSize: 20, color: "white", fontWeight: "bold" }}>
@@ -213,14 +218,16 @@ export default function ProgramMovementCreate({
                     <Picker.Item label="Timer" value="timer" />
                   </Picker>
 
-       
+                  {fieldState?.error && (
+                    <FormErrorMsg fieldState = {fieldState} />                
+                  )} 
                 </View>
               )}
             />
             
             <View>
               {
-              watch("trackingData.trackingType") == "setsreps" ? (
+              watch("typeTracking.trackingType") == "setsreps" ? (
                 <View style={{
                   flexDirection: "row",
                   alignItems: "stretch",
@@ -230,7 +237,7 @@ export default function ProgramMovementCreate({
                 
                 <Controller
                   control = {control}
-                  name="trackingData.sets"
+                  name="typeTracking.sets"
                   rules={{
                     required: true
                   }}
@@ -268,6 +275,9 @@ export default function ProgramMovementCreate({
                         <Picker.Item label="9" value="9" />
                         <Picker.Item label="10" value="10" />
                       </Picker>
+                      {fieldState?.error && (
+                        <FormErrorMsg fieldState = {fieldState} />                
+                      )} 
                     </View>
                   )}
                   />  
@@ -275,7 +285,7 @@ export default function ProgramMovementCreate({
                     
                 <Controller 
                   control = {control}
-                  name = "trackingData.reps"
+                  name = "typeTracking.reps"
                   rules = {{
                     required: true
                   }}
@@ -317,8 +327,10 @@ export default function ProgramMovementCreate({
                       <Picker.Item label="8" value="8" />
                       <Picker.Item label="9" value="9" />
                       <Picker.Item label="10" value="10" />
-
                     </Picker>
+                    {fieldState?.error && (
+                      <FormErrorMsg fieldState = {fieldState} />                
+                    )} 
                   </View>
                   )}
                 />
@@ -327,7 +339,7 @@ export default function ProgramMovementCreate({
               ):null}
 
               {
-              watch("trackingData.trackingType") == "rounds"
+              watch("typeTracking.trackingType") == "rounds"
                ? (
                 <View>
                   <View>
@@ -357,7 +369,7 @@ export default function ProgramMovementCreate({
                       rules = {{
                         required: true
                       }}
-                      name= "trackingData.rounds"
+                      name= "typeTracking.rounds"
                       render={({field, fieldState}) => (
                         <View style={{ width: "33%" }}>
                           <Text
@@ -392,6 +404,9 @@ export default function ProgramMovementCreate({
                             <Picker.Item label="9" value="9" />
                             <Picker.Item label="10" value="10" />
                           </Picker>
+                          {fieldState?.error && (
+                            <FormErrorMsg fieldState = {fieldState} />                
+                          )} 
                       </View>
                       )}
                       />
@@ -401,7 +416,7 @@ export default function ProgramMovementCreate({
                         rules = {{
                           required: true
                         }}
-                        name = "trackingData.roundMin"
+                        name = "typeTracking.roundMin"
                         render = {({field, fieldState}) => (
                           <View style={{ width: "33%" }}>
                             <Text
@@ -437,6 +452,9 @@ export default function ProgramMovementCreate({
                               <Picker.Item label="9" value="9" />
                               <Picker.Item label="10" value="10" />
                             </Picker>
+                            {fieldState?.error && (
+                              <FormErrorMsg fieldState = {fieldState} />                
+                            )} 
                           </View>
                         )}
                       />
@@ -446,7 +464,7 @@ export default function ProgramMovementCreate({
                       rules = {{
                         required: true
                       }}
-                      name="trackingData.roundSec"
+                      name="typeTracking.roundSec"
                       render={({field, fieldState}) => (
                         <View style={{ width: "33%" }}>
                         <Text
@@ -481,6 +499,9 @@ export default function ProgramMovementCreate({
                           <Picker.Item label="9" value="9" />
                           <Picker.Item label="10" value="10" />
                         </Picker>
+                        {fieldState?.error && (
+                          <FormErrorMsg fieldState = {fieldState} />                
+                        )} 
                       </View>
                       )}
                     />                      
@@ -516,7 +537,7 @@ export default function ProgramMovementCreate({
                         rules = {{
                           required: true
                         }}
-                        name= "trackingData.restMin"
+                        name= "typeTracking.restMin"
                         render={({field, fieldState}) => (
                           <View style={{ width: "33%" }}>
                             <Text
@@ -552,13 +573,16 @@ export default function ProgramMovementCreate({
                               <Picker.Item label="9" value="9" />
                               <Picker.Item label="10" value="10" />
                             </Picker>
+                            {fieldState?.error && (
+                              <FormErrorMsg fieldState = {fieldState} />                
+                            )} 
                           </View>
                         )}
                       />
                       
                       <Controller
                       control = {control}
-                      name = "trackingData.restSec"
+                      name = "typeTracking.restSec"
                       render = {({field, fieldState}) => (
                         <View style={{ width: "33%" }}>
                           <Text
@@ -593,6 +617,9 @@ export default function ProgramMovementCreate({
                             <Picker.Item label="9" value="9" />
                             <Picker.Item label="10" value="10" />
                           </Picker>
+                          {fieldState?.error && (
+                            <FormErrorMsg fieldState = {fieldState} />                
+                          )} 
                         </View>
                       )}
                       />
@@ -602,7 +629,7 @@ export default function ProgramMovementCreate({
                 </View>
               ): null}
 
-              {watch("trackingData.trackingType") == "timer" ? (
+              {watch("typeTracking.trackingType") == "timer" ? (
                 <View>
                   <View
                     style={{
@@ -613,7 +640,7 @@ export default function ProgramMovementCreate({
                   >
                     <Controller 
                       control = {control}
-                      name = "trackingData.genMin"
+                      name = "typeTracking.genMin"
                       render={({field, fieldState}) => (
                         <View style={{ width: "50%" }}>
                           <Text
@@ -648,13 +675,16 @@ export default function ProgramMovementCreate({
                             <Picker.Item label="9" value="9" />
                             <Picker.Item label="10" value="10" />
                           </Picker>
+                          {fieldState?.error && (
+                            <FormErrorMsg fieldState = {fieldState} />                
+                          )} 
                         </View>
                       )}                      
                     />
                     
                     <Controller
                       control={control}
-                      name="trackingData.restSec"
+                      name="typeTracking.restSec"
                       render={({field,fieldState})=>(
                         <View style={{ width: "50%" }}>
                           <Text
@@ -693,6 +723,9 @@ export default function ProgramMovementCreate({
                             <Picker.Item label="9" value="9" />
                             <Picker.Item label="10" value="10" />
                           </Picker>
+                          {fieldState?.error && (
+                            <FormErrorMsg fieldState = {fieldState} />                
+                          )} 
                         </View>
                       )}
                     />
@@ -729,6 +762,9 @@ export default function ProgramMovementCreate({
                   multiline = {true}
                   numberOfLines={4}
                 />
+                {fieldState?.error && (
+                    <FormErrorMsg fieldState = {fieldState} />                
+                  )} 
               </View>
             )}
           />
@@ -767,6 +803,9 @@ export default function ProgramMovementCreate({
                   onChangeText={field.onChange}
                   value={field.value}
                 />
+                {fieldState?.error && (
+                    <FormErrorMsg fieldState = {fieldState} />                
+                )} 
             </View>
             )}
           />
