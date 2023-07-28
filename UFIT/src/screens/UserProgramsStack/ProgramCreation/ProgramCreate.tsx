@@ -19,6 +19,11 @@ import { useFormContext } from "../../StateContext";
 import MovementComponent from "../components/MovementCard";
 import SessionComponent from "../components/SessionComponent";
 import FormErrorMsg from "../components/FormErrorMsg";
+import { LogBox } from 'react-native';
+
+LogBox.ignoreLogs([
+  'Non-serializable values were found in the navigation state',
+]);
 // TODO:
 // Add styling to style sheet file
 // Add more white space for easy scrolling experience
