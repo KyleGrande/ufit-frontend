@@ -33,7 +33,7 @@ const FormProvider = ({children}) => {
             sessions:[]         
         },
         resolver: yupResolver(yup.object().shape({
-            programName: yup.string().required('First name is Required'),
+            programName: yup.string().required('Program name is Required'),
             programDescription: yup.string().required('Program Description is Required'),
             programCategory: yup.string().
             required('Please select an option').
@@ -42,7 +42,7 @@ const FormProvider = ({children}) => {
                 .array()
                 .of(
                     yup.object()
-                ),                
+                ).min(1, 'Minimum of 1 session is required to publish a program'),
         }))
     });    
     
