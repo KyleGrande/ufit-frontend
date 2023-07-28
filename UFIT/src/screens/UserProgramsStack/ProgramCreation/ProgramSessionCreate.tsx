@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import {
   View,
   Text,
@@ -17,10 +16,9 @@ import { Picker } from "@react-native-picker/picker";
 import { useForm, Controller, useFieldArray } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useRoute } from "@react-navigation/native";
 import { RouteProp } from "@react-navigation/native";
 import MovementComponent from "../components/MovementCard";
-
+import FormErrorMsg from "../components/FormErrorMsg";
 export type ProgramSessionCreateRouteProp = RouteProp<StackParamList, 'Create a Session'>;
 
 type ProgramSessionCreateProps = {
@@ -29,8 +27,8 @@ type ProgramSessionCreateProps = {
 };
 
 interface SessionData {
-  sessionName: string;
-  restDays: string;
+  name: string;
+  restDays: string;  
   movements: Object[];
 }
 
@@ -39,19 +37,18 @@ export default function ProgramSessionCreate({navigation,route}: ProgramSessionC
   const {addSession} = route.params;
   
   const methods = useForm<SessionData>({
-    defaultValues: {
-      sessionName: "Hello Ricardo",
-      restDays: "3",      
+    defaultValues: {      
+      restDays: "0",      
       movements: []
     },
     resolver: yupResolver(
       yup.object().shape({
-        sessionName: yup.string().required("Session name is required"),
+        name: yup.string().required("Session name is required"),
         restDays: yup.string().required("Rest days are required"),
         movements: yup
           .array()
           .of(yup.object())
-          // .min(1, "Minimum of 1 movement is required") // test without movements         
+          .min(1, "Minimum of 1 movement is required") // test without movements         
       })
     ),
   });
@@ -84,17 +81,13 @@ export default function ProgramSessionCreate({navigation,route}: ProgramSessionC
 
   const onSessionSubmit = (data:any) => {    
     // use passed by function to store in programs sessions array
-    console.log('Form Data1:', data);
-    addSession(data);
-    // navigation.goBack();
+    console.log(data); // logging  
+    addSession(data);    
     navigation.navigate("Create a Program");
-    console.log(data)
-
   }
+  
   var movementsLength = watch('movements').length;
-  // const [sessionName, onChangeSessionName] = React.useState("");
-  //const [restdays, onChangeRestDay] = React.useState("0");
-
+  
   return (
     <View style={creatingStyles.viewContainer}>
       <View style={{ paddingLeft: 15 }}>
@@ -108,7 +101,7 @@ export default function ProgramSessionCreate({navigation,route}: ProgramSessionC
               rules={{
                 required: true,
               }}
-              name="sessionName"
+              name="name"
               render={({ field, fieldState }) => (
                 <View>
                   <Text
@@ -135,6 +128,11 @@ export default function ProgramSessionCreate({navigation,route}: ProgramSessionC
                     onChangeText={field.onChange}
                     value={field.value}
                   />
+                  
+                  {fieldState?.error && (
+                    <FormErrorMsg fieldState = {fieldState} />                
+                  )} 
+                
                 </View>
               )}
             />
@@ -174,6 +172,11 @@ export default function ProgramSessionCreate({navigation,route}: ProgramSessionC
                 <Picker.Item label="5" value="5" />
                 <Picker.Item label="6" value="6" />
               </Picker>
+              
+              {fieldState?.error && (
+                <FormErrorMsg fieldState = {fieldState} />                
+              )}                 
+              
               </View>
             )}
           />
