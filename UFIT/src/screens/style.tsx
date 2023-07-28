@@ -127,6 +127,14 @@ export const trackingStyles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
+    movementName: {
+        fontSize: 20,
+        // fontWeight: 'bold',
+        color: 'white',
+        padding: 5,
+        marginLeft: 20,
+        marginTop: 10,
+    },
 });
 
 export const creatingStyles = StyleSheet.create({
@@ -193,7 +201,7 @@ export const repBubbleStyles = StyleSheet.create({
         height: 35,
         borderRadius: 50,
         borderWidth: 1,
-        borderColor: 'gray',
+        borderColor: 'white',
         justifyContent: 'center',
         alignItems: 'center',
     },

@@ -63,7 +63,7 @@ export default function TrackProgramScreen({ route, navigation }: TrackProgramSc
                                 const sessionMovements = session.movementId?.map((movementId) => 
                                     movements.find((m) => m._id === movementId)
                                 ).filter(Boolean);
-                                navigation.navigate('Track a Session', { session, movements: sessionMovements })}
+                                navigation.navigate('Track a Session', { program, session, movements: sessionMovements })}
                             }}
                         >
                             {session.movementId?.map((movementId) => {
