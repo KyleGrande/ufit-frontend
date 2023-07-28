@@ -13,14 +13,14 @@ const MovementComponent = ({ movement }:any) => {
 
                 <View>
                     <Text>
-                        {movement.trackingType.trackingType === "setsreps" ? (
+                        {movement.typeTracking.trackingType === "setsreps" ? (
                             <Text>{movement.trackingType.sets} X {movement.trackingType.reps}</Text>
                         ) : null}
-                        {movement.trackingType.trackingType === "rounds" ? (
+                        {movement.typeTracking.trackingType === "rounds" ? (
                             <Text>Rounds: {movement.trackingType.rounds}</Text>
                         ) : null}
-                        {movement.trackingType.trackingType === "timer" ? (
-                            <Text>{movement.trackingType.genMin} Min {movement.trackingType.genSec} sec</Text>
+                        {movement.typeTracking.trackingType === "timer" ? (
+                            <Text>{movement.typeTracking.genMin} Min {movement.typeTracking.genSec} sec</Text>
                         ) : null}
                     </Text>
                 </View>
