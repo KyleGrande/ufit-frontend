@@ -12,6 +12,7 @@ const SessionComponent = ({ session }:any) => {
                 fontWeight: "bold",
                 marginBottom: 0,
                 paddingBottom: 0,
+                marginTop: 16
             }}
             >
                 {session.name}
