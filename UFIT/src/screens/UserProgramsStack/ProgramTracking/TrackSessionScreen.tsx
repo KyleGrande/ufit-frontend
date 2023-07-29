@@ -29,6 +29,8 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps){
     const [selectedMovement, setSelectedMovement] = useState<any>(null);
     const [modalVisible, setModalVisible] = useState(false);
 
+    const [completedMovements, setCompletedMovements] = useState(new Set<string>());
+
     const handleOnPress = (movement: any) => {
         setSelectedMovement(movement);
         setModalVisible(true);
@@ -37,6 +39,8 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps){
         console.log('onEnd');
         setTrackingData({...trackingData, [movement]: {roundsCompleted, timeRemaining}});
         console.log(trackingData)
+        setCompletedMovements(new Set([...completedMovements, movement]));
+
     }
 
 
@@ -73,8 +77,9 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps){
                         }
                         {movement.typeTracking.type === 'timer' &&
                             <TouchableOpacity
-                                style = {[trackingStyles.timerButton]}
-                                onPress={() => gotoTimer(movement.typeTracking.time ?? 0, movement.movementName, movement.typeTracking.rounds ?? 0)}>
+                            style = {completedMovements.has(movement.movementName) ? [trackingStyles.timerButton, {backgroundColor: '#bbbbbb'}] : trackingStyles.timerButton}
+                            onPress={() => gotoTimer(movement.typeTracking.time ?? 0, movement.movementName, movement.typeTracking.rounds ?? 0)}
+                            disabled={completedMovements.has(movement.movementName)}>
                             <View>
                                 <Text>
                                     Timer
