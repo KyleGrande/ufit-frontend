@@ -24,7 +24,7 @@ export const useFormContext = () => {
     return context;
 }
 
-const FormProvider = ({children}) => {
+const FormProvider = ({children}:any) => {
     const methods = useForm<FormData>({
         defaultValues: {
             programName: '',
@@ -46,13 +46,8 @@ const FormProvider = ({children}) => {
         }))
     });    
     
-    const sessionsFieldArray = useFieldArray({
-        control: methods.control,
-        name: 'sessions'
-    });
-
     return (
-        <FormContext.Provider value = {{...methods, ...sessionsFieldArray }}>
+        <FormContext.Provider value = {{...methods }}>
             {children}
         </FormContext.Provider>
     )    

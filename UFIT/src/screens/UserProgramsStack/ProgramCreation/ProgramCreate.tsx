@@ -14,9 +14,8 @@ import {
   NativeStackNavigationProp,
 } from "@react-navigation/native-stack";
 import { StackParamList } from "../../UserPrograms";
-import { useForm, Controller, Form } from 'react-hook-form';
+import { useForm, Controller, Form, useFieldArray } from 'react-hook-form';
 import { useFormContext } from "../../StateContext";
-import MovementComponent from "../components/MovementCard";
 import SessionComponent from "../components/SessionComponent";
 import FormErrorMsg from "../components/FormErrorMsg";
 import { LogBox } from 'react-native';
@@ -33,7 +32,11 @@ type ProgramsMainScreenProps = {
 
 export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
   const { control, handleSubmit, getValues, setValue, watch } = useFormContext();
-
+  const sessionsFieldArray = useFieldArray({
+    control: control,
+    name: 'sessions'
+  });
+  const { fields } = sessionsFieldArray;
   const addSession = (session:object) => {
     console.log("Adding session");
     const sessions = getValues('sessions') || [];
