@@ -11,7 +11,7 @@ import ProgramsMainScreen from "./UserProgramsStack/ProgramsMainScreen";
 import TrackProgramScreen from "./UserProgramsStack/ProgramTracking/TrackProgramScreen";
 import TrackSessionScreen from "./UserProgramsStack/ProgramTracking/TrackSessionScreen";
 import TimerScreen from "./UserProgramsStack/ProgramTracking/TimerScreen";
-import { Program, Session } from "../api";
+import { Program, Session, Movement, typetracking } from "../api";
 
 export type StackParamList = {
   "User Programs": undefined; // will be UserPrograms from the DB eventually
@@ -19,7 +19,7 @@ export type StackParamList = {
   "Create a Session": undefined;
   "Create a Movement": undefined;
   "Track a Program": { program: Program }; //takes a program object maybe in the future userID?
-  "Track a Session": { program: Program, session: Session, movements: any }; //takes a session object maybe in the future userID?
+  "Track a Session": { program: Program, session: Session, movements:  Movement[] }; //takes a session object maybe in the future userID?
   'TimerScreen': {time: number, movementName: string, rounds: number};
 };
 

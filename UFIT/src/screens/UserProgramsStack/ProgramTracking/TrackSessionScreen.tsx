@@ -17,7 +17,6 @@ export type TrackSessionScreenRouteProp = RouteProp<StackParamList, 'Track a Ses
 type TrackSessionScreenProps = {
     route: TrackSessionScreenRouteProp;
 };
-
 export default function TrackSessionScreen({ route }: TrackSessionScreenProps){
     const { program, session, movements } = route.params;
     const [trackingData, setTrackingData] = useState({});
@@ -27,9 +26,6 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps){
     const [modalVisible, setModalVisible] = useState(false);
 
     const handleOnPress = (movement: any) => {
-        console.log(program);
-        console.log(session);
-        console.log(movement);
         setSelectedMovement(movement);
         setModalVisible(true);
     }
@@ -52,7 +48,7 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps){
             <ScrollView>
                 {movements.map(movement => (
                     //map movements
-                    <View key={movement._id}>
+                    <View key={movement._id.$oid}>
                         <View style={[{flexDirection: 'row', alignItems:'center'}]}>
                         <Text style={trackingStyles.movementName}>{movement.movementName}</Text>
                         <TouchableOpacity style={[{ justifyContent: 'center', height:35, width:40}]} onPress={() => handleOnPress(movement)}>

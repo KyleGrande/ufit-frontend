@@ -19,7 +19,7 @@ export default function DiscoverProgramScreen({ route, navigation }: DiscoverPro
     const { program } = route.params;
     const [movements , setMovements] = useState<any[]>([]);
 
-    const getMovements = async (ids: string[]) => {
+    const getMovements = async (ids: {$oid:string}[]) => {
         try {
             const response = await API.getMovementByIds(ids);
             console.log('response.data', response.data.data);
@@ -28,14 +28,12 @@ export default function DiscoverProgramScreen({ route, navigation }: DiscoverPro
             console.log(error);
         }
     }
-
     useEffect(() => {
-        let movementIds = [];
+        let movementIds:{$oid:string}[] = [];
         program.session.forEach((session) => {
             movementIds.push(...session.movementId);
         } );
         getMovements(movementIds);
-        console.log(movementIds);
     }, [program]);
 
 
