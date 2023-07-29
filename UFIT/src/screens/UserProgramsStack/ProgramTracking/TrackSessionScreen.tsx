@@ -1,15 +1,15 @@
 import React, {useState} from "react";
-import { Text, View, ScrollView, Pressable, TouchableOpacity, Modal } from "react-native";
-import { RouteProp } from '@react-navigation/native';
+import { Text, View, ScrollView, TouchableOpacity, Modal } from "react-native";
+import { RouteProp, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { StackParamList } from "../../UserPrograms";
-import { trackingStyles } from '../../style';
-import RepBubble from '../../../components/RepBubble'
-import { getGradientColors } from "../../../components/getGradient";
-import LinearGradient from "../../../components/LinearGradient";
-import { useNavigation } from "@react-navigation/native";
 import { AntDesign } from '@expo/vector-icons'; 
+
+import { StackParamList } from "../../UserPrograms";
+import LinearGradient from "../../../components/LinearGradient";
+import { getGradientColors } from "../../../components/getGradient";
 import { MovementInfoModal } from "../../../components/MovementInfoModal";
+import RepBubble from '../../../components/RepBubble'
+import { trackingStyles } from '../../style';
 
 // used for accessing route parameters in a type-safe way
 export type TrackSessionScreenRouteProp = RouteProp<StackParamList, 'Track a Session'>;

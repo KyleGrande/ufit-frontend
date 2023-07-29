@@ -1,13 +1,15 @@
 import React, {useState, useEffect} from "react";
-import { Text, View, ScrollView, Pressable, TouchableOpacity } from "react-native";
+import { Text, View, ScrollView, TouchableOpacity } from "react-native";
 import { RouteProp } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+
 import { StackParamList } from "../../UserPrograms";
-import { trackingStyles, discoverProgramStyles } from '../../style';
-import { Session } from "../../../api";
-import { createNativeStackNavigator, NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { getGradientColors } from "../../../components/getGradient";
 import LinearGradient from "../../../components/LinearGradient";
-import API, {Movement, typetracking}from "../../../api";
+import { getGradientColors } from "../../../components/getGradient";
+
+import API, {Session, Movement}from "../../../api";
+import { trackingStyles, discoverProgramStyles } from '../../style';
+
 // used for accessing route parameters in a type-safe way
 export type TrackProgramScreenRouteProp = RouteProp<StackParamList, 'Track a Program'>;
 
@@ -21,7 +23,7 @@ export default function TrackProgramScreen({ route, navigation }: TrackProgramSc
     const { program } = route.params;
     const [movements , setMovements] = useState<Movement[]>([]);
 
-    const getMovements = async (ids: {$oid:string[]}) => {
+    const getMovements = async (ids: {$oid:string}[]) => {
         try {
             const response = await API.getMovementByIds(ids);
             console.log('response.data', response.data.data);
@@ -31,7 +33,7 @@ export default function TrackProgramScreen({ route, navigation }: TrackProgramSc
         }
     }
     useEffect(() => {
-        let movementIds: {$oid: string}[] = [];
+        let movementIds:{$oid:string}[] = [];
         program.session.forEach((session) => {
             movementIds.push(...session.movementId);
         } );

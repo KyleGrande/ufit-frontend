@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Button, Text, View, ScrollView, Pressable, TouchableOpacity } from "react-native";
+import { Button, Text, View, ScrollView, TouchableOpacity } from "react-native";
 import { RouteProp } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+
 import { StackParamList } from "../UserDiscover";
-import { programStyles, trackingStyles, discoverProgramStyles } from '../style';
-import { createNativeStackNavigator, NativeStackNavigationProp } from '@react-navigation/native-stack';
-import API, { Program, Session } from "../../api";
 import LinearGradient from "../../components/LinearGradient";
 import { getGradientColors } from "../../components/getGradient";
+
+import API, { Session } from "../../api";
+import { programStyles, trackingStyles, discoverProgramStyles } from '../style';
+
 // used for accessing route parameters in a type-safe way
 export type DiscoverProgramScreenRouteProp = RouteProp<StackParamList, 'Program'>;
 

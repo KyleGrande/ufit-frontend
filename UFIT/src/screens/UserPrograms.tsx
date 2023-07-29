@@ -1,9 +1,6 @@
 import * as React from "react";
-// import { Text, View, Button, StyleSheet } from 'react-native';
-import {
-  createNativeStackNavigator,
-  NativeStackNavigationProp,
-} from "@react-navigation/native-stack";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
 import ProgramCreate from "./UserProgramsStack/ProgramCreation/ProgramCreate";
 import ProgramSessionCreate from "./UserProgramsStack/ProgramCreation/ProgramSessionCreate";
 import ProgramMovementCreate from "./UserProgramsStack/ProgramCreation/ProgramMovementCreate";
@@ -11,7 +8,8 @@ import ProgramsMainScreen from "./UserProgramsStack/ProgramsMainScreen";
 import TrackProgramScreen from "./UserProgramsStack/ProgramTracking/TrackProgramScreen";
 import TrackSessionScreen from "./UserProgramsStack/ProgramTracking/TrackSessionScreen";
 import TimerScreen from "./UserProgramsStack/ProgramTracking/TimerScreen";
-import { Program, Session, Movement, typetracking } from "../api";
+
+import { Program, Session, Movement } from "../api";
 
 export type StackParamList = {
   "User Programs": undefined; // will be UserPrograms from the DB eventually

@@ -1,13 +1,10 @@
 import React, {useEffect, useState} from "react";
-import { Text, View, ScrollView, Pressable, TouchableOpacity } from "react-native";
+import { Text, View, TouchableOpacity } from "react-native";
 import { RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { StackParamList } from "../../UserPrograms";
-import { timerStyles, FeedStyles } from '../../style';
-import RepBubble from '../../../components/RepBubble'
-// import { Session } from "../../../api";
-import { useNavigation } from "@react-navigation/native";
 import LinearGradient from "../../../components/LinearGradient";
+import { timerStyles } from '../../style';
 
 
 export type TimerScreenRouteProp = RouteProp<StackParamList, 'TimerScreen'>;
