@@ -19,6 +19,7 @@ type TimerScreenProps = {
 
 export default function TimerScreen({route, navigation}: TimerScreenProps){
     const {time} = route.params;
+    const {rounds} = route.params;
     const {movementName} = route.params;
     const [seconds, setSeconds] = useState(time); 
     const [isRunning, setIsRunning] = useState(false);
@@ -37,29 +38,29 @@ export default function TimerScreen({route, navigation}: TimerScreenProps){
     
     return (
         <LinearGradient
-        top="#ffffff"
-        bottom="#000000"
+        top="#404040"
+        bottom="#252525"
         style={{ minHeight: "100%" }}
         >
-        {/* <View style={[FeedStyles.viewContainer]}>
-        <View>
-            <Text style={[FeedStyles.titleBarText]}>
-                {movementName}
-            </Text>
-        </View> */}
-        <View style={timerStyles.viewContainer}>
-            <TouchableOpacity
-                style={{padding:20, borderRadius: 10}}
-                onPress = {() => navigation.goBack()}
-            >
-                <Text>BACK</Text>
-            </TouchableOpacity>
-        <Text style={{
+        <View style={[timerStyles.viewContainer, {justifyContent:'space-evenly'}]}>
+            <Text style={{
             color:'white', 
             fontSize: 80, 
             letterSpacing: 1.5, 
             fontWeight: 'bold', 
-            shadowColor: 'black', 
+            shadowColor: 'gray', 
+            shadowOffset: { width: 0, height: -4 },
+            shadowOpacity: 0.5,
+            shadowRadius: 2
+        }}>  
+            0 / {rounds}
+        </Text>
+        <Text style={{
+            color:'white', 
+            fontSize: 100, 
+            letterSpacing: 1.5, 
+            fontWeight: 'bold', 
+            shadowColor: 'gray', 
             shadowOffset: { width: 0, height: -4 },
             shadowOpacity: 0.5,
             shadowRadius: 2
@@ -71,13 +72,24 @@ export default function TimerScreen({route, navigation}: TimerScreenProps){
             style={{padding:20, borderRadius: 10}}
             onPress={() => setIsRunning(!isRunning)}
         >
-            <Text style={{color: 'white', fontSize: 80, letterSpacing: 1.5, fontWeight:'bold',             shadowColor: 'black', 
-            shadowOffset: { width: 0, height: -3 },
+            <Text style={{color: 'white', fontSize: 40, letterSpacing: 1.5, fontWeight:'bold',             shadowColor: 'gray', 
+            shadowOffset: { width: 0, height: -4 },
             shadowOpacity: 0.4,
             shadowRadius: 2}}>
                 {isRunning ? 'Stop' : 'Start'}
             </Text>
         </TouchableOpacity>
+        <TouchableOpacity
+                style={{padding:20, borderRadius: 10}}
+                onPress = {() => navigation.goBack()}
+            >
+                            <Text style={{color: 'white', fontSize: 40, letterSpacing: 1.5, fontWeight:'bold',             shadowColor: 'gray', 
+            shadowOffset: { width: 0, height: -4 },
+            shadowOpacity: 0.4,
+            shadowRadius: 2}}>
+                Submit
+                </Text>
+            </TouchableOpacity>
         </View>
         </LinearGradient>
     );

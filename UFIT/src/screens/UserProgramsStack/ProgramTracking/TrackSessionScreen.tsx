@@ -3,17 +3,13 @@ import { Text, View, ScrollView, Pressable, TouchableOpacity, Modal } from "reac
 import { RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { StackParamList } from "../../UserPrograms";
-import { trackingStyles, repBubbleStyles } from '../../style';
+import { trackingStyles } from '../../style';
 import RepBubble from '../../../components/RepBubble'
 import { getGradientColors } from "../../../components/getGradient";
 import LinearGradient from "../../../components/LinearGradient";
-// import { Session } from "../../../api";
 import { useNavigation } from "@react-navigation/native";
 import { AntDesign } from '@expo/vector-icons'; 
-import { Video } from 'expo-av';
-// import { WebView } from 'react-native-webview';
-import YoutubePlayer from "react-native-youtube-iframe"; 
-
+import { MovementInfoModal } from "../../../components/MovementInfoModal";
 
 // used for accessing route parameters in a type-safe way
 export type TrackSessionScreenRouteProp = RouteProp<StackParamList, 'Track a Session'>;
@@ -31,14 +27,15 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps){
     const [modalVisible, setModalVisible] = useState(false);
 
     const handleOnPress = (movement: any) => {
+        console.log(program);
+        console.log(session);
+        console.log(movement);
         setSelectedMovement(movement);
-        console.log('test', selectedMovement)
         setModalVisible(true);
     }
 
-    const gotoTimer = (time: number, movementName: string) => {
-        navigation.navigate('TimerScreen', {time, movementName});
-        console.log('TimerScreen')
+    const gotoTimer = (time: number, movementName: string, rounds: number) => {
+        navigation.navigate('TimerScreen', {time, movementName, rounds});
     }
 
     return (
@@ -48,43 +45,6 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps){
         bottom={getGradientColors(program.programCategory)[1]}
         style={{ minHeight: "100%" }}
         >
-            <Modal
-            animationType="slide"
-            transparent={true}
-            visible={modalVisible}
-            onRequestClose={() => {
-                setModalVisible(!modalVisible);
-            }}
-            >
-                <Pressable style={{flex: 1,
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                    minWidth: 40,
-                                    backgroundColor: 'rgba(0,0,0,0.5)'}} 
-                            onPress={() => setModalVisible(false)} 
-                            onStartShouldSetResponder={() => true}>
-                    <View style={{backgroundColor: 'white',
-                                padding: 20,
-                                borderRadius: 20}} 
-                    onStartShouldSetResponder={() => true}
-                    >
-                    <Text
-                    style={[{paddingBottom: 7, fontSize: 16}]}>{selectedMovement?.movementDescription}</Text>
-                    {selectedMovement?.movementLink && (
-                        <YoutubePlayer
-                            height={170}
-                            width={300}
-                            play={false}
-                            // videoId={selectedMovement.movementLink}
-                            videoId="dQw4w9WgXcQ"
-                        />
-                    )}
-                    <TouchableOpacity onPress={() => setModalVisible(false)}>
-                        <Text>Close</Text>
-                    </TouchableOpacity>
-                    </View>
-                </Pressable>
-            </Modal>
         <View style={[trackingStyles.viewContainer]}>
             <Text style={trackingStyles.titleBarText}>
                 {session.name} 
@@ -93,10 +53,10 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps){
                 {movements.map(movement => (
                     //map movements
                     <View key={movement._id}>
-                        <View style={[{flexDirection: 'row'}]}>
+                        <View style={[{flexDirection: 'row', alignItems:'center'}]}>
                         <Text style={trackingStyles.movementName}>{movement.movementName}</Text>
-                        <TouchableOpacity style={[{ justifyContent: 'center', height:24}]} onPress={() => handleOnPress(movement)}>
-                        <AntDesign name="infocirlceo" size={24} color="lightblue" />
+                        <TouchableOpacity style={[{ justifyContent: 'center', height:35, width:40}]} onPress={() => handleOnPress(movement)}>
+                        <AntDesign name="infocirlceo" size={20} color="lightblue" />
                         </TouchableOpacity>
                         </View>
                         {movement.typeTracking.type === 'reps' && 
@@ -107,8 +67,8 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps){
                         }
                         {movement.typeTracking.type === 'timer' &&
                             <TouchableOpacity
-                                style = {trackingStyles.timerButton}
-                                onPress={() => gotoTimer(movement.typeTracking.time ?? 0, movement.movementName)}>
+                                style = {[trackingStyles.timerButton]}
+                                onPress={() => gotoTimer(movement.typeTracking.time ?? 0, movement.movementName, movement.typeTracking.rounds ?? 0)}>
                             <View>
                                 <Text>
                                     Timer
@@ -130,6 +90,11 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps){
                     </View>
                 </TouchableOpacity>
         </View>
+        <MovementInfoModal
+            selectedMovement={selectedMovement}
+            modalVisible={modalVisible}
+            setModalVisible={setModalVisible}
+        />
         </LinearGradient>
         
     );
