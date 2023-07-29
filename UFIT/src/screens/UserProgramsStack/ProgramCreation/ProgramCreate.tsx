@@ -217,8 +217,8 @@ export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
           </Text>
           
             {
-              watch('sessions').map(ufit => (
-                <SessionComponent session = {ufit} deleteSession = {deleteSession} />
+              fields.map((ufit,index) => (
+                <SessionComponent session = {ufit} deleteSession = {deleteSession} idx = {index} />
               ))
             }
 

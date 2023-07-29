@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, Button } from 'react-native';
 import MovementComponent from './MovementCard';
 
-const SessionComponent = ({ session, deleteSession }:any) => {
+const SessionComponent = ({ session, deleteSession, idx }:any) => {
     return (
         <View>
             <Text 
@@ -25,8 +25,8 @@ const SessionComponent = ({ session, deleteSession }:any) => {
                     <Button
                         title="Delete"
                         color="red"
-                        onPress={(data) => {
-                            console.log(data);
+                        onPress={() => {
+                            deleteSession(idx);
                         }}              
                     />
                 </View>
