@@ -8,7 +8,6 @@ const MovementComponentOption = ({ movement, deleteMovement, idx }:any) => {
             <View style = {{flexDirection: 'row', justifyContent: 'space-between', backgroundColor: 'white', padding: 20, margin: 10, borderRadius: 20}}>
                 <View>
                     <Text>{movement.movementName}</Text>
-                    <Text> Hello </Text>
                 </View>
 
                 <View>
