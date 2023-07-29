@@ -62,7 +62,7 @@ export default function TrackProgramScreen({ route, navigation }: TrackProgramSc
                             onPress={() => {{
                                 // Get the movements that correspond to the movementIds in the session
                                 const sessionMovements = session.movementId?.map((movementId) => 
-                                    movements.find((m) => m._id.$oid === movementId.$oid)
+                                    movements.find((m) => m._id === movementId)
                                 ).filter(Boolean) as Movement[];
                                 navigation.navigate('Track a Session', { program, session, movements: sessionMovements })}
                             }}

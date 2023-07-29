@@ -9,6 +9,7 @@ import LinearGradient from "../../../components/LinearGradient";
 import { getGradientColors } from "../../../components/getGradient";
 import { MovementInfoModal } from "../../../components/MovementInfoModal";
 import RepBubble from '../../../components/RepBubble'
+
 import { trackingStyles } from '../../style';
 
 // used for accessing route parameters in a type-safe way
@@ -18,7 +19,10 @@ type TrackSessionScreenProps = {
     route: TrackSessionScreenRouteProp;
 };
 export default function TrackSessionScreen({ route }: TrackSessionScreenProps){
+    
     const { program, session, movements } = route.params;
+    console.log(movements);
+
     const [trackingData, setTrackingData] = useState({});
     const navigation = useNavigation<NativeStackNavigationProp<StackParamList, 'Track a Session'>>();
 
