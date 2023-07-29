@@ -1,14 +1,14 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableHighlight } from 'react-native';
-import { RectButton } from 'react-native-gesture-handler';
+import { View, Text, StyleSheet, Button } from 'react-native';
+
 // TODO: check if package ^ is OK to download
-const MovementComponentOption = ({ movement }:any) => {
+const MovementComponentOption = ({ movement, deleteMovement, idx }:any) => {
     return (
         
             <View style = {{flexDirection: 'row', justifyContent: 'space-between', backgroundColor: 'white', padding: 20, margin: 10, borderRadius: 20}}>
                 <View>
                     <Text>{movement.movementName}</Text>
-                    
+                    <Text> Hello </Text>
                 </View>
 
                 <View>
@@ -24,9 +24,11 @@ const MovementComponentOption = ({ movement }:any) => {
                         ) : null}
                     </Text>
                     
-                    <RectButton style={styles.deleteButton} onPress={() => console.log('hello')}>
-                        <Text style={styles.deleteButtonText}>Delete</Text>
-                    </RectButton>
+                    <Button
+                      title="Delete Movement"
+                      color="red"
+                      onPress={() => deleteMovement(idx)}
+                    />
                     
                 </View>
             </View>
