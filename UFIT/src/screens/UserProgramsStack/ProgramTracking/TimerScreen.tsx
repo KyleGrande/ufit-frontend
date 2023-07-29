@@ -17,20 +17,40 @@ type TimerScreenProps = {
 };
 
 export default function TimerScreen({route, navigation}: TimerScreenProps){
-    const {time} = route.params;
-    const {rounds} = route.params;
+    // const {time} = route.params;
+    // const {rounds} = route.params;
+    // const {rest} = route.params;
     const {movementName} = route.params;
+    const {onEnd} = route.params;
+    const time = 5;
+    const rounds = 2;
+    const rest = 6;
+
     const [seconds, setSeconds] = useState(time); 
+    const [roundsCompleted, setRoundsCompleted] = useState(0);
+
     const [isRunning, setIsRunning] = useState(false);
+    const [isResting, setIsResting] = useState(false);
     
     useEffect(() => {
         let timer: any;
         if (isRunning && seconds > 0) {
             timer = setTimeout(() => setSeconds(seconds - 1), 1000);
+        } else if (isRunning && seconds === 0) {
+            if (isResting && roundsCompleted < rounds) {
+                setSeconds(time);
+                setIsResting(false);
+            } else if (!isResting && roundsCompleted < rounds) {
+                setRoundsCompleted(roundsCompleted + 1);
+                if(roundsCompleted + 1 < rounds){
+                    setSeconds(rest);
+                    setIsResting(true);
+                }
+            }
         }
         return () => clearTimeout(timer);
-        
-    }, [seconds, isRunning]);
+    }, [seconds, isRunning, isResting, roundsCompleted, rounds, time, rest]);
+
 
     const displayMinutes = Math.floor(seconds / 60);
     const displaySeconds = Math.floor(seconds % 60);
@@ -42,6 +62,18 @@ export default function TimerScreen({route, navigation}: TimerScreenProps){
         style={{ minHeight: "100%" }}
         >
         <View style={[timerStyles.viewContainer, {justifyContent:'space-evenly'}]}>
+        <Text style={{
+            color:'white', 
+            fontSize: 80, 
+            letterSpacing: 1.5, 
+            fontWeight: 'bold', 
+            shadowColor: 'gray', 
+            shadowOffset: { width: 0, height: -4 },
+            shadowOpacity: 0.5,
+            shadowRadius: 2
+        }}>  
+        {isResting ? 'Rest' : 'Round'}
+            </Text>
             <Text style={{
             color:'white', 
             fontSize: 80, 
@@ -52,7 +84,8 @@ export default function TimerScreen({route, navigation}: TimerScreenProps){
             shadowOpacity: 0.5,
             shadowRadius: 2
         }}>  
-            0 / {rounds}
+        {/* isresting condtional */}
+            {roundsCompleted} / {rounds}
         </Text>
         <Text style={{
             color:'white', 
@@ -64,7 +97,6 @@ export default function TimerScreen({route, navigation}: TimerScreenProps){
             shadowOpacity: 0.5,
             shadowRadius: 2
         }}>            
-            {/* {seconds} */}
             {displayMinutes}:{displaySeconds < 10 ? `0${displaySeconds}` : displaySeconds}
         </Text>
         <TouchableOpacity
@@ -80,7 +112,10 @@ export default function TimerScreen({route, navigation}: TimerScreenProps){
         </TouchableOpacity>
         <TouchableOpacity
                 style={{padding:20, borderRadius: 10}}
-                onPress = {() => navigation.goBack()}
+                onPress = {() => {
+                    onEnd(movementName, roundsCompleted, seconds);
+                    navigation.goBack()}
+                }
             >
                             <Text style={{color: 'white', fontSize: 40, letterSpacing: 1.5, fontWeight:'bold',             shadowColor: 'gray', 
             shadowOffset: { width: 0, height: -4 },

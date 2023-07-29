@@ -19,7 +19,7 @@ type TrackSessionScreenProps = {
     route: TrackSessionScreenRouteProp;
 };
 export default function TrackSessionScreen({ route }: TrackSessionScreenProps){
-    
+    const rest = 5;
     const { program, session, movements } = route.params;
     console.log(movements);
 
@@ -33,9 +33,15 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps){
         setSelectedMovement(movement);
         setModalVisible(true);
     }
+    const onEnd = (movement: string, roundsCompleted: number, timeRemaining: number) => {
+        console.log('onEnd');
+        setTrackingData({...trackingData, [movement]: {roundsCompleted, timeRemaining}});
+        console.log(trackingData)
+    }
+
 
     const gotoTimer = (time: number, movementName: string, rounds: number) => {
-        navigation.navigate('TimerScreen', {time, movementName, rounds});
+        navigation.navigate('TimerScreen', {time, movementName, rounds, rest, onEnd: onEnd});
     }
 
     return (

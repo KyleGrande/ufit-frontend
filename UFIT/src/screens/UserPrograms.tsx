@@ -16,9 +16,24 @@ export type StackParamList = {
   "Create a Program": undefined; //takes nothing maybe userID?
   "Create a Session": undefined;
   "Create a Movement": undefined;
-  "Track a Program": { program: Program }; //takes a program object maybe in the future userID?
-  "Track a Session": { program: Program, session: Session, movements:  Movement[] }; //takes a session object maybe in the future userID?
-  'TimerScreen': {time: number, movementName: string, rounds: number};
+  "Track a Program": { 
+                      program: Program 
+                    }; //takes a program object maybe in the future userID?
+  "Track a Session": { 
+                      program: Program,
+                      session: Session,
+                      movements:  Movement[] 
+                      }; //takes a session object maybe in the future userID?
+  'TimerScreen': {
+                  time: number, 
+                  movementName: string, 
+                  rounds: number, 
+                  rest: number,
+                  onEnd: (
+                    movement: string, 
+                    roundsCompleted: number, 
+                    timeRemaining: number) => void;
+                };
 };
 
 const stack = createNativeStackNavigator<StackParamList>();
