@@ -1,8 +1,8 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Button } from 'react-native';
 import MovementComponent from './MovementCard';
 
-const SessionComponent = ({ session }:any) => {
+const SessionComponent = ({ session, deleteSession }:any) => {
     return (
         <View>
             <Text 
@@ -18,11 +18,21 @@ const SessionComponent = ({ session }:any) => {
                 {session.name}
             </Text>
                 <View style = {{backgroundColor: "white", borderRadius: 20}}>
-                {session.movements.map((movement:any) => (
-                    <MovementComponent movement = {movement}/>
-                ))}
-            </View>
-
+                    
+                    {session.movements.map((movement:any) => (
+                        <MovementComponent movement = {movement}/>
+                    ))}                    
+                    <Button
+                        title="Delete"
+                        color="red"
+                        onPress={(data) => {
+                            console.log(data);
+                        }}              
+                    />
+                </View>
+                <View>
+                
+                </View>
         </View>
     );
 };

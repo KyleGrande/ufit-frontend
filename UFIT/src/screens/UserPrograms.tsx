@@ -16,8 +16,8 @@ import  FormProvider  from "./StateContext";
 export type StackParamList = {
   "User Programs": undefined; // will be UserPrograms from the DB eventually
   "Create a Program": undefined; //takes nothing maybe userID?
-  "Create a Session": { addSession: any }; //takes a session object maybe in the future userID?
-  "Create a Movement": { addMovement: any, addSession: any };
+  "Create a Session": { fields:any, addSession: any, deleteSession: any }; //takes a session object maybe in the future userID?
+  "Create a Movement": { addMovement: any, removeMovement:any, fields: any, addSession: any, deleteSession: any };
   "Track a Program": { program: Program }; //takes a program object maybe in the future userID?
   "Track a Session": { session: Session }; //takes a session object maybe in the future userID?
 };

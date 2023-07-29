@@ -215,7 +215,7 @@ export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
           
             {
               watch('sessions').map(ufit => (
-                <SessionComponent session = {ufit} />
+                <SessionComponent session = {ufit} deleteSession = {deleteSession} />
               ))
             }
 
@@ -229,7 +229,7 @@ export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
                 // const allMovements = movements.flat();
                 // console.log('Form Data:', getValues());
                 // console.log('All Movements:', allMovements);
-                navigation.navigate("Create a Session", {addSession: addSession});
+                navigation.navigate("Create a Session", {addSession: addSession, deleteSession: deleteSession});
               }}              
             />
 
