@@ -217,7 +217,7 @@ export default function ProgramSessionCreate({navigation,route}: ProgramSessionC
             
             {fields.map((field,index) => (
                 <View key={field.id}> 
-                  {field.section ===  'main' ? <MovementComponent movement={field} /> : null}                                    
+                  {field.section ===  'main' ? <MovementComponentOption movement={field} deleteMovement={removeMovement} idx={index} /> : null}                                    
                 </View>
             ))}
             
@@ -231,7 +231,7 @@ export default function ProgramSessionCreate({navigation,route}: ProgramSessionC
 
             {fields.map((field,index) => (
               <View key={field.id}> 
-                {field.section === 'post' ? <MovementComponent movement={field} /> : null}                                    
+                {field.section === 'post' ? <MovementComponentOption movement={field} deleteMovement={removeMovement} idx={index} /> : null}                                    
               </View>
             ))}            
             
