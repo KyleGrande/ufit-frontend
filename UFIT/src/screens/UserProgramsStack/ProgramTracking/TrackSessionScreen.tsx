@@ -37,8 +37,8 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps){
     }, [setSelectedMovement, setModalVisible]);
 
     const onEnd = useCallback((movement: string, roundsCompleted: number, timeRemaining: number) => {
-        setTrackingData(prev => ({...prev, [movement]: {roundsCompleted, timeRemaining}}));
-        setCompletedMovements(prev => new Set([...prev, movement]));
+        setTrackingData(prev => ({...prev, [movement]: {roundsCompleted, timeRemaining}})); //update tracking data
+        setCompletedMovements(prev => new Set([...prev, movement])); //update completed movements
     }, [setTrackingData, setCompletedMovements]);
 
     const gotoTimer = useCallback((time: number, movementName: string, rounds: number) => {
@@ -84,7 +84,6 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps){
                         }
                     </View>
                 ))}
-
             </ScrollView>
             <TouchableOpacity
                     style = {trackingStyles.timerButton}
@@ -96,6 +95,7 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps){
                     </View>
                 </TouchableOpacity>
         </View>
+        
         <MovementInfoModal
             selectedMovement={selectedMovement}
             modalVisible={modalVisible}

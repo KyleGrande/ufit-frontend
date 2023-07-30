@@ -21,7 +21,6 @@ export default function DiscoverHomeScreen({navigation: navigator}: DiscoverHome
     // get all programs from the database
     React.useEffect(() => {
         API.getPrograms().then((response) => {
-            // console.log(response.data);
             setPrograms(response.data.data);
             setError(null);
         })
