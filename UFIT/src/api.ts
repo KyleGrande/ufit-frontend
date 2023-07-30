@@ -24,7 +24,7 @@ export type typetracking = {
     type: string;
     sets: number;
     reps: number;
-    weight: string;
+    weight: number;
     time: number;
     rounds: number;
 };

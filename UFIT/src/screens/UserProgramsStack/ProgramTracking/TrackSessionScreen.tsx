@@ -1,5 +1,5 @@
 import React, {useState, useCallback} from "react";
-import { Text, View, ScrollView, TouchableOpacity, Modal } from "react-native";
+import { Text, View, ScrollView, TouchableOpacity, Modal, TextInput } from "react-native";
 import { RouteProp, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AntDesign } from '@expo/vector-icons'; 
@@ -26,7 +26,7 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps){
     const [trackingData, setTrackingData] = useState({});
     const navigation = useNavigation<NativeStackNavigationProp<StackParamList, 'Track a Session'>>();
 
-    const [selectedMovement, setSelectedMovement] = useState<any>(null);
+    const [selectedMovement, setSelectedMovement] = useState<Movement | null>(null);
     const [modalVisible, setModalVisible] = useState(false);
 
     const [completedMovements, setCompletedMovements] = useState(new Set<string>());
@@ -66,8 +66,8 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps){
                         </TouchableOpacity>
                         </View>
                         {movement.typeTracking.type === 'reps' && 
-                        <RepSetsTracker movement={movement} sets={movement.typeTracking.sets} reps={movement.typeTracking.reps} weight={0} onRepSetTrackerChange={(setsCompleted: number) => {
-                            setTrackingData(prevData => ({...prevData, [movement.movementName]: {setsCompleted, reps: movement.typeTracking.reps, weight: movement.typeTracking.weight}}))
+                        <RepSetsTracker movement={movement} sets={movement.typeTracking.sets} reps={movement.typeTracking.reps} weight={movement.typeTracking.weight} onRepSetTrackerChange={(setsCompleted: number, weight: number, reps:number) => {
+                            setTrackingData(prevData => ({...prevData, [movement.movementName]: {setsCompleted, reps, weight}}))
                         }} />
                         }
                         {movement.typeTracking.type === 'timer' &&
