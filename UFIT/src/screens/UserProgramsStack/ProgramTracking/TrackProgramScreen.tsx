@@ -26,7 +26,6 @@ export default function TrackProgramScreen({ route, navigation }: TrackProgramSc
     const getMovements = async (ids: {$oid:string}[]) => {
         try {
             const response = await API.getMovementByIds(ids);
-            console.log('response.data', response.data.data);
             setMovements(response.data.data);
         } catch (error) {
             console.log(error);

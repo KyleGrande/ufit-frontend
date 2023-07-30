@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useCallback} from "react";
 import { Text, View, ScrollView, TouchableOpacity, Modal } from "react-native";
 import { RouteProp, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -9,7 +9,8 @@ import LinearGradient from "../../../components/LinearGradient";
 import { getGradientColors } from "../../../components/getGradient";
 import { MovementInfoModal } from "../../../components/MovementInfoModal";
 import RepBubble from '../../../components/RepBubble'
-
+import {RepSetsTracker} from '../../../components/RepSetsTracker';
+import { Movement } from "../../../api";
 import { trackingStyles } from '../../style';
 
 // used for accessing route parameters in a type-safe way
@@ -21,7 +22,6 @@ type TrackSessionScreenProps = {
 export default function TrackSessionScreen({ route }: TrackSessionScreenProps){
     const rest = 5;
     const { program, session, movements } = route.params;
-    console.log(movements);
 
     const [trackingData, setTrackingData] = useState({});
     const navigation = useNavigation<NativeStackNavigationProp<StackParamList, 'Track a Session'>>();
@@ -31,23 +31,19 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps){
 
     const [completedMovements, setCompletedMovements] = useState(new Set<string>());
 
-    const handleOnPress = (movement: any) => {
+    const handleOnPress = useCallback((movement: Movement) => {
         setSelectedMovement(movement);
         setModalVisible(true);
-    }
-    const onEnd = (movement: string, roundsCompleted: number, timeRemaining: number) => {
-        console.log('onEnd');
-        setTrackingData({...trackingData, [movement]: {roundsCompleted, timeRemaining}});
-        console.log(trackingData)
-        setCompletedMovements(new Set([...completedMovements, movement]));
+    }, [setSelectedMovement, setModalVisible]);
 
-    }
+    const onEnd = useCallback((movement: string, roundsCompleted: number, timeRemaining: number) => {
+        setTrackingData(prev => ({...prev, [movement]: {roundsCompleted, timeRemaining}}));
+        setCompletedMovements(prev => new Set([...prev, movement]));
+    }, [setTrackingData, setCompletedMovements]);
 
-
-    const gotoTimer = (time: number, movementName: string, rounds: number) => {
-        navigation.navigate('TimerScreen', {time, movementName, rounds, rest, onEnd: onEnd});
-    }
-
+    const gotoTimer = useCallback((time: number, movementName: string, rounds: number) => {
+        navigation.navigate('TimerScreen', {time, movementName, rounds, rest: 5, onEnd});
+    }, [navigation, onEnd]);
     return (
 
         <LinearGradient
@@ -70,10 +66,9 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps){
                         </TouchableOpacity>
                         </View>
                         {movement.typeTracking.type === 'reps' && 
-                        // ...Array to get an Array of undefined values then map bubbles
-                        <View style={trackingStyles.bubbleContainer}>
-                            {[...Array(movement.typeTracking.sets)].map((_, index) => <RepBubble key={index} />)}
-                        </View>
+                        <RepSetsTracker movement={movement} sets={movement.typeTracking.sets} reps={movement.typeTracking.reps} weight={0} onRepSetTrackerChange={(setsCompleted: number) => {
+                            setTrackingData(prevData => ({...prevData, [movement.movementName]: {setsCompleted, reps: movement.typeTracking.reps, weight: movement.typeTracking.weight}}))
+                        }} />
                         }
                         {movement.typeTracking.type === 'timer' &&
                             <TouchableOpacity

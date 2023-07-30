@@ -25,7 +25,7 @@ export default function DiscoverProgramScreen({ route, navigation }: DiscoverPro
     const getMovements = async (ids: {$oid:string}[]) => {
         try {
             const response = await API.getMovementByIds(ids);
-            console.log('response.data', response.data.data);
+            // console.log('response.data', response.data.data);
             setMovements(response.data.data);
         } catch (error) {
             console.log(error);

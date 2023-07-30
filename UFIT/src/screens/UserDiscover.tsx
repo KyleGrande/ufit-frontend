@@ -5,8 +5,8 @@ import DiscoverProgramScreen from "./DiscoverStack/DiscoverProgramScreen";
 import { Program } from "../api";
 
 export type StackParamList = {
-  "Discover": undefined; 
-  "Program": { program: Program };
+    "Discover": undefined; 
+    "Program": { program: Program };
 };
 
 const stack = createNativeStackNavigator<StackParamList>();
