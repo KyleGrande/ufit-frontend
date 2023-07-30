@@ -9,7 +9,10 @@ import LinearGradient from "../../../components/LinearGradient";
 import { getGradientColors } from "../../../components/getGradient";
 import { MovementInfoModal } from "../../../components/MovementInfoModal";
 import RepBubble from '../../../components/RepBubble'
+
 import {RepSetsTracker} from '../../../components/RepSetsTracker';
+import { RoundsTracker } from "../../../components/RoundsTracker";
+
 import { Movement } from "../../../api";
 import { trackingStyles } from '../../style';
 
@@ -29,21 +32,13 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps){
     const [selectedMovement, setSelectedMovement] = useState<Movement | null>(null);
     const [modalVisible, setModalVisible] = useState(false);
 
-    const [completedMovements, setCompletedMovements] = useState(new Set<string>());
 
     const handleOnPress = useCallback((movement: Movement) => {
         setSelectedMovement(movement);
         setModalVisible(true);
     }, [setSelectedMovement, setModalVisible]);
 
-    const onEnd = useCallback((movement: string, roundsCompleted: number, timeRemaining: number) => {
-        setTrackingData(prev => ({...prev, [movement]: {roundsCompleted, timeRemaining}})); //update tracking data
-        setCompletedMovements(prev => new Set([...prev, movement])); //update completed movements
-    }, [setTrackingData, setCompletedMovements]);
 
-    const gotoTimer = useCallback((time: number, movementName: string, rounds: number) => {
-        navigation.navigate('TimerScreen', {time, movementName, rounds, rest: 5, onEnd});
-    }, [navigation, onEnd]);
     return (
 
         <LinearGradient
@@ -71,16 +66,28 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps){
                         }} />
                         }
                         {movement.typeTracking.type === 'timer' &&
-                            <TouchableOpacity
-                            style = {completedMovements.has(movement.movementName) ? [trackingStyles.timerButton, {backgroundColor: '#bbbbbb'}] : trackingStyles.timerButton}
-                            onPress={() => gotoTimer(movement.typeTracking.time ?? 0, movement.movementName, movement.typeTracking.rounds ?? 0)}
-                            disabled={completedMovements.has(movement.movementName)}>
-                            <View>
-                                <Text>
-                                    Timer
-                                </Text>
-                            </View>
-                        </TouchableOpacity>
+                        //     <TouchableOpacity
+                        //     style = {completedMovements.has(movement.movementName) ? [trackingStyles.timerButton, {backgroundColor: '#bbbbbb'}] : trackingStyles.timerButton}
+
+                        //     onPress={() => gotoTimer(movement.typeTracking.time ?? 0, movement.movementName, movement.typeTracking.rounds ?? 0)}
+                        //     disabled={completedMovements.has(movement.movementName)}>
+                        //     <View>
+                        //         <Text>
+                        //             Timer
+                        //         </Text>
+                        //     </View>
+                        // </TouchableOpacity>
+                        <RoundsTracker
+                        rounds={movement.typeTracking.rounds ?? 0}
+                        time={movement.typeTracking.time ?? 0}
+                        rest={movement.typeTracking.rest ?? 0}
+                        // completedMovements={completedMovements}
+                        movementName={movement.movementName}
+                        // gotoTimer={gotoTimer}
+                        onRoundsTrackerChange={(roundsCompleted: number, timeRemaining: number) => {
+                        setTrackingData(prevData => ({...prevData, [movement.movementName]: {roundsCompleted, timeRemaining}}))
+                        }}
+                        />
                         }
                     </View>
                 ))}

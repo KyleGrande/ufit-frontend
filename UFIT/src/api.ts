@@ -27,6 +27,7 @@ export type typetracking = {
     weight: number;
     time: number;
     rounds: number;
+    rest: number;
 };
 
 import axios from "axios";

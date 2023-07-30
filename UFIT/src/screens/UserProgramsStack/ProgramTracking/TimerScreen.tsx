@@ -17,14 +17,12 @@ type TimerScreenProps = {
 };
 
 export default function TimerScreen({route, navigation}: TimerScreenProps){
-    // const {time} = route.params;
-    // const {rounds} = route.params;
-    // const {rest} = route.params;
+    const {time} = route.params;
+    const {rounds} = route.params;
+    const {rest} = route.params;
     const {movementName} = route.params;
     const {onEnd} = route.params;
-    const time = 5;
-    const rounds = 2;
-    const rest = 6;
+
 
     const [seconds, setSeconds] = useState(time); 
     const [roundsCompleted, setRoundsCompleted] = useState(0);
@@ -111,19 +109,26 @@ export default function TimerScreen({route, navigation}: TimerScreenProps){
             </Text>
         </TouchableOpacity>
         <TouchableOpacity
-                style={{padding:20, borderRadius: 10}}
-                onPress = {() => {
-                    onEnd(movementName, roundsCompleted, seconds);
-                    navigation.goBack()}
-                }
-            >
-                            <Text style={{color: 'white', fontSize: 40, letterSpacing: 1.5, fontWeight:'bold',             shadowColor: 'gray', 
-            shadowOffset: { width: 0, height: -4 },
-            shadowOpacity: 0.4,
-            shadowRadius: 2}}>
-                Submit
-                </Text>
-            </TouchableOpacity>
+    style={{padding:20, borderRadius: 10}}
+    onPress = {() => {
+        onEnd(movementName, roundsCompleted, seconds);
+        navigation.goBack();
+    }}
+>
+    <Text style={{
+        color: 'white', 
+        fontSize: 40, 
+        letterSpacing: 1.5, 
+        fontWeight:'bold', 
+        shadowColor: 'gray', 
+        shadowOffset: { width: 0, height: -4 },
+        shadowOpacity: 0.4,
+        shadowRadius: 2
+    }}>
+        End
+    </Text>
+</TouchableOpacity>
+
         </View>
         </LinearGradient>
     );

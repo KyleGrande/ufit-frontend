@@ -16,6 +16,7 @@ type RepSetsTrackerProps = {
 
 export const RepSetsTracker = ({movement, sets, reps, weight, onRepSetTrackerChange}: RepSetsTrackerProps) => {
     const [repStates, setRepStates] = useState<string[]>([...Array(sets)].map(() => ''));
+    const [localSets, setLocalSets] = useState(sets || 0);
     const [localWeight, setLocalWeight] = useState(weight || 0);
     const [localReps, setLocalReps] = useState(reps || 0);
 
@@ -40,9 +41,19 @@ export const RepSetsTracker = ({movement, sets, reps, weight, onRepSetTrackerCha
 
     const handleRepsChange = (repsString: string) => {
         const repsNum = Number(repsString);
-        setLocalReps(repsNum);
+        setLocalReps(repsNum);        
         onRepSetTrackerChange(repStates.filter(state => state === 'pass').length, localWeight, localReps);
         console.log(localReps);
+    }
+
+    const handleSetsChange = (setsString: string) => {
+        const setsNum = Number(setsString);
+        setLocalSets(setsNum);
+        const newStates = [...Array(setsNum)].map(() => '');
+        setRepStates(newStates);
+
+        onRepSetTrackerChange(repStates.filter(state => state === 'pass').length, localWeight, localReps);
+        console.log(localSets);
     }
 
     return (
@@ -52,9 +63,22 @@ export const RepSetsTracker = ({movement, sets, reps, weight, onRepSetTrackerCha
             <RepBubble key={index} state={state} onStateChange={() => handleStateChange(index)} />
         )}
         </View>
-        <View style={[{width:150, flexDirection:'row', marginLeft:10}]}>
-        <View style={[{width:75}]}>
+        <View style={[{ flexDirection:'row', flex:1, marginRight:20}]}>
+        <View style={[{flex:1}]}>
         <TextInput
+            selectTextOnFocus={true}
+            
+            style={[trackingStyles.movementName, {borderBottomColor:'white', borderBottomWidth: 1, alignContent:'center', textAlign:'center', marginBottom: 0, paddingBottom:0}]}
+            onChangeText={handleSetsChange}
+            value={localSets.toString()}
+            keyboardType='numeric'
+        />
+        <Text style={[trackingStyles.movementName, {fontSize:12, marginTop:0, textAlign:'center'}]}>Sets</Text>
+
+        </View>
+        <View style={[{flex:1}]}>
+        <TextInput
+            
             style={[trackingStyles.movementName, {borderBottomColor:'white', borderBottomWidth: 1, alignContent:'center', textAlign:'center', marginBottom: 0, paddingBottom:0}]}
             onChangeText={handleRepsChange}
             value={localReps.toString()}
@@ -63,8 +87,10 @@ export const RepSetsTracker = ({movement, sets, reps, weight, onRepSetTrackerCha
         <Text style={[trackingStyles.movementName, {fontSize:12, marginTop:0, textAlign:'center'}]}>Reps</Text>
 
         </View>
-        <View style={[{width:75}]}>
+        <View style={[{flex:1}]}>
         <TextInput
+                    selectTextOnFocus={true}
+
             style={[trackingStyles.movementName, {borderBottomColor:'white', borderBottomWidth: 1, alignContent:'center', textAlign:'center', marginBottom: 0, paddingBottom:0}]}
             onChangeText={handleWeightChange}
             value={localWeight.toString()}
