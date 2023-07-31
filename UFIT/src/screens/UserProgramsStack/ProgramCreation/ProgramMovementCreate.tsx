@@ -211,6 +211,8 @@ export default function ProgramMovementCreate({
                       }}
                       onChangeText={field.onChange}
                       value={field.value}
+                      placeholder="Movement Name"
+                      placeholderTextColor="white"
                     />
                     {fieldState?.error && (
                       <FormErrorMsg fieldState={fieldState} />
@@ -886,14 +888,14 @@ export default function ProgramMovementCreate({
                     </Text>
                     <TextInput
                       style={{
-                        height: 40,
+                        height: 100,
                         margin: 12,
                         borderWidth: 1,
                         padding: 10,
                         color: "white",
                         borderColor: "white",
                         borderRadius: 20,
-                        paddingBottom: 100,
+                        
                       }}
                       onChangeText={field.onChange}
                       value={field.value}
