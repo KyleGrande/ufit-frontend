@@ -78,7 +78,7 @@ export const trackingStyles = StyleSheet.create({
         color: 'white',
         fontSize: 30,
         fontWeight: 'bold',
-        letterSpacing: 1.2,
+        letterSpacing: 1.4,
     },
     programDescription: {
         paddingTop: 20,
@@ -115,7 +115,7 @@ export const trackingStyles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-evenly',
         alignItems: 'center',
-        // backgroundColor: 'red',
+        flexWrap: 'wrap',
     },
     timerButton: {
         margin: 10,
@@ -129,12 +129,35 @@ export const trackingStyles = StyleSheet.create({
     },
     movementName: {
         fontSize: 20,
-        // fontWeight: 'bold',
+        fontWeight: 'bold',
         color: 'white',
         padding: 5,
         marginLeft: 20,
         marginTop: 10,
     },
+    trackingTextInput: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: 'white',
+        padding: 5,
+        marginLeft: 20,
+        marginTop: 10,
+        borderBottomColor: 'white',
+        borderBottomWidth: 1,
+        alignContent:'center',
+        textAlign:'center', 
+        marginBottom: 0, 
+        paddingBottom:0
+    },
+    trackingTextInputName: {
+        color: 'white',
+        padding: 5,
+        marginLeft: 20,
+        marginTop:0,
+        fontSize:12,
+        textAlign:'center'
+    },
+    
 });
 
 export const creatingStyles = StyleSheet.create({
@@ -333,3 +356,4 @@ export const loginStyles = StyleSheet.create({
         marginBottom: 20,
     },
 });
+

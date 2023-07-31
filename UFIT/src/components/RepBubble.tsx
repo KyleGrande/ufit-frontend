@@ -11,8 +11,8 @@ export default function RepBubble(props: RepBubbleProps) {
     const { state, onStateChange } = props;
 
     return (
-        <TouchableOpacity onPress={onStateChange}>
-            <View style={[repBubbleStyles.bubble, {backgroundColor: colors[state]}]} />
+        <TouchableOpacity onPress={onStateChange} style={[{}]}>
+            <View style={[repBubbleStyles.bubble, {flexShrink:1,backgroundColor: colors[state]}]} />
         </TouchableOpacity>
     );
 }

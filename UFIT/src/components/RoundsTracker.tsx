@@ -24,7 +24,6 @@ export const RoundsTracker = ({rounds, time, rest, movementName, onRoundsTracker
 
     const [completedMovements, setCompletedMovements] = useState(new Set<string>());
 
-
     const handleRoundsChange = (roundsString: string) => {
         const roundsNum = Number(roundsString);
         setLocalRounds(roundsNum);
@@ -42,6 +41,7 @@ export const RoundsTracker = ({rounds, time, rest, movementName, onRoundsTracker
         setLocalRest(restNum);
         onRoundsTrackerChange(localRounds, localTime);
     }
+
     const onEnd = useCallback((movement: string, roundsCompleted: number, timeRemaining: number) => {
         setCompletedMovements(prev => new Set([...prev, movement])); //update completed movements
         onRoundsTrackerChange(roundsCompleted, timeRemaining);
@@ -57,51 +57,48 @@ export const RoundsTracker = ({rounds, time, rest, movementName, onRoundsTracker
                 style = {completedMovements.has(movementName) ? [trackingStyles.timerButton, {backgroundColor: '#bbbbbb'}] : trackingStyles.timerButton}
                 onPress={() => gotoTimer(localTime, movementName, localRounds)}
                 disabled={completedMovements.has(movementName)}
-                >
-                <View>
-                    <Text>Start</Text>
-                </View>
+            >
+                <Text>Start</Text>
             </TouchableOpacity>
-
-
-        <View style={{flexDirection: 'row', justifyContent: 'space-between', marginRight:20}}>
-            <View style={[{flex: 1}]}>
-            <TextInput
-                style={[trackingStyles.movementName, {borderBottomColor:'white', borderBottomWidth: 1, alignContent:'center', textAlign:'center', marginBottom: 0, paddingBottom:0, flex: 1}]}
-                onChangeText={handleTimeChange}
-                value={localTime.toString()}
-                keyboardType='numeric'
-            />
-            <Text style={[trackingStyles.movementName, {fontSize:12, marginTop:0, textAlign:'center'}]}>Time</Text>
-
-            </View>
-            <View style={[{flex: 1}]}>
-
-            <TextInput
+            <View style={{flexDirection: 'row', justifyContent: 'space-between', marginRight:20}}>
+                <View style={[{flex: 1}]}>
+                    <TextInput
+                        style={trackingStyles.trackingTextInput}
+                        onChangeText={handleTimeChange}
+                        value={localTime.toString()}
+                        keyboardType='numeric'
+                    />
+                    <Text 
+                        style={trackingStyles.trackingTextInputName}>
+                            Time
+                    </Text>
+                </View>
+                <View style={[{flex: 1}]}>
+                    <TextInput
                         selectTextOnFocus={true}
-
-                style={[trackingStyles.movementName, {borderBottomColor:'white', borderBottomWidth: 1, alignContent:'center', textAlign:'center', marginBottom: 0, paddingBottom:0, flex: 1}]}
-                onChangeText={handleRoundsChange}
-                value={localRounds.toString()}
-                keyboardType='numeric'
-            />
-                        <Text style={[trackingStyles.movementName, {fontSize:12, marginTop:0, textAlign:'center'}]}>Rounds</Text>
-
+                        style={trackingStyles.trackingTextInput}
+                        onChangeText={handleRoundsChange}
+                        value={localRounds.toString()}
+                        keyboardType='numeric'
+                    />
+                    <Text
+                        style={trackingStyles.trackingTextInputName}>
+                            Rounds
+                    </Text>
+                </View>
+                <View style={[{flex: 1}]}>
+                    <TextInput
+                        style={trackingStyles.trackingTextInput}
+                        onChangeText={handleRestChange}
+                        value={localRest.toString()}
+                        keyboardType='numeric'
+                    />
+                    <Text 
+                        style={trackingStyles.trackingTextInputName}>
+                            Rest
+                    </Text>
+                </View>
             </View>
-            <View style={[{flex: 1}]}>
-
-            <TextInput
-            
-                style={[trackingStyles.movementName, {borderBottomColor:'white', borderBottomWidth: 1, alignContent:'center', textAlign:'center', marginBottom: 0, paddingBottom:0, flex: 1}]}
-                onChangeText={handleRoundsChange}
-                value={localRest.toString()}
-                keyboardType='numeric'
-            />
-                        <Text style={[trackingStyles.movementName, {fontSize:12, marginTop:0, textAlign:'center'}]}>Rest</Text>
-
-            </View>
-
-        </View>
         </View>
     );
 }
