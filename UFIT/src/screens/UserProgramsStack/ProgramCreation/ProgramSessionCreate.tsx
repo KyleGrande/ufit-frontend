@@ -96,8 +96,8 @@ export default function ProgramSessionCreate({navigation,route}: ProgramSessionC
       bottom="#EA9CFD"
       style={{ minHeight: "100%" }}
     >  
-    <View style={creatingStyles.viewContainer}>
-      <View style={{ paddingLeft: 15 }}>
+    <View style={{...creatingStyles.viewContainer}}>
+      <View style={{ paddingLeft: 15, paddingRight: 15 }}>
         <ScrollView style={{ height: "90%" }}>
           <Text style={{ fontSize: 30, fontWeight: "bold", color: "white" }}>
             Session
@@ -130,10 +130,12 @@ export default function ProgramSessionCreate({navigation,route}: ProgramSessionC
                       padding: 10,
                       color: "white",
                       borderColor: "white",
-                      borderRadius: 20,
+                      borderRadius: 20,                      
                     }}
                     onChangeText={field.onChange}
                     value={field.value}
+                    placeholder="Session Name"
+                    placeholderTextColor = "white"
                   />
                   
                   {fieldState?.error && (

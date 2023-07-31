@@ -899,6 +899,8 @@ export default function ProgramMovementCreate({
                       value={field.value}
                       multiline={true}
                       numberOfLines={4}
+                      placeholder="Movement Description"
+                      placeholderTextColor="white"
                     />
                     {fieldState?.error && (
                       <FormErrorMsg fieldState={fieldState} />
@@ -950,6 +952,8 @@ export default function ProgramMovementCreate({
                       }}
                       onChangeText={field.onChange}
                       value={field.value}
+                      placeholder="https://www.youtube.com/watch?v="
+                      placeholderTextColor = "white"
                     />
                     {fieldState?.error && (
                       <FormErrorMsg fieldState={fieldState} />
