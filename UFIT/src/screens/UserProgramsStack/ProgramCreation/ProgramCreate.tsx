@@ -21,6 +21,7 @@ import FormErrorMsg from "../components/FormErrorMsg";
 import { LogBox } from 'react-native';
 import axios from "axios"
 import LinearGradient from "../../../components/LinearGradient";
+import {api} from "../../../api";
 LogBox.ignoreLogs([
   'Non-serializable values were found in the navigation state',
 ]);
@@ -55,7 +56,7 @@ export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
       try{
         console.log('MOVEMENT DATA POST TO SERVER');
         console.log(m);
-        let response = await axios.post('http://localhost:3001/api/movement', m);
+        let response = await api.post('/movement', m);
         console.log("getting response............");
         if (response.data.success) {
             console.log('response.success exists');            
@@ -108,7 +109,7 @@ export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
         programCategory: data.programCategory,
         session: data.sessions,        
       }      
-      let formSubmission = await axios.post('http://localhost:3001/api/program', parsedData );      
+      let formSubmission = await api.post('/program', parsedData );      
       if (formSubmission.data.success){
         console.log(formSubmission.data.data);
         navigation.navigate('User Programs');
