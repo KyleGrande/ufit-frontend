@@ -164,7 +164,7 @@ export const creatingStyles = StyleSheet.create({
     viewContainer: {
         paddingTop: 100,
         height: '100%',
-        backgroundColor: 'blue',
+ //       backgroundColor: 'blue',
     },
 });
 
