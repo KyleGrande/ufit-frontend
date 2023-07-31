@@ -17,12 +17,16 @@ type TimerScreenProps = {
 };
 
 export default function TimerScreen({route, navigation}: TimerScreenProps){
-    const {time} = route.params;
+    const {roundMin} = route.params;
+    const {roundSec} = route.params;
     const {rounds} = route.params;
-    const {rest} = route.params;
+    const {restMin} = route.params;
+    const {restSec} = route.params;
     const {movementName} = route.params;
     const {onEnd} = route.params;
 
+    const time = roundMin * 60 + roundSec;
+    const rest = restMin * 60 + restSec;
 
     const [seconds, setSeconds] = useState(time); 
     const [roundsCompleted, setRoundsCompleted] = useState(0);

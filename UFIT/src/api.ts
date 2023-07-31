@@ -21,13 +21,17 @@ export type Movement = {
     typeTracking: typetracking;
 };
 export type typetracking = {
-    type: string;
+    trackingType: string;
     sets: number;
     reps: number;
     weight: number;
     time: number;
     rounds: number;
     rest: number;
+    restMin: number;
+    restSec: number;
+    roundMin: number;
+    roundSec: number;
 };
 
 import axios from "axios";

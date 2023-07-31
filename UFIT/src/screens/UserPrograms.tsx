@@ -29,10 +29,12 @@ export type StackParamList = {
                       movements:  Movement[] 
                       }; //takes a session object maybe in the future userID?
   'TimerScreen': {
-                  time: number, 
                   movementName: string, 
+                  roundMin: number,
+                  roundSec: number,
                   rounds: number, 
-                  rest: number,
+                  restMin: number,
+                  restSec: number,
                   onEnd: (
                     movement: string, 
                     roundsCompleted: number, 
