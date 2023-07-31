@@ -1,13 +1,20 @@
-import React, {useState} from "react";
-import { Text, View, ScrollView, Pressable, TouchableOpacity } from "react-native";
-import { RouteProp } from '@react-navigation/native';
+import React, {useState, useCallback} from "react";
+import { Text, View, ScrollView, TouchableOpacity, Modal, TextInput } from "react-native";
+import { RouteProp, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { StackParamList } from "../../UserPrograms";
-import { trackingStyles, repBubbleStyles } from '../../style';
-import RepBubble from '../../../components/RepBubble'
-// import { Session } from "../../../api";
-import { useNavigation } from "@react-navigation/native";
+import { AntDesign } from '@expo/vector-icons'; 
 
+import { StackParamList } from "../../UserPrograms";
+import LinearGradient from "../../../components/LinearGradient";
+import { getGradientColors } from "../../../components/getGradient";
+import { MovementInfoModal } from "../../../components/MovementInfoModal";
+import RepBubble from '../../../components/RepBubble'
+
+import {RepSetsTracker} from '../../../components/RepSetsTracker';
+import { RoundsTracker } from "../../../components/RoundsTracker";
+
+import { Movement } from "../../../api";
+import { trackingStyles } from '../../style';
 
 // used for accessing route parameters in a type-safe way
 export type TrackSessionScreenRouteProp = RouteProp<StackParamList, 'Track a Session'>;
@@ -15,56 +22,85 @@ export type TrackSessionScreenRouteProp = RouteProp<StackParamList, 'Track a Ses
 type TrackSessionScreenProps = {
     route: TrackSessionScreenRouteProp;
 };
-
 export default function TrackSessionScreen({ route }: TrackSessionScreenProps){
-    const { session, movements } = route.params;
+    const { program, session, movements } = route.params;
+
     const [trackingData, setTrackingData] = useState({});
     const navigation = useNavigation<NativeStackNavigationProp<StackParamList, 'Track a Session'>>();
 
-    const gotoTimer = (time: number, movementName: string) => {
-        navigation.navigate('TimerScreen', {time, movementName});
-        console.log('TimerScreen')
-    }
+    const [selectedMovement, setSelectedMovement] = useState<Movement | null>(null);
+    const [modalVisible, setModalVisible] = useState(false);
+
+
+    const handleOnPress = useCallback((movement: Movement) => {
+        setSelectedMovement(movement);
+        setModalVisible(true);
+    }, [setSelectedMovement, setModalVisible]);
+
 
     return (
-        <View style={[trackingStyles.viewContainer, {backgroundColor:'lightblue'}]}>
-            <Text style={trackingStyles.titleBarText}>
+
+        <LinearGradient
+        top={getGradientColors(program.programCategory)[0]}
+        bottom={getGradientColors(program.programCategory)[1]}
+        style={{ minHeight: "100%" }}
+        >
+        <View style={[trackingStyles.viewContainer]}>
+            <Text style={[trackingStyles.titleBarText]}>
                 {session.name} 
             </Text>
             <ScrollView>
                 {movements.map(movement => (
                     //map movements
-                    <View key={movement._id}>
-                        <Text>{movement.movementName}</Text>
-                        {movement.typeTracking.type === 'reps' && 
-                        // ...Array to get an Array of undefined values then map bubbles
-                        <View style={trackingStyles.bubbleContainer}>
-                            {[...Array(movement.typeTracking.sets)].map((_, index) => <RepBubble key={index} />)}
+                    <View key={movement._id.$oid}>
+                        <View style={[{flexDirection: 'row', alignItems:'center'}]}>
+                        <Text style={[trackingStyles.movementName, {fontWeight:'bold'}]}>{movement.movementName}</Text>
+                        <TouchableOpacity style={[{ justifyContent: 'center', height:35, width:40}]} onPress={() => handleOnPress(movement)}>
+                        <AntDesign name="infocirlceo" size={20} color="lightblue" />
+                        </TouchableOpacity>
                         </View>
+                        {movement.typeTracking.type === 'reps' && 
+                        <RepSetsTracker 
+                            movement={movement} 
+                            sets={movement.typeTracking.sets} 
+                            reps={movement.typeTracking.reps} 
+                            weight={movement.typeTracking.weight} 
+                            onRepSetTrackerChange={(setsCompleted: number, weight: number, reps:number) => {
+                            setTrackingData(prevData => ({...prevData, [movement.movementName]: {setsCompleted, reps, weight}}))
+                        }} />
                         }
                         {movement.typeTracking.type === 'timer' &&
-                            <TouchableOpacity
-                                style = {trackingStyles.timerButton}
-                                onPress={() => gotoTimer(movement.typeTracking.time ?? 0, movement.movementName)}>
-                            <View>
-                                <Text>
-                                    Timer
-                                </Text>
-                            </View>
-                        </TouchableOpacity>
+                        <RoundsTracker
+                            rounds={movement.typeTracking.rounds ?? 0}
+                            time={movement.typeTracking.time ?? 0}
+                            rest={movement.typeTracking.rest ?? 0}
+                            movementName={movement.movementName}
+                            onRoundsTrackerChange={(roundsCompleted: number, timeRemaining: number) => {
+                            setTrackingData(prevData => ({...prevData, [movement.movementName]: {roundsCompleted, timeRemaining}}))
+                        }}
+                        />
                         }
                     </View>
                 ))}
-                <TouchableOpacity
-                    style = {trackingStyles.timerButton}
+            </ScrollView>
+            <TouchableOpacity
+                    style = {[trackingStyles.timerButton, {alignSelf:'center'}]}
                     onPress={() => console.log(trackingData)}>
-                    <View>
+                    <View
+                    style={[]}>
                         <Text>
                             Submit
                         </Text>
                     </View>
                 </TouchableOpacity>
-            </ScrollView>
         </View>
+        
+        <MovementInfoModal
+            selectedMovement={selectedMovement}
+            modalVisible={modalVisible}
+            setModalVisible={setModalVisible}
+        />
+        </LinearGradient>
+        
     );
 }

@@ -13,10 +13,27 @@ export type Session = {
     _id: string;
 };
 
+export type Movement = {
+    _id: {$oid: string};
+    movementName: string;
+    movementDescription: string;
+    movementLink: string;
+    typeTracking: typetracking;
+};
+export type typetracking = {
+    type: string;
+    sets: number;
+    reps: number;
+    weight: number;
+    time: number;
+    rounds: number;
+    rest: number;
+};
+
 import axios from "axios";
 
 export const api = axios.create({
-    baseURL: 'http://localhost:3000/api',
+    baseURL: 'http://192.168.0.209:3000/api',
 });
 
 export default {
@@ -24,5 +41,5 @@ export default {
     insertProgram: (newProgram: Program) => api.post('/program', newProgram),
     updateProgram: (updatedProgram: Program) => api.put('/program/by-id', updatedProgram),
     deleteProgram: (id: string) => api.delete(`/program/by-id/${id}`),
-    getMovementByIds: (ids: string[]) => api.post(`/movement/by-ids/`, {ids}),
+    getMovementByIds: (ids: {$oid:string}[]) => api.post(`/movement/by-ids/`, {ids}),
 }

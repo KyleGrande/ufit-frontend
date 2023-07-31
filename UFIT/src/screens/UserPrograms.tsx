@@ -1,9 +1,6 @@
 import * as React from "react";
-// import { Text, View, Button, StyleSheet } from 'react-native';
-import {
-  createNativeStackNavigator,
-  NativeStackNavigationProp,
-} from "@react-navigation/native-stack";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
 import ProgramCreate from "./UserProgramsStack/ProgramCreation/ProgramCreate";
 import ProgramSessionCreate from "./UserProgramsStack/ProgramCreation/ProgramSessionCreate";
 import ProgramMovementCreate from "./UserProgramsStack/ProgramCreation/ProgramMovementCreate";
@@ -11,16 +8,32 @@ import ProgramsMainScreen from "./UserProgramsStack/ProgramsMainScreen";
 import TrackProgramScreen from "./UserProgramsStack/ProgramTracking/TrackProgramScreen";
 import TrackSessionScreen from "./UserProgramsStack/ProgramTracking/TrackSessionScreen";
 import TimerScreen from "./UserProgramsStack/ProgramTracking/TimerScreen";
-import { Program, Session } from "../api";
+
+import { Program, Session, Movement } from "../api";
 
 export type StackParamList = {
   "User Programs": undefined; // will be UserPrograms from the DB eventually
   "Create a Program": undefined; //takes nothing maybe userID?
   "Create a Session": undefined;
   "Create a Movement": undefined;
-  "Track a Program": { program: Program }; //takes a program object maybe in the future userID?
-  "Track a Session": { session: Session, movements: any }; //takes a session object maybe in the future userID?
-  'TimerScreen': {time: number, movementName: string};
+  "Track a Program": { 
+                      program: Program 
+                    }; //takes a program object maybe in the future userID?
+  "Track a Session": { 
+                      program: Program,
+                      session: Session,
+                      movements:  Movement[] 
+                      }; //takes a session object maybe in the future userID?
+  'TimerScreen': {
+                  time: number, 
+                  movementName: string, 
+                  rounds: number, 
+                  rest: number,
+                  onEnd: (
+                    movement: string, 
+                    roundsCompleted: number, 
+                    timeRemaining: number) => void;
+                };
 };
 
 const stack = createNativeStackNavigator<StackParamList>();
