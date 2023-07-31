@@ -78,9 +78,9 @@ export default function DiscoverProgramScreen({ route, navigation }: DiscoverPro
                                         {movement.movementName}
                                     </Text>
                                     <Text style={discoverProgramStyles.movementText}>
-                                        {movement.typeTracking.type === 'reps' ?
+                                        {movement.typeTracking.trackingType === 'setsreps' ?
                                         `${movement.typeTracking.sets} x ${movement.typeTracking.reps}` :
-                                        `${movement.typeTracking.rounds}R x ${movement.typeTracking.time}s`
+                                        `${movement.typeTracking.rounds}R x ${movement.typeTracking.roundMin}:${movement.typeTracking.roundSec < 10 ? '0' : ''}${movement.typeTracking.roundSec}`
                                         }
                                     </Text>
 

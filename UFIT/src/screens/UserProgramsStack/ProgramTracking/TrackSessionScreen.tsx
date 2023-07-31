@@ -59,7 +59,7 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps){
                         <AntDesign name="infocirlceo" size={20} color="lightblue" />
                         </TouchableOpacity>
                         </View>
-                        {movement.typeTracking.type === 'reps' && 
+                        {movement.typeTracking.trackingType === 'setsreps' && 
                         <RepSetsTracker 
                             movement={movement} 
                             sets={movement.typeTracking.sets} 
@@ -69,14 +69,16 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps){
                             setTrackingData(prevData => ({...prevData, [movement.movementName]: {setsCompleted, reps, weight}}))
                         }} />
                         }
-                        {movement.typeTracking.type === 'timer' &&
+                        {movement.typeTracking.trackingType === 'rounds' &&
                         <RoundsTracker
                             rounds={movement.typeTracking.rounds ?? 0}
-                            time={movement.typeTracking.time ?? 0}
-                            rest={movement.typeTracking.rest ?? 0}
+                            roundMin={movement.typeTracking.roundMin ?? 0}
+                            roundSec={movement.typeTracking.roundSec ?? 0}
+                            restMin={movement.typeTracking.restMin ?? 0}
+                            restSec={movement.typeTracking.restSec ?? 0}
                             movementName={movement.movementName}
-                            onRoundsTrackerChange={(roundsCompleted: number, timeRemaining: number) => {
-                            setTrackingData(prevData => ({...prevData, [movement.movementName]: {roundsCompleted, timeRemaining}}))
+                            onRoundsTrackerChange={(roundsCompleted: number, roundMinRemain: number, roundSecRemain: number) => {
+                            setTrackingData(prevData => ({...prevData, [movement.movementName]: {roundsCompleted, roundMinRemain, roundSecRemain}}))
                         }}
                         />
                         }
