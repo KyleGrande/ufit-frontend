@@ -19,7 +19,7 @@ import { useFormContext } from "../../StateContext";
 import SessionComponent from "../components/SessionComponent";
 import FormErrorMsg from "../components/FormErrorMsg";
 import { LogBox } from 'react-native';
-
+import axios from "axios"
 LogBox.ignoreLogs([
   'Non-serializable values were found in the navigation state',
 ]);
@@ -48,9 +48,77 @@ export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
     setValue('sessions', sessions.filter((_,i)=> i !== index));
   }
 
-  const onSubmit = (data:any) => {     
-    console.log('Send data to database');
-    console.log('Form Data:', data);    
+  const createMovements = async(movements) => {
+    let movementsBuffer = []
+    for(const m of movements){
+      try{
+        console.log('MOVEMENT DATA POST TO SERVER');
+        console.log(m);
+        let response = await axios.post('http://localhost:3001/api/movement', m);
+        console.log("getting response............");
+        if (response.data.success) {
+            console.log('response.success exists');            
+            movementsBuffer.push(response.data.data._id);
+        } else {
+            console.log('no response.success');
+            return [];
+        }
+      }
+      catch(err){
+        console.log('Error: ', err);
+        return [];
+      }
+    }
+
+    return movementsBuffer;
+  }
+
+  const handleSessions = async(data) => {
+    let sessions = data.sessions;
+    console.log("inside handle Sessions");
+    console.log(sessions);
+    for(let session of sessions){
+      try {
+        let handledMovements = await createMovements(session.movements); // array of ObjectId(s)
+        console.log('after calling createMovements');
+        console.log(handledMovements);
+        console.log('Getting back movement buffer...')
+        session["movementId"] = handledMovements; // database schema names movements `movementId`          
+      }
+      catch(err) {
+        console.log('Error: ', "Failed to handle sessions" );
+        console.log(err);
+      }
+    }    
+  }
+
+
+
+  const onSubmit = async(data:any) => {         
+    console.log('Form Data:', data);   
+    try {
+      let movementSubmission = await handleSessions(data);
+      console.log("Checking movement submission");
+      console.log(data.sessions[0].movements);
+      // console.log(data);
+      let parsedData = {
+        programName: data.programName,
+        programDescription: data.programDescription,
+        programCategory: data.programCategory,
+        session: data.sessions,        
+      }      
+      let formSubmission = await axios.post('http://localhost:3001/api/program', parsedData );      
+      if (formSubmission.data.success){
+        console.log(formSubmission.data.data);
+        navigation.navigate('User Programs');
+      }else{
+        console.log('Error: ', 'Form submission was a failure'); // maybe a notification system to notify the user
+      }
+    }    
+    catch(err){
+      console.log("Error: ", "There was an error while handling sessions on submit");
+      console.log(err);
+    }
   };
 
   return (
