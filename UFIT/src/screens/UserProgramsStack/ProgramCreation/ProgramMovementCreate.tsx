@@ -488,6 +488,7 @@ export default function ProgramMovementCreate({
                                 onValueChange={field.onChange}
                                 itemStyle={{ color: "white", fontSize: 30 }}
                               >
+                                <Picker.Item label="0" value="0" />
                                 <Picker.Item label="1" value="1" />
                                 <Picker.Item label="2" value="2" />
                                 <Picker.Item label="3" value="3" />
@@ -554,6 +555,7 @@ export default function ProgramMovementCreate({
                                 onValueChange={field.onChange}
                                 itemStyle={{ color: "white", fontSize: 30 }}
                               >
+                                <Picker.Item label="0" value="0" />
                                 <Picker.Item label="1" value="1" />
                                 <Picker.Item label="2" value="2" />
                                 <Picker.Item label="3" value="3" />
@@ -646,6 +648,7 @@ export default function ProgramMovementCreate({
                                 onValueChange={field.onChange}
                                 itemStyle={{ color: "white", fontSize: 30 }}
                               >
+                                <Picker.Item label="0" value="0" />
                                 <Picker.Item label="1" value="1" />
                                 <Picker.Item label="2" value="2" />
                                 <Picker.Item label="3" value="3" />
@@ -709,6 +712,7 @@ export default function ProgramMovementCreate({
                                 onValueChange={field.onChange}
                                 itemStyle={{ color: "white", fontSize: 30 }}
                               >
+                                <Picker.Item label="0" value="0" />
                                 <Picker.Item label="1" value="1" />
                                 <Picker.Item label="2" value="2" />
                                 <Picker.Item label="3" value="3" />
