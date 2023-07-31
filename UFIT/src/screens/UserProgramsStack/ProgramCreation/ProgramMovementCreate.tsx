@@ -875,6 +875,10 @@ export default function ProgramMovementCreate({
                       }}
                     >
                       Describe your movement
+                      <Text style={{ flexDirection: "row", color: "red" }}>
+                        *
+                      </Text>
+                      :
                     </Text>
                     <Text style={{ color: "#CECACA", fontSize: 16 }}>
                       (If you could describe this movement in as few words as
@@ -919,6 +923,10 @@ export default function ProgramMovementCreate({
                       }}
                     >
                       Movement Link
+                      <Text style={{ flexDirection: "row", color: "red" }}>
+                        *
+                      </Text>
+                      :
                     </Text>
                     <Text
                       style={{ color: "#CECACA", fontSize: 16 }}
