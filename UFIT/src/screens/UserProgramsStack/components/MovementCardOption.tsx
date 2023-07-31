@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Button } from 'react-native';
 
-// TODO: check if package ^ is OK to download
+// Movement card that shows up on session page, can be deleted on button press, below is the view
 const MovementComponentOption = ({ movement, deleteMovement, idx }:any) => {
     return (
         

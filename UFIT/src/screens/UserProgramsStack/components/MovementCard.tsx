@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-
+// Movement card component that is used by the programcreation page, does not have delete option
 const MovementComponent = ({ movement }:any) => {
     return (
         

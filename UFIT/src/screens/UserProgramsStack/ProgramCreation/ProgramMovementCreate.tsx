@@ -85,7 +85,7 @@ export default function ProgramMovementCreate({
         section: yup.string().required("Movement section is required"),
         movementName: yup.string().required("Movement name is required"),
         movementDescription: yup.string().required("Movement description is required"),
-        movementLink: yup.string().notRequired(),        
+        movementLink: yup.string().required("Movement Link is required"),        
         typeTracking: yup.object().shape({
           trackingType: yup.string().required('Tracking Type Required'),
           reps: yup.string(),
