@@ -20,6 +20,7 @@ import SessionComponent from "../components/SessionComponent";
 import FormErrorMsg from "../components/FormErrorMsg";
 import { LogBox } from 'react-native';
 import axios from "axios"
+import LinearGradient from "../../../components/LinearGradient";
 LogBox.ignoreLogs([
   'Non-serializable values were found in the navigation state',
 ]);
@@ -122,6 +123,11 @@ export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
   };
 
   return (
+     <LinearGradient
+      top="#000"
+      bottom="#EA9CFD"
+      style={{ minHeight: "100%" }}
+    >   
     <View style={{...creatingStyles.viewContainer,paddingRight: 20}}>
       <View style={{ paddingLeft: 15 }}>
         <ScrollView>
@@ -314,5 +320,6 @@ export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
 
       </View>
     </View>
-  );
+  </LinearGradient>
+ );
 }

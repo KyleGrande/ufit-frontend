@@ -20,6 +20,7 @@ import { RouteProp } from "@react-navigation/native";
 import MovementComponent from "../components/MovementCard";
 import MovementComponentOption from "../components/MovementCardOption";
 import FormErrorMsg from "../components/FormErrorMsg";
+import LinearGradient from "../../../components/LinearGradient";
 export type ProgramSessionCreateRouteProp = RouteProp<StackParamList, 'Create a Session'>;
 
 type ProgramSessionCreateProps = {
@@ -90,6 +91,11 @@ export default function ProgramSessionCreate({navigation,route}: ProgramSessionC
   var movementsLength = watch('movements').length;
   
   return (
+   <LinearGradient
+      top="#000"
+      bottom="#EA9CFD"
+      style={{ minHeight: "100%" }}
+    >  
     <View style={creatingStyles.viewContainer}>
       <View style={{ paddingLeft: 15 }}>
         <ScrollView style={{ height: "90%" }}>
@@ -256,5 +262,6 @@ export default function ProgramSessionCreate({navigation,route}: ProgramSessionC
         </ScrollView>
       </View>
     </View>
+    </LinearGradient>
   );
 }
