@@ -81,7 +81,7 @@ export default function ProgramMovementCreate({
         trackingType: "setsreps",
         reps: "0",
         sets: "0",
-        rounds: "0",
+        rounds: "1",
         roundMin: "0",
         roundSec: "0",
         restMin: "0",
