@@ -4,7 +4,8 @@ import { createNativeStackNavigator, NativeStackNavigationProp } from '@react-na
 import { StackParamList } from '../UserPrograms';
 import {programStyles} from '../style';
 import API, { Program, Session } from '../../api';
-
+import LinearGradient from '../../components/LinearGradient';
+import { getGradientColors } from '../../components/getGradient';
 // used for calling navigation ina type safe way
 type ProgramsMainScreenProps = {
     navigation: NativeStackNavigationProp<StackParamList, 'User Programs'>;
@@ -36,15 +37,19 @@ export default function ProgramsMainScreen({ navigation }: ProgramsMainScreenPro
                 <ScrollView style={programStyles.programsContainer}>
                     {programs.map((program, index) => (
                         <Pressable
-                            style={[programStyles.singleProgramContainer, 
-                                {backgroundColor: index % 2 === 0 ? 'blue' : 'darkblue'}]}  
                             key={program._id}
                             onPress={() => navigation.navigate('Track a Program',
                                 { program })}
                         >
+                            <LinearGradient
+                                top={getGradientColors(program.programCategory)[0]}
+                                bottom={getGradientColors(program.programCategory)[1]}
+                                style={programStyles.singleProgramContainer}
+                            >
                             <Text style={programStyles.programTitle}>
                                 {program.programName}
                             </Text>
+                            </LinearGradient>
                         </Pressable>
                     ))}
                 </ScrollView>
