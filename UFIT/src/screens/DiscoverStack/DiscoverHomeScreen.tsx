@@ -1,13 +1,14 @@
 import * as React from 'react';
 import { Text, View, Pressable, ScrollView} from 'react-native';
-import { FeedStyles } from '../style';
-import API, {Program} from '../../api';
-// import { StackNavigationProp } from '@react-navigation/stack';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+
 import { StackParamList } from '../UserDiscover';
 import LinearGradient from '../../components/LinearGradient';
-import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 import { getGradientColors } from '../../components/getGradient';
+
+import API, {Program} from '../../api';
+import { FeedStyles } from '../style';
+
 type DiscoverHomeScreenProps = {
     navigation: NativeStackNavigationProp<StackParamList, 'Discover'>;
 };
@@ -20,7 +21,6 @@ export default function DiscoverHomeScreen({navigation: navigator}: DiscoverHome
     // get all programs from the database
     React.useEffect(() => {
         API.getPrograms().then((response) => {
-            // console.log(response.data);
             setPrograms(response.data.data);
             setError(null);
         })

@@ -1,13 +1,12 @@
 import React, {useEffect, useState} from "react";
-import { Text, View, ScrollView, Pressable, TouchableOpacity } from "react-native";
+import { Text, View, TouchableOpacity } from "react-native";
 import { RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+
 import { StackParamList } from "../../UserPrograms";
-import { timerStyles, FeedStyles } from '../../style';
-import RepBubble from '../../../components/RepBubble'
-// import { Session } from "../../../api";
-import { useNavigation } from "@react-navigation/native";
 import LinearGradient from "../../../components/LinearGradient";
+
+import { timerStyles } from '../../style';
 
 
 export type TimerScreenRouteProp = RouteProp<StackParamList, 'TimerScreen'>;
@@ -18,66 +17,122 @@ type TimerScreenProps = {
 };
 
 export default function TimerScreen({route, navigation}: TimerScreenProps){
-    const {time} = route.params;
+    const {roundMin} = route.params;
+    const {roundSec} = route.params;
+    const {rounds} = route.params;
+    const {restMin} = route.params;
+    const {restSec} = route.params;
     const {movementName} = route.params;
+    const {onEnd} = route.params;
+
+    const time = roundMin * 60 + roundSec;
+    const rest = restMin * 60 + restSec;
+
     const [seconds, setSeconds] = useState(time); 
+    const [roundsCompleted, setRoundsCompleted] = useState(0);
+
     const [isRunning, setIsRunning] = useState(false);
+    const [isResting, setIsResting] = useState(false);
     
     useEffect(() => {
         let timer: any;
         if (isRunning && seconds > 0) {
             timer = setTimeout(() => setSeconds(seconds - 1), 1000);
+        } else if (isRunning && seconds === 0) {
+            if (isResting && roundsCompleted < rounds) {
+                setSeconds(time);
+                setIsResting(false);
+            } else if (!isResting && roundsCompleted < rounds) {
+                setRoundsCompleted(roundsCompleted + 1);
+                if(roundsCompleted + 1 < rounds){
+                    setSeconds(rest);
+                    setIsResting(true);
+                }
+            }
         }
         return () => clearTimeout(timer);
-        
-    }, [seconds, isRunning]);
+    }, [seconds, isRunning, isResting, roundsCompleted, rounds, time, rest]);
+
 
     const displayMinutes = Math.floor(seconds / 60);
     const displaySeconds = Math.floor(seconds % 60);
     
     return (
         <LinearGradient
-        top="#ffffff"
-        bottom="#000000"
+        top="#404040"
+        bottom="#252525"
         style={{ minHeight: "100%" }}
         >
-        {/* <View style={[FeedStyles.viewContainer]}>
-        <View>
-            <Text style={[FeedStyles.titleBarText]}>
-                {movementName}
-            </Text>
-        </View> */}
-        <View style={timerStyles.viewContainer}>
-            <TouchableOpacity
-                style={{padding:20, borderRadius: 10}}
-                onPress = {() => navigation.goBack()}
-            >
-                <Text>BACK</Text>
-            </TouchableOpacity>
+        <View style={[timerStyles.viewContainer, {justifyContent:'space-evenly'}]}>
         <Text style={{
             color:'white', 
             fontSize: 80, 
             letterSpacing: 1.5, 
             fontWeight: 'bold', 
-            shadowColor: 'black', 
+            shadowColor: 'gray', 
+            shadowOffset: { width: 0, height: -4 },
+            shadowOpacity: 0.5,
+            shadowRadius: 2
+        }}>  
+        {isResting ? 'Rest' : 'Round'}
+            </Text>
+            <Text style={{
+            color:'white', 
+            fontSize: 80, 
+            letterSpacing: 1.5, 
+            fontWeight: 'bold', 
+            shadowColor: 'gray', 
+            shadowOffset: { width: 0, height: -4 },
+            shadowOpacity: 0.5,
+            shadowRadius: 2
+        }}>  
+        {/* isresting condtional */}
+            {roundsCompleted} / {rounds}
+        </Text>
+        <Text style={{
+            color:'white', 
+            fontSize: 100, 
+            letterSpacing: 1.5, 
+            fontWeight: 'bold', 
+            shadowColor: 'gray', 
             shadowOffset: { width: 0, height: -4 },
             shadowOpacity: 0.5,
             shadowRadius: 2
         }}>            
-            {/* {seconds} */}
             {displayMinutes}:{displaySeconds < 10 ? `0${displaySeconds}` : displaySeconds}
         </Text>
         <TouchableOpacity
             style={{padding:20, borderRadius: 10}}
             onPress={() => setIsRunning(!isRunning)}
         >
-            <Text style={{color: 'white', fontSize: 80, letterSpacing: 1.5, fontWeight:'bold',             shadowColor: 'black', 
-            shadowOffset: { width: 0, height: -3 },
+            <Text style={{color: 'white', fontSize: 40, letterSpacing: 1.5, fontWeight:'bold',             shadowColor: 'gray', 
+            shadowOffset: { width: 0, height: -4 },
             shadowOpacity: 0.4,
             shadowRadius: 2}}>
                 {isRunning ? 'Stop' : 'Start'}
             </Text>
         </TouchableOpacity>
+        <TouchableOpacity
+    style={{padding:20, borderRadius: 10}}
+    onPress = {() => {
+        onEnd(movementName, roundsCompleted, seconds);
+        navigation.goBack();
+    }}
+>
+    <Text style={{
+        color: 'white', 
+        fontSize: 40, 
+        letterSpacing: 1.5, 
+        fontWeight:'bold', 
+        shadowColor: 'gray', 
+        shadowOffset: { width: 0, height: -4 },
+        shadowOpacity: 0.4,
+        shadowRadius: 2
+    }}>
+        End
+    </Text>
+</TouchableOpacity>
+
         </View>
         </LinearGradient>
     );

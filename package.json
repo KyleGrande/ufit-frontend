@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "@react-native-picker/picker": "^2.4.10",
-    "moment": "^2.29.4"
+    "moment": "^2.29.4",
+    "react-native-gesture-handler": "^2.12.0"
   }
 }

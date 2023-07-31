@@ -78,7 +78,7 @@ export const trackingStyles = StyleSheet.create({
         color: 'white',
         fontSize: 30,
         fontWeight: 'bold',
-        letterSpacing: 1.2,
+        letterSpacing: 1.4,
     },
     programDescription: {
         paddingTop: 20,
@@ -98,7 +98,8 @@ export const trackingStyles = StyleSheet.create({
     singleSessionContainer: {
         alignItems: 'flex-start',
         justifyContent: 'center',
-        height: 70,
+        // height: 70,
+        minHeight: 70,
         marginTop: 20,
         borderRadius: 10,
         paddingLeft: 10,
@@ -114,7 +115,7 @@ export const trackingStyles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-evenly',
         alignItems: 'center',
-        // backgroundColor: 'red',
+        flexWrap: 'wrap',
     },
     timerButton: {
         margin: 10,
@@ -126,13 +127,44 @@ export const trackingStyles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
+    movementName: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: 'white',
+        padding: 5,
+        marginLeft: 20,
+        marginTop: 10,
+    },
+    trackingTextInput: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: 'white',
+        padding: 5,
+        marginLeft: 20,
+        marginTop: 10,
+        borderBottomColor: 'white',
+        borderBottomWidth: 1,
+        alignContent:'center',
+        textAlign:'center', 
+        marginBottom: 0, 
+        paddingBottom:0
+    },
+    trackingTextInputName: {
+        color: 'white',
+        padding: 5,
+        marginLeft: 20,
+        marginTop:0,
+        fontSize:12,
+        textAlign:'center'
+    },
+    
 });
 
 export const creatingStyles = StyleSheet.create({
     viewContainer: {
         paddingTop: 100,
         height: '100%',
-        backgroundColor: 'blue',
+ //       backgroundColor: 'blue',
     },
 });
 
@@ -192,7 +224,7 @@ export const repBubbleStyles = StyleSheet.create({
         height: 35,
         borderRadius: 50,
         borderWidth: 1,
-        borderColor: 'gray',
+        borderColor: 'white',
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -246,6 +278,33 @@ export const discoverProgramStyles = StyleSheet.create({
         fontWeight: 'bold',
         letterSpacing: 1,
     },
+    
+    movementContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        padding: 5,
+        marginTop: 5,
+    }, 
+    movementText: {
+        fontSize: 15,
+        // marginBottom: 5,
+    },
+    singleSessionContainer: {
+        // alignItems: 'flex-start',
+        // justifyContent: 'center',
+        minHeight: 70,
+        marginBottom: 20,
+        borderRadius: 10,
+        paddingLeft: 10,
+        paddingRight: 10,
+        backgroundColor: 'white',
+    },
+    sessionTitle: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: 'white',
+        // padding: 5,
+    },
 
 });
 
@@ -297,3 +356,4 @@ export const loginStyles = StyleSheet.create({
         marginBottom: 20,
     },
 });
+
