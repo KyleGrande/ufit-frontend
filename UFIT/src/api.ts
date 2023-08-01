@@ -33,6 +33,7 @@ export type typetracking = {
     restSec: number;
     roundMin: number;
     roundSec: number;
+    notes: string;
 };
 export type TrackingDataSchema = {
     trackingType: string;

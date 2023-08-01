@@ -16,6 +16,9 @@ import { RoundsTracker } from "../../../components/RoundsTracker";
 import api, { Movement, TrackingDataSchema, WorkoutHistory } from "../../../api";
 import { trackingStyles } from '../../style';
 import { object } from "yup";
+import { FontAwesome } from '@expo/vector-icons'; 
+import { MovementNoteModal } from "../../../components/MovementNoteModal";
+
 
 // used for accessing route parameters in a type-safe way
 export type TrackSessionScreenRouteProp = RouteProp<StackParamList, 'Track a Session'>;
@@ -33,13 +36,18 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps){
     const navigation = useNavigation<NativeStackNavigationProp<StackParamList, 'Track a Session'>>();
 
     const [selectedMovement, setSelectedMovement] = useState<Movement | null>(null);
-    const [modalVisible, setModalVisible] = useState(false);
+    const [infoModalVisible, setInfoModalVisible] = useState(false);
+    const [noteModalVisible, setNoteModalVisible] = useState(false);
 
-
-    const handleOnPress = useCallback((movement: Movement) => {
+    const handleOnInfoPress = useCallback((movement: Movement) => {
         setSelectedMovement(movement);
-        setModalVisible(true);
-    }, [setSelectedMovement, setModalVisible]);
+        setInfoModalVisible(true);
+    }, [setSelectedMovement, setInfoModalVisible]);
+
+    const handleOnNotePress = useCallback((movement: Movement) => {
+        setSelectedMovement(movement);
+        setNoteModalVisible(true);
+    }, [setSelectedMovement, setInfoModalVisible]);
 
     const getMovementTrackingData = useCallback(() => {
         return movements.map(movement => ({
@@ -89,8 +97,11 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps){
                     <View key={movement._id.$oid}>
                         <View style={[{flexDirection: 'row', alignItems:'center'}]}>
                         <Text style={[trackingStyles.movementName, {fontWeight:'bold'}]}>{movement.movementName}</Text>
-                        <TouchableOpacity style={[{ justifyContent: 'center', height:35, width:40}]} onPress={() => handleOnPress(movement)}>
+                        <TouchableOpacity style={[{ justifyContent: 'center', height:35, width:40}]} onPress={() => handleOnInfoPress(movement)}>
                         <AntDesign name="infocirlceo" size={20} color="lightblue" />
+                        </TouchableOpacity>
+                        <TouchableOpacity style={[{ justifyContent: 'center', height:35, width:40}]} onPress={() => handleOnNotePress(movement)}>
+                        <FontAwesome name="sticky-note-o" size={20} color="lightblue" />
                         </TouchableOpacity>
                         </View>
                         {movement.typeTracking.trackingType === 'setsreps' && 
@@ -157,9 +168,15 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps){
         
         <MovementInfoModal
             selectedMovement={selectedMovement}
-            modalVisible={modalVisible}
-            setModalVisible={setModalVisible}
+            modalVisible={infoModalVisible}
+            setModalVisible={setInfoModalVisible}
         />
+        <MovementNoteModal
+            selectedMovement={selectedMovement}
+            modalVisible={noteModalVisible}
+            setModalVisible={setNoteModalVisible}
+        />
+
         </LinearGradient>
         
     );
