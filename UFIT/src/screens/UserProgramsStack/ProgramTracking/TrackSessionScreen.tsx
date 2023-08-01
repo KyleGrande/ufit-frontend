@@ -13,12 +13,8 @@ import RepBubble from '../../../components/RepBubble'
 import {RepSetsTracker} from '../../../components/RepSetsTracker';
 import { RoundsTracker } from "../../../components/RoundsTracker";
 
-import api, { Movement, TrackingDataSchema, WorkoutHistory } from "../../../api";
+import { Movement } from "../../../api";
 import { trackingStyles } from '../../style';
-import { object } from "yup";
-import { FontAwesome } from '@expo/vector-icons'; 
-import { MovementNoteModal } from "../../../components/MovementNoteModal";
-
 
 // used for accessing route parameters in a type-safe way
 export type TrackSessionScreenRouteProp = RouteProp<StackParamList, 'Track a Session'>;
@@ -29,55 +25,17 @@ type TrackSessionScreenProps = {
 export default function TrackSessionScreen({ route }: TrackSessionScreenProps){
     const { program, session, movements } = route.params;
 
-    type TrackingData = Record<string, TrackingDataSchema[]>;
-
-    const [trackingData, setTrackingData] = useState<TrackingData>({});
-
+    const [trackingData, setTrackingData] = useState({});
     const navigation = useNavigation<NativeStackNavigationProp<StackParamList, 'Track a Session'>>();
 
     const [selectedMovement, setSelectedMovement] = useState<Movement | null>(null);
-    const [infoModalVisible, setInfoModalVisible] = useState(false);
-    const [noteModalVisible, setNoteModalVisible] = useState(false);
+    const [modalVisible, setModalVisible] = useState(false);
 
-    const handleOnInfoPress = useCallback((movement: Movement) => {
+
+    const handleOnPress = useCallback((movement: Movement) => {
         setSelectedMovement(movement);
-        setInfoModalVisible(true);
-    }, [setSelectedMovement, setInfoModalVisible]);
-
-    const handleOnNotePress = useCallback((movement: Movement) => {
-        setSelectedMovement(movement);
-        setNoteModalVisible(true);
-    }, [setSelectedMovement, setInfoModalVisible]);
-
-    const getMovementTrackingData = useCallback(() => {
-        return movements.map(movement => ({
-            movementId: movement._id,
-            movementName: movement.movementName,
-            section: 'main',
-            trackingData: trackingData[movement.movementName],
-        }));
-    }, [movements, trackingData]);
-
-    const handleSubmit = () => {
-        console.log(getMovementTrackingData())
-        const histories = {
-            userId: '60a6d9b3e13a0a0015b9a8a0',
-            programId: program._id,
-            programName: program.programName,
-            sessionName: session.name,
-            workoutDate: new Date(),
-            movements: getMovementTrackingData(),
-            
-        }
-        console.log('sending to api');
-        api.insertWorkoutHistory(histories).then((response) => {
-            console.log(response.status);
-        }
-        ).catch((err) => {
-            console.log(err);
-        }
-        );
-    };
+        setModalVisible(true);
+    }, [setSelectedMovement, setModalVisible]);
 
 
     return (
@@ -97,11 +55,8 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps){
                     <View key={movement._id.$oid}>
                         <View style={[{flexDirection: 'row', alignItems:'center'}]}>
                         <Text style={[trackingStyles.movementName, {fontWeight:'bold'}]}>{movement.movementName}</Text>
-                        <TouchableOpacity style={[{ justifyContent: 'center', height:35, width:40}]} onPress={() => handleOnInfoPress(movement)}>
+                        <TouchableOpacity style={[{ justifyContent: 'center', height:35, width:40}]} onPress={() => handleOnPress(movement)}>
                         <AntDesign name="infocirlceo" size={20} color="lightblue" />
-                        </TouchableOpacity>
-                        <TouchableOpacity style={[{ justifyContent: 'center', height:35, width:40}]} onPress={() => handleOnNotePress(movement)}>
-                        <FontAwesome name="sticky-note-o" size={20} color="lightblue" />
                         </TouchableOpacity>
                         </View>
                         {movement.typeTracking.trackingType === 'setsreps' && 
@@ -111,20 +66,8 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps){
                             reps={movement.typeTracking.reps} 
                             weight={movement.typeTracking.weight} 
                             onRepSetTrackerChange={(setsCompleted: number, weight: number, reps:number) => {
-                                const currentData = trackingData[movement.movementName] || {};
-                                setTrackingData(prevData => ({
-                                    ...prevData,
-                                    [movement.movementName]: {
-                                        ...currentData,
-                                        trackingType: movement.typeTracking.trackingType,
-                                        setsCompleted,
-                                        reps,
-                                        weight
-                                    }
-                                }));
-                            }
-                        }
-                        />
+                            setTrackingData(prevData => ({...prevData, [movement.movementName]: {setsCompleted, reps, weight}}))
+                        }} />
                         }
                         {movement.typeTracking.trackingType === 'rounds' &&
                         <RoundsTracker
@@ -135,19 +78,8 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps){
                             restSec={movement.typeTracking.restSec ?? 0}
                             movementName={movement.movementName}
                             onRoundsTrackerChange={(roundsCompleted: number, roundMinRemain: number, roundSecRemain: number) => {
-                                const currentData = trackingData[movement.movementName] || {};
-                                setTrackingData(prevData => ({
-                                    ...prevData,
-                                    [movement.movementName]: {
-                                        ...currentData,
-                                        trackingType: movement.typeTracking.trackingType,
-                                        roundsCompleted,
-                                        roundMinRemain,
-                                        roundSecRemain
-                                    }
-                                }));
-                            }
-                        }
+                            setTrackingData(prevData => ({...prevData, [movement.movementName]: {roundsCompleted, roundMinRemain, roundSecRemain}}))
+                        }}
                         />
                         }
                     </View>
@@ -155,8 +87,7 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps){
             </ScrollView>
             <TouchableOpacity
                     style = {[trackingStyles.timerButton, {alignSelf:'center'}]}
-                    onPress={handleSubmit}
-                    >
+                    onPress={() => console.log(trackingData)}>
                     <View
                     style={[]}>
                         <Text>
@@ -168,15 +99,9 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps){
         
         <MovementInfoModal
             selectedMovement={selectedMovement}
-            modalVisible={infoModalVisible}
-            setModalVisible={setInfoModalVisible}
+            modalVisible={modalVisible}
+            setModalVisible={setModalVisible}
         />
-        <MovementNoteModal
-            selectedMovement={selectedMovement}
-            modalVisible={noteModalVisible}
-            setModalVisible={setNoteModalVisible}
-        />
-
         </LinearGradient>
         
     );
