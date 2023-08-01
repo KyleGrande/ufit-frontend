@@ -63,7 +63,7 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps){
         }
         console.log('sending to api');
         api.insertWorkoutHistory(histories).then((response) => {
-            console.log(response);
+            console.log(response.status);
         }
         ).catch((err) => {
             console.log(err);
