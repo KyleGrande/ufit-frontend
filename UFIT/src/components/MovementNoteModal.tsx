@@ -1,14 +1,13 @@
 import React from 'react';
-import { Text, View, Pressable, TouchableOpacity, Modal } from 'react-native';
-import YoutubePlayer from "react-native-youtube-iframe"; 
+import { Text, View, Pressable, TouchableOpacity, Modal, TextInput } from 'react-native';
 
-type MovementInfoModalProps = {
+type MovementNoteModalProps = {
     selectedMovement: any,
     modalVisible: boolean,
     setModalVisible: (visible: boolean) => void,
 };
 
-export const MovementInfoModal = ({selectedMovement, modalVisible, setModalVisible}: MovementInfoModalProps) => (
+export const MovementNoteModal = ({selectedMovement, modalVisible, setModalVisible}: MovementNoteModalProps) => (
     <Modal
     animationType="slide"
     transparent={true}
@@ -16,8 +15,8 @@ export const MovementInfoModal = ({selectedMovement, modalVisible, setModalVisib
     onRequestClose={() => {
         setModalVisible(!modalVisible);
     }}
->
-    <Pressable style={{flex: 1,
+    >
+        <Pressable style={{flex: 1,
                         justifyContent: 'center',
                         alignItems: 'center',
                         minWidth: 40,
@@ -26,21 +25,17 @@ export const MovementInfoModal = ({selectedMovement, modalVisible, setModalVisib
                 onStartShouldSetResponder={() => true}>
         <View style={{backgroundColor: 'white',
                     padding: 20,
-                    borderRadius: 20}} 
+                    borderRadius: 20,
+                    minWidth: 300,
+                    minHeight: 200}} 
                 onStartShouldSetResponder={() => true}
         >
-            <Text style={[{paddingBottom: 7, fontSize: 16}]}>
-                {selectedMovement?.movementDescription}
-            </Text>
-            {selectedMovement?.movementLink && (
-                <YoutubePlayer
-                    height={170}
-                    width={300}
-                    play={false}
-                    videoId="dQw4w9WgXcQ"
-                />
-            )}
-        </View>
+    <TextInput
+        multiline={true}
+        style={{ maxHeight: 200, maxWidth: 300,flex:1, flexWrap: 'wrap'}}
+        placeholder='Enter Note'
+    />
+    </View>
     </Pressable>
 </Modal>
 );
