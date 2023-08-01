@@ -1,4 +1,13 @@
 export type Program = {
+    _id: { $oid: string};
+    programName: string;
+    programDescription: string;
+    programCategory: string;
+    userId: string;
+    session: Session[];
+    __v?: { $numberInt: string };
+};
+export type NewProgram = {
     _id?: { $oid: string};
     programName: string;
     programDescription: string;
@@ -75,7 +84,7 @@ export const api = axios.create({
 
 export default {
     getPrograms: () => api.get('/program'),
-    addProgram: (newProgram: Program) => api.post('/program', newProgram),
+    addProgram: (newProgram: NewProgram) => api.post('/program', newProgram),
     insertProgram: (newProgram: Program) => api.post('/program', newProgram),
     updateProgram: (updatedProgram: Program) => api.put('/program/by-id', updatedProgram),
     deleteProgram: (id: string) => api.delete(`/program/by-id/${id}`),
