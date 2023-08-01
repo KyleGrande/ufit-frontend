@@ -39,6 +39,20 @@ export default function DiscoverProgramScreen({ route, navigation }: DiscoverPro
         getMovements(movementIds);
     }, [program]);
 
+    const handleOnPress = () => {
+        let newProgram = {...program};
+        newProgram.userId = '60a6d9b3e13a0a0015b9a8a0';
+        newProgram.programName = `${program.programName} (copy)`;
+        delete newProgram._id;
+        API.addProgram(newProgram).then((response) => {
+            console.log(response);
+        }
+        ).catch((err) => {
+            console.log(err);
+        }
+        );
+    }
+
 
     return (
         <LinearGradient
@@ -99,8 +113,7 @@ export default function DiscoverProgramScreen({ route, navigation }: DiscoverPro
                     <Button 
                         title="Add Program" 
                         color='orange' 
-                        onPress={() => 
-                            console.log(program)}
+                        onPress={handleOnPress}
                     />
                 </View>
         </View>

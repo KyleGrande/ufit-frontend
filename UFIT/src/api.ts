@@ -1,11 +1,11 @@
 export type Program = {
-    _id: { $oid: string};
+    _id?: { $oid: string};
     programName: string;
     programDescription: string;
     programCategory: string;
     userId: string;
     session: Session[];
-    __v: { $numberInt: string };
+    __v?: { $numberInt: string };
 };
 export type Session = {
     name: string;
@@ -55,7 +55,7 @@ export type MovementHistory = {
 };
 export type WorkoutHistory = {
     // _id: string;
-    programId: {$oid: string};
+    programId?: {$oid: string};
     programName: string;
     sessionName: string;
     // userId: {$oid: string};
@@ -69,11 +69,13 @@ export type WorkoutHistory = {
 import axios from "axios";
 
 export const api = axios.create({
-    baseURL: 'http://54.205.215.210:3000/api',
+    // baseURL: 'http://54.205.215.210:3000/api',
+    baseURL: 'http://localhost:3000/api',
 });
 
 export default {
     getPrograms: () => api.get('/program'),
+    addProgram: (newProgram: Program) => api.post('/program', newProgram),
     insertProgram: (newProgram: Program) => api.post('/program', newProgram),
     updateProgram: (updatedProgram: Program) => api.put('/program/by-id', updatedProgram),
     deleteProgram: (id: string) => api.delete(`/program/by-id/${id}`),
