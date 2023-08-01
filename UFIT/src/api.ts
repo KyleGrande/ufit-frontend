@@ -1,5 +1,5 @@
 export type Program = {
-    _id: string;
+    _id: { $oid: string};
     programName: string;
     programDescription: string;
     programCategory: string;
@@ -9,6 +9,7 @@ export type Program = {
 };
 export type Session = {
     name: string;
+    // restDays: number;
     movementId: { $oid: string }[];
     _id: string;
 };
@@ -33,6 +34,36 @@ export type typetracking = {
     roundMin: number;
     roundSec: number;
 };
+export type TrackingDataSchema = {
+    trackingType: string;
+    reps?: number;
+    setsCompleted?: number;
+    roundsCompleted?: number;
+    roundSecRemain?: number;
+    roundMinRemain?: number;
+    speed?: number;
+    weight?: number;
+};
+
+export type MovementHistory = {
+    // _id: string;
+    movementId: {$oid: string};
+    movementName: string;
+    section: string;
+    trackingData: TrackingDataSchema[];
+};
+export type WorkoutHistory = {
+    // _id: string;
+    programId: {$oid: string};
+    programName: string;
+    sessionName: string;
+    // userId: {$oid: string};
+    userId: string,
+    workoutDate: Date;
+    movements: MovementHistory[];
+};
+
+
 
 import axios from "axios";
 
@@ -46,4 +77,5 @@ export default {
     updateProgram: (updatedProgram: Program) => api.put('/program/by-id', updatedProgram),
     deleteProgram: (id: string) => api.delete(`/program/by-id/${id}`),
     getMovementByIds: (ids: {$oid:string}[]) => api.post(`/movement/by-ids/`, {ids}),
+    insertWorkoutHistory: (newWorkoutHistory: WorkoutHistory) => api.post('/workout-history', newWorkoutHistory),
 }

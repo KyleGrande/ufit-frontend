@@ -50,7 +50,7 @@ export default function DiscoverHomeScreen({navigation: navigator}: DiscoverHome
                         <Pressable
                             // style={[FeedStyles.singleProgramContainer, 
                             //     {backgroundColor: index % 2 === 0 ? 'blue' : 'darkblue'}]}  
-                            key={program._id}
+                            key={program._id.$oid}
                             onPress={() => navigator.navigate('Program',
                                 { program })}
                         >

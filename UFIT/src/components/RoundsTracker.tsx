@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { View, Text, TextInput, TouchableOpacity } from "react-native";
 import { trackingStyles,  } from '../screens/style';
 import { useNavigation } from '@react-navigation/native';
@@ -32,6 +32,7 @@ export const RoundsTracker = ({rounds, roundMin, roundSec, restMin,restSec, move
 
     const [completedMovements, setCompletedMovements] = useState(new Set<string>());
 
+    
 
     const handleRoundsChange = (roundsString: string) => {
         const roundsNum = Number(roundsString);
@@ -78,6 +79,15 @@ export const RoundsTracker = ({rounds, roundMin, roundSec, restMin,restSec, move
         navigation.navigate('TimerScreen', {movementName, roundMin, roundSec, rounds, restMin, restSec, onEnd});
     }, [navigation, onEnd, localRoundMin, localRoundSec, localRestMin, localRestSec, localRounds]);
 
+    useEffect(() => { 
+        // call onRoundsTrackerChange when component mounts to set initial values
+        let roundMinRemain = localRoundMin;
+        let roundSecRemain = localRoundSec;
+    
+        onRoundsTrackerChange(localRounds, roundMinRemain, roundSecRemain);
+    }, []);
+    
+    
     return (
         <View>
             <TouchableOpacity
