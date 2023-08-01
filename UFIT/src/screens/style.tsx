@@ -175,7 +175,7 @@ export const FeedStyles = StyleSheet.create({
     },
     programsContainer: {
         width: '100%',
-        // marginTop: 20,
+        marginTop: 20,
         paddingRight: 40,
         paddingLeft: 40,
 

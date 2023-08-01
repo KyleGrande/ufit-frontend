@@ -7,7 +7,7 @@ import { StackParamList } from "../UserDiscover";
 import LinearGradient from "../../components/LinearGradient";
 import { getGradientColors } from "../../components/getGradient";
 
-import API, { Session, NewProgram } from "../../api";
+import API, { Session } from "../../api";
 import { programStyles, trackingStyles, discoverProgramStyles } from '../style';
 
 // used for accessing route parameters in a type-safe way
@@ -38,20 +38,6 @@ export default function DiscoverProgramScreen({ route, navigation }: DiscoverPro
         } );
         getMovements(movementIds);
     }, [program]);
-
-    const handleOnPress = () => {
-        let newProgram: NewProgram = {...program};
-        newProgram.userId = '60a6d9b3e13a0a0015b9a8a0';
-        newProgram.programName = `${program.programName} (copy)`;
-        delete newProgram._id;
-        API.addProgram(newProgram).then((response) => {
-            // console.log(response);
-        }
-        ).catch((err) => {
-            console.log(err);
-        }
-        );
-    }
 
 
     return (
@@ -113,7 +99,8 @@ export default function DiscoverProgramScreen({ route, navigation }: DiscoverPro
                     <Button 
                         title="Add Program" 
                         color='orange' 
-                        onPress={handleOnPress}
+                        onPress={() => 
+                            console.log(program)}
                     />
                 </View>
         </View>
