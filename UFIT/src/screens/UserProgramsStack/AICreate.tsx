@@ -1,4 +1,5 @@
-import * as React from 'react';
+// import * as React from 'react';
+import React, {useState} from 'react';
 import { Text, View, Button, ScrollView, Pressable, TextInput, Touchable, TouchableOpacity } from 'react-native';
 import { createNativeStackNavigator, NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { StackParamList } from '../UserPrograms';
@@ -8,13 +9,13 @@ import axios from 'axios';
 import LinearGradient from '../../components/LinearGradient';
 import { getGradientColors } from '../../components/getGradient';
 // used for calling navigation ina type safe way
-type ProgramsMainScreenProps = {
+type AICreateScreenProps = {
     navigation: NativeStackNavigationProp<StackParamList, 'User Programs'>;
 };
 
-export default function AICreate({ navigation }: ProgramsMainScreenProps){
-    const [textInput, setTextInput] = React.useState<string>('');
-    const [aiProgram, setAiProgram] = React.useState<any>();
+export default function AICreate({  }: AICreateScreenProps){
+    const [textInput, setTextInput] = useState<string>('');
+    const [aiProgram, setAiProgram] = useState<any>();
     const handleSubmit = () => {
         console.log(textInput);
     
