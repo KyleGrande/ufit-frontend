@@ -91,4 +91,5 @@ export default {
     deleteProgram: (id: string) => api.delete(`/program/by-id/${id}`),
     getMovementByIds: (ids: {$oid:string}[]) => api.post(`/movement/by-ids/`, {ids}),
     insertWorkoutHistory: (newWorkoutHistory: WorkoutHistory) => api.post('/workout-history', newWorkoutHistory),
+    addMovement: (newMovement: Movement) => api.post('/movement', newMovement),
 }

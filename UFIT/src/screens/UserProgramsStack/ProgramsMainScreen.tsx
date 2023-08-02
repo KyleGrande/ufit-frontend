@@ -53,12 +53,18 @@ export default function ProgramsMainScreen({ navigation }: ProgramsMainScreenPro
                         </Pressable>
                     ))}
                 </ScrollView>
-                <View style={programStyles.buttonContainer}>
+                <View style={[programStyles.buttonContainer,{flexDirection:'row', justifyContent:'space-evenly'}]}>
                     <Button 
                         title="Create Program" 
                         color='orange' 
                         onPress={() => 
                             navigation.navigate('Create a Program')} 
+                    />
+                    <Button 
+                        title="AI Create" 
+                        color='orange' 
+                        onPress={() => 
+                            navigation.navigate('AI Create')} 
                     />
                 </View>
             </View>

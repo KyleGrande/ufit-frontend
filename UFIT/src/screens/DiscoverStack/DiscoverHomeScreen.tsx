@@ -76,8 +76,8 @@ export default function DiscoverHomeScreen({navigation: navigator}: DiscoverHome
                                 { program })}
                         >
                             <LinearGradient
-                                top={getGradientColors(program.programCategory)[0]}
-                                bottom={getGradientColors(program.programCategory)[1]}
+                                top={getGradientColors(program.programCategory.toLowerCase())[0]}
+                                bottom={getGradientColors(program.programCategory.toLowerCase())[1]}
                                 style={FeedStyles.singleProgramContainer}
                             >
                             <Text style={FeedStyles.programTitle}>
