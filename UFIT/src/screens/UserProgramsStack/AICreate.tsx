@@ -89,8 +89,8 @@ export default function AICreate({  }: AICreateScreenProps){
 
     return (
         <LinearGradient
-        top={aiProgram ? getGradientColors(aiProgram.programCategory)[0] : "#000"}
-        bottom={aiProgram ? getGradientColors(aiProgram.programCategory)[1] : "#EA9CFD"}
+        top={aiProgram ? getGradientColors(aiProgram.programCategory.toLowerCase())[0] : "#000"}
+        bottom={aiProgram ? getGradientColors(aiProgram.programCategory.toLowerCase())[1] : "#EA9CFD"}
         style={{ minHeight: "100%" }}
         >   
                 <View style={programStyles.viewContainer}>
