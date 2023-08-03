@@ -23,7 +23,8 @@ export const CreateModal = ({ modalVisible, setModalVisible, navigation}: Create
                         backgroundColor: 'rgba(0,0,0,0.5)'}} 
                 onPress={() => setModalVisible(false)} 
                 onStartShouldSetResponder={() => true}>
-        <View style={{backgroundColor: 'white',
+        <View style={{
+                    // backgroundColor: 'white',
                     padding: 20,
                     borderRadius: 20,
                     minWidth: 300,
@@ -38,21 +39,21 @@ export const CreateModal = ({ modalVisible, setModalVisible, navigation}: Create
             setModalVisible(false);
             
         }}
-        style={{alignSelf: 'center'}}
+        style={{alignSelf: 'center', borderColor:'orange', borderWidth:2, borderRadius:10, padding:10,backgroundColor:'white'}}
         >
-    <Text style={{color: 'orange', alignSelf: 'center', paddingBottom:10, fontSize:36, fontWeight:'bold'}}>User</Text>
-    <Text style={{color: 'orange', alignSelf: 'center', fontSize:36}}>Create</Text>
+    <Text style={{color: 'orange', alignSelf: 'center', paddingBottom:10, fontSize:36, fontWeight:'bold', letterSpacing:2}}>User</Text>
+    <Text style={{color: 'orange', alignSelf: 'center', fontSize:36, letterSpacing:1.1}}>Create</Text>
     </TouchableOpacity>
-    <Entypo name="flow-line" size={100} color="orange" style={{alignSelf:'center'}}/>
+    <Entypo name="flow-line" size={80} color="orange" style={{alignSelf:'center'}}/>
     <TouchableOpacity
         onPress={() => {
             navigation.navigate('AI Create');
             setModalVisible(false);
         }}
-        style={{alignSelf: 'center'}}
+        style={{alignSelf: 'center', borderColor:'orange', borderWidth:2, borderRadius:10, padding:10,backgroundColor:'white'}}
         >
-    <Text style={{color: 'orange', alignSelf: 'center', paddingBottom:10, fontSize:36, fontWeight:'bold'}}>AI</Text>
-    <Text style={{color: 'orange', alignSelf: 'center', fontSize:36}}>Create</Text>
+    <Text style={{color: 'orange', alignSelf: 'center', paddingBottom:10, fontSize:36, fontWeight:'bold',letterSpacing:4}}>AI</Text>
+    <Text style={{color: 'orange', alignSelf: 'center', fontSize:36,letterSpacing:1.1}}>Create</Text>
     </TouchableOpacity>
     </View>
     </Pressable>
