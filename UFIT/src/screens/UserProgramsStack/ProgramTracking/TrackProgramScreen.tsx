@@ -41,8 +41,8 @@ export default function TrackProgramScreen({ route, navigation }: TrackProgramSc
 
     return (
         <LinearGradient
-        top={getGradientColors(program.programCategory)[0]}
-        bottom={getGradientColors(program.programCategory)[1]}
+        top={getGradientColors(program.programCategory.toLowerCase())[0]}
+        bottom={getGradientColors(program.programCategory.toLowerCase())[1]}
         style={{ minHeight: "100%" }}
         >
         <View style={trackingStyles.viewContainer}>
