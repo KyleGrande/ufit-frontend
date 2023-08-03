@@ -11,24 +11,41 @@ import { useEffect, useState } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import UserAuth from './src/screens/UserAuth';
 import UserDiscover from './src/screens/UserDiscover';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+// import { Text, View } from 'react-native';
+
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
 function StackDecider() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(()=>{
+        extractToken();
+
+        async function extractToken (){
+            const token = await AsyncStorage.getItem('token');
+            console.log('token', token)
+            if(token) setIsLoggedIn(true)
+            setLoading(false)
+        }
+    },[])
+
+    if(loading) return null
     
     return (
         <Stack.Navigator>
             {isLoggedIn ? (
-                <Stack.Screen name="App" component={MyTabs} options={{headerShown: false}} />
+                <Stack.Screen name="App"  component={() => <MyTabs setIsLoggedIn={setIsLoggedIn} /> } options={{headerShown: false}}  />
             ) : (
                 <Stack.Screen name="Auth" component={() => <UserAuth setIsLoggedIn={setIsLoggedIn} />} options={{headerShown: false}}/>
             )}
         </Stack.Navigator>
     );
 }
-function MyTabs() {
+function MyTabs({setIsLoggedIn}: any) {
     return (
         <Tab.Navigator
             screenOptions={({ route }) => ({
@@ -73,7 +90,7 @@ function MyTabs() {
             />
             <Tab.Screen 
                 name="Settings" 
-                component={UserSettings} 
+                component={()=> <UserSettings setIsLoggedIn={setIsLoggedIn} />} 
                 options={{headerShown: false}}
             />
         </Tab.Navigator>
@@ -83,8 +100,8 @@ function MyTabs() {
 export default function App() {
     return (
         <NavigationContainer>
-            {/* <StackDecider /> */}
-            <MyTabs />
+            <StackDecider />
+            {/* <MyTabs /> */}
         </NavigationContainer>
     );
 }

@@ -10,62 +10,136 @@ import {
 } from "react-native";
 import { styles as globalStyle } from "./style";
 import { StackedBarChart } from "react-native-chart-kit";
-import { fetchWorkoutHistory } from "../service/apiCall";
-import { IHistory } from "../interface/IHistory";
+import { fetchWorkoutHistoryByUserId } from "../service/apiCall";
 // import AutocompleteInput from "react-native-autocomplete-input";
 import moment from "moment-timezone";
 // import { Picker } from "@react-native-picker/picker";
 import DropdownExample from "./DropdownExample";
 import { SafeAreaView } from "react-native-safe-area-context";
 import LinearGradient from "../components/LinearGradient";
+import useAuth from "../hook/useAuth";
 
 const screenWidth = Dimensions.get("window").width;
 
 export default function UserAnalytics() {
   const [workoutHistory, setWorkoutHistory] = useState<any>([]);
   const [loading, setLoading] = useState(true);
-  const [query, setQuery] = useState("");
+
+  // TODO: step1: fetch userId from storage using useAuth hook
+  const { _id } = useAuth();
 
   // HINT: It runs as soon as we move to this screen
   // useEffect can never be async,
   // pass empty array in useEffect as an argument
   // mount phase
   useEffect(() => {
-    getHistory();
+    if (_id) getHistory();
 
     async function getHistory() {
-      const response = await fetchWorkoutHistory();
+      // TODO: step2: fetch only those histories that belong to userId who has signed in
+      const response = await fetchWorkoutHistoryByUserId(_id || "");
       console.log("response?.data", response?.data);
       setWorkoutHistory(response?.data || []);
       setLoading(false);
     }
-  }, []);
+  }, [_id]);
 
-  useEffect(() => {
-    console.log("query", query);
-  }, [query]);
-
-  console.log("workoutHistory", workoutHistory);
   // separate x-axe and y-axe values data from api
-  const labelArray = workoutHistory?.map((iterator: any) => {
-    //x -axe
-    const date = new Date(iterator?.date);
-    const label = moment(date).format("MMMM D");
-    console.log("label", label);
-    return label || "default";
-  });
-  const dataArray = workoutHistory?.map((iterator: any) => [
-    //y-axe
-    iterator?.movements?.length || 0,
-  ]);
+  // const labelArray = workoutHistory?.map((iterator: any) => {
+  //   //x -axe
+  //   const date = new Date(iterator?.date);
+  //   const label = moment(date).format("MMMM D");
+  //   console.log("label", label);
+  //   return label || "default";
+  // });
+  // const dataArray = workoutHistory?.map((iterator: any) => [
+  //   //y-axe
+  //   iterator?.movements?.length || 0,
+  // ]);
 
-  const placeholder = loading ? "Loading data..." : "Search";
+  // const labelArray: any = [];
+  // const dataArray: any = [];
+  const { dataArray, labelArray } = divideArrayIntoGroups(workoutHistory, 2);
 
-  // const options = [
-  //   { label: "Option 1", value: "option1" },
-  //   { label: "Option 2", value: "option2" },
-  //   { label: "Option 3", value: "option3" },
-  // ];
+  console.log("dataArray", dataArray);
+  console.log("labelArray", labelArray);
+
+  // function groupData(workoutHistory: any) {
+  //   const groupNumber = Number(
+  //     workoutHistory.length / workoutHistory.length > 5 ? 6 : 1
+  //   );
+  //   let count = 0;
+  //   const labelArray: any = [];
+  //   const dataArray: any = [];
+
+  //   const tempLabel: any = [];
+  //   const tempDate: any = [];
+
+  //   workoutHistory.forEach((iterator: any, index: number) => {
+  //     console.log("index", index);
+  //     console.log("groupNumber", groupNumber);
+  //     let date;
+  //     let label = "";
+  //     try {
+  //       date = new Date(iterator?.date || Date.now());
+  //       label = moment(date).format("MMMM D") || "null";
+  //     } catch (error) {
+  //       label = "none";
+  //     }
+
+  //     if (!(workoutHistory.length > 5)) {
+  //       labelArray.push(label);
+  //       dataArray.push(iterator?.movements?.length || 0);
+  //     } else {
+  //       tempLabel.push(label);
+  //       tempDate.push(iterator?.movements?.length || 0);
+  //     }
+  //   });
+
+  //   return { labelArray, dataArray };
+  // }
+
+  function divideArrayIntoGroups(arr: any, groupSize: number) {
+    const groups = [];
+    let index = 0;
+
+    while (index < arr.length) {
+      groups.push(arr.slice(index, index + groupSize));
+      index += groupSize;
+    }
+
+    const labelArray: any = [];
+    const dataArray: any = [];
+
+    for (const iterator of groups) {
+      labelArray.push(combineLabels(iterator));
+      dataArray.push([combineMovements(iterator)]);
+    }
+
+    return { labelArray, dataArray };
+  }
+
+  function combineLabels(array: any) {
+    let label = "";
+    array?.forEach((element: any, index: number) => {
+      console.log("element", element?.movements?.length);
+      if (index === 0 || index === array.length - 1) {
+        const date = new Date(element?.date);
+        label = moment(date).format("MMMM D") || "none";
+      }
+    });
+    return label;
+  }
+
+  function combineMovements(array: any) {
+    let count = 0;
+    array?.forEach((element: any, index: number) => {
+      console.log("element", element);
+      count = count + element?.movements?.length || 0;
+      // count = count + index;
+    });
+    return count;
+  }
 
   const options = workoutHistory?.map((item: any, index: number) => ({
     ...item,
@@ -76,8 +150,10 @@ export default function UserAnalytics() {
   const [selectedValue, setSelectedValue] = useState<any>(null);
 
   const handleSelect = (value: any) => {
-    setSelectedValue(value);
+    setSelectedValue(value || null);
+    console.log("--------------------------------------------");
     console.log("value", value?.movements);
+    console.log("--------------------------------------------");
   };
 
   return (
@@ -124,26 +200,29 @@ export default function UserAnalytics() {
             <FlatList
               data={selectedValue?.movements || null}
               renderItem={({ item }: any) => (
-                <View style={styles.card}>
+                <View style={styles.card} key={item?._id}>
                   <Text style={styles.title}>{item?.movementName}</Text>
 
-                  {item?.trackingData?.trackingType && (
+                  {item?.trackingData?.trackingType ||
+                  item?.trackingData?.trackingType === 0 ? (
                     <Text style={styles.content}>
                       {item?.trackingData?.trackingType}
                     </Text>
-                  )}
+                  ) : null}
 
-                  {item?.trackingData?.speed && (
+                  {item?.trackingData?.speed ||
+                  item?.trackingData?.speed === 0 ? (
                     <Text style={styles.content}>
                       {"speed: " + item?.trackingData?.speed}
                     </Text>
-                  )}
+                  ) : null}
 
-                  {item?.trackingData?.rounds && (
+                  {item?.trackingData?.rounds ||
+                  item?.trackingData?.rounds === 0 ? (
                     <Text style={styles.content}>
                       {"rounds: " + item?.trackingData?.rounds}
                     </Text>
-                  )}
+                  ) : null}
 
                   {item?.trackingData?.roundMin &&
                     item?.trackingData?.roundSec && (
@@ -165,35 +244,45 @@ export default function UserAnalytics() {
                       </Text>
                     )}
 
-                  {/* {item?.trackingData?.genMin && item?.trackingData?.genSec && (
-                  <Text style={styles.content}>
-                    {"gen time: " +
-                      item?.trackingData?.genMin +
-                      ":" +
-                      item?.trackingData?.genSec}
-                  </Text>
-                )} */}
+                  {item?.trackingData?.genMin && item?.trackingData?.genSec && (
+                    <Text style={styles.content}>
+                      {"gen time: " +
+                        item?.trackingData?.genMin +
+                        ":" +
+                        item?.trackingData?.genSec}
+                    </Text>
+                  )}
 
-                  {item?.trackingData?.sets && (
+                  {item?.trackingData?.sets ||
+                  item?.trackingData?.sets === 0 ? (
                     <Text style={styles.content}>
                       {"sets: " + item?.trackingData?.sets}
                     </Text>
-                  )}
+                  ) : null}
 
-                  {item?.trackingData?.reps && (
+                  {item?.trackingData?.reps ||
+                  item?.trackingData?.reps === 0 ? (
                     <Text style={styles.content}>
                       {"reps: " + item?.trackingData?.reps}
                     </Text>
-                  )}
+                  ) : null}
 
-                  {item?.trackingData?.weight && (
+                  {item?.trackingData?.weight ||
+                  item?.trackingData?.weight === 0 ? (
                     <Text style={styles.content}>
                       {"weight: " + item?.trackingData?.weight}
                     </Text>
-                  )}
+                  ) : null}
+
+                  {/* {item?.trackingData?.weight !== undefined &&
+                    item?.trackingData?.weight === 0 && (
+                      <Text style={styles.content}>
+                        {"weight: " + (item?.trackingData?.weight || "null")}
+                      </Text>
+                    )} */}
                 </View>
               )}
-              keyExtractor={(item: any) => item?.id}
+              keyExtractor={(item: any, index) => item?._id}
               contentContainerStyle={styles.listContent}
             />
           </SafeAreaView>

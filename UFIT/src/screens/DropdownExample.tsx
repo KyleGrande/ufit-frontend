@@ -46,7 +46,9 @@ const Dropdown = ({ options, selectedValue, onSelect }: any) => {
                   style={styles.optionItem}
                   onPress={() => handleSelect(item)}
                 >
-                  <Text style={styles.optionText}>{item?.sessionName}</Text>
+                  <View>
+                    <Text style={styles.optionText}>{item?.sessionName}</Text>
+                  </View>
                 </TouchableOpacity>
               )}
             />
