@@ -305,6 +305,9 @@ export const discoverProgramStyles = StyleSheet.create({
         justifyContent: 'space-between',
         padding: 5,
         marginTop: 5,
+        borderBottomWidth: .5,
+        borderBottomColor: 'white',
+
     }, 
     movementText: {
         fontSize: 15,
