@@ -42,8 +42,8 @@ export default function ProgramsMainScreen({ navigation }: ProgramsMainScreenPro
                                 { program })}
                         >
                             <LinearGradient
-                                top={getGradientColors(program.programCategory)[0]}
-                                bottom={getGradientColors(program.programCategory)[1]}
+                                top={getGradientColors(program.programCategory.toLowerCase())[0]}
+                                bottom={getGradientColors(program.programCategory.toLowerCase())[1]}
                                 style={programStyles.singleProgramContainer}
                             >
                             <Text style={programStyles.programTitle}>
