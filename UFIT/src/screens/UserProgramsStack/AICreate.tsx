@@ -35,9 +35,7 @@ export default function AICreate({  }: AICreateScreenProps){
     const handleOnPress = async () => {
         let newProgram = {...aiProgram};
         try {
-            // Handle sessions and movements
             await handleSessions(newProgram);
-            // Once done, add the program
             let response = await API.addProgram(newProgram);
             console.log(response.data);
         } catch (err) {
