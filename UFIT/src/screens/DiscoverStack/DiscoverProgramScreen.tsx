@@ -70,7 +70,7 @@ export default function DiscoverProgramScreen({ route, navigation }: DiscoverPro
                 {program.programDescription}
             </Text>
             <Text style={discoverProgramStyles.theProgramTitle}>
-                The Program
+                Sessions
             </Text>
             <ScrollView style={trackingStyles.sessionsContainer}>
                     {program.session.map((session:Session) => (
@@ -111,7 +111,7 @@ export default function DiscoverProgramScreen({ route, navigation }: DiscoverPro
                 <View style={programStyles.buttonContainer}>
                     <Button 
                         title="Add Program" 
-                        color='orange' 
+                        color='white' 
                         onPress={handleOnPress}
                     />
                 </View>

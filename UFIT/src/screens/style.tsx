@@ -17,12 +17,14 @@ export const programStyles = StyleSheet.create({
     viewContainer: {
         paddingTop: 100,
         height: '100%',
+        
     },
     programsContainer: {
         width: '100%',
         marginTop: 20,
         paddingRight: 40,
         paddingLeft: 40,
+        
 
     },
     singleProgramContainer: {
@@ -34,17 +36,21 @@ export const programStyles = StyleSheet.create({
         paddingLeft: 10,
     },
     buttonContainer: {
-        width: '100%',
-        backgroundColor: 'white',
+        width: '50%',
+        backgroundColor: 'rgba(0,0,0,0.3)',
         height: 50,
+        marginBottom: 20,
         alignItems: 'center',
         justifyContent: 'center',
+        alignSelf: 'center',
+        borderRadius: 10,
     },
     titleBarText: {
         paddingLeft: 20,
         color: 'gray',
         fontSize: 30,
         fontWeight: 'bold',
+        
     },
     programTitle: {
         fontSize: 20,
@@ -52,6 +58,7 @@ export const programStyles = StyleSheet.create({
         color: 'white',
         padding: 5,
         letterSpacing: 1.2,
+        
 
     },
     touchableOpacityStyle: {
@@ -70,6 +77,7 @@ export const trackingStyles = StyleSheet.create({
     viewContainer: {
         paddingTop: 100,
         height: '100%',
+        
         // backgroundColor: 'blue',
     },
     titleBarText: {
@@ -79,6 +87,7 @@ export const trackingStyles = StyleSheet.create({
         fontSize: 30,
         fontWeight: 'bold',
         letterSpacing: 1.4,
+        
     },
     programDescription: {
         paddingTop: 20,
@@ -126,6 +135,16 @@ export const trackingStyles = StyleSheet.create({
         backgroundColor: 'white',
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    submitButton: {
+        width: '50%',
+        backgroundColor: 'rgba(0,0,0,0.3)',
+        height: 50,
+        marginBottom: 20,
+        alignItems: 'center',
+        justifyContent: 'center',
+        alignSelf: 'center',
+        borderRadius: 10,
     },
     movementName: {
         fontSize: 20,
@@ -268,7 +287,7 @@ export const discoverProgramStyles = StyleSheet.create({
         fontSize: 17,
         paddingLeft: 20,
         paddingRight: 70,
-        marginBottom: 60,
+        marginBottom: 35,
         letterSpacing: -.05,
     },
     theProgramTitle: {
