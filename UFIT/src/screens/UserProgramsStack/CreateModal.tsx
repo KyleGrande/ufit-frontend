@@ -39,7 +39,7 @@ export const CreateModal = ({ modalVisible, setModalVisible, navigation}: Create
             setModalVisible(false);
             
         }}
-        style={{alignSelf: 'center', borderColor:'orange', borderWidth:2, borderRadius:10, padding:10,backgroundColor:'white'}}
+        style={{alignSelf: 'center', borderColor:'orange', borderWidth:2, borderRadius:10, padding:10,backgroundColor:'rgba(255,255,255,0.9)'}}
         >
     <Text style={{color: 'orange', alignSelf: 'center', paddingBottom:10, fontSize:36, fontWeight:'bold', letterSpacing:2}}>User</Text>
     <Text style={{color: 'orange', alignSelf: 'center', fontSize:36, letterSpacing:1.1}}>Create</Text>
@@ -50,7 +50,7 @@ export const CreateModal = ({ modalVisible, setModalVisible, navigation}: Create
             navigation.navigate('AI Create');
             setModalVisible(false);
         }}
-        style={{alignSelf: 'center', borderColor:'orange', borderWidth:2, borderRadius:10, padding:10,backgroundColor:'white'}}
+        style={{alignSelf: 'center', borderColor:'orange', borderWidth:2, borderRadius:10, padding:10,backgroundColor:'rgba(255,255,255,0.9)'}}
         >
     <Text style={{color: 'orange', alignSelf: 'center', paddingBottom:10, fontSize:36, fontWeight:'bold',letterSpacing:4}}>AI</Text>
     <Text style={{color: 'orange', alignSelf: 'center', fontSize:36,letterSpacing:1.1}}>Create</Text>

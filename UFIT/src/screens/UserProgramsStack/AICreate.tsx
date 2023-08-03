@@ -95,7 +95,7 @@ export default function AICreate({  }: AICreateScreenProps){
         style={{ minHeight: "100%" }}
         >   
                 <View style={programStyles.viewContainer}>
-                    <Text style={[programStyles.titleBarText, {color:'white', alignSelf:'center'}]}>
+                    <Text style={[programStyles.titleBarText, {color:'white', alignSelf:'center', paddingLeft:0}]}>
                         AI Create
                     </Text>
                     <Text style={[{marginLeft:20,marginTop:20, color:'white', fontSize:16, fontWeight:'bold',alignSelf:'center'}]}>
@@ -116,8 +116,8 @@ export default function AICreate({  }: AICreateScreenProps){
                         onPress={handleSubmit}
                         >
                         <View
-                        style={[trackingStyles.timerButton,{width:200}]}>
-                            <Text style={{color:'black', fontSize:16, fontWeight:'bold'}}>
+                        style={[trackingStyles.timerButton,{width:200,backgroundColor: 'rgba(0,0,0,0.3)'}]}>
+                            <Text style={{color:'white', fontSize:16, fontWeight:'bold',}}>
                                 Generate Program
                             </Text>
                         </View>

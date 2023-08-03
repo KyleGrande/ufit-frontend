@@ -112,7 +112,9 @@ export const trackingStyles = StyleSheet.create({
         marginTop: 20,
         borderRadius: 10,
         paddingLeft: 10,
-        backgroundColor: 'white',
+        // backgroundColor: 'white',
+        backgroundColor: 'rgba(255,255,255,0.5)',
+
     },
     sessionTitle: {
         fontSize: 20,
@@ -306,6 +308,7 @@ export const discoverProgramStyles = StyleSheet.create({
     }, 
     movementText: {
         fontSize: 15,
+        color:'white'
         // marginBottom: 5,
     },
     singleSessionContainer: {
@@ -316,7 +319,9 @@ export const discoverProgramStyles = StyleSheet.create({
         borderRadius: 10,
         paddingLeft: 10,
         paddingRight: 10,
-        backgroundColor: 'white',
+        // backgroundColor: 'white',
+        backgroundColor: 'rgba(0,0,0,0.2)',
+
     },
     sessionTitle: {
         fontSize: 20,

@@ -161,7 +161,7 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps){
                     >
                     <View
                     style={[]}>
-                        <Text style={{color:'white'}}>
+                        <Text style={{color:'white', fontWeight:'bold'}}>
                             Submit
                         </Text>
                     </View>
