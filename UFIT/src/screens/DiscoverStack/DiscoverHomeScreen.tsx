@@ -7,7 +7,7 @@ import LinearGradient from '../../components/LinearGradient';
 import { getGradientColors } from '../../components/getGradient';
 
 import API, {Program} from '../../api';
-import { FeedStyles } from '../style';
+import { FeedStyles, programStyles } from '../style';
 import { Picker } from '@react-native-picker/picker';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -76,7 +76,8 @@ export default function DiscoverHomeScreen({navigation: navigator}: DiscoverHome
                     <Picker.Item label="Cardio" value="cardio" />
                 </Picker>
                 }
-                <ScrollView style={FeedStyles.programsContainer}// horizontal={true}
+                <ScrollView style={programStyles.programsContainer}// horizontal={true}
+                // style={feedStyles.programsContainer}
                 >
                     {filteredPrograms.map((program, index) => (
                         <Pressable
