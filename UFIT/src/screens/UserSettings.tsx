@@ -1,25 +1,78 @@
-import * as React from "react";
+import { useEffect, useState } from "react";
 import {
   Text,
   View,
   TouchableOpacity,
   Platform,
   TextInput,
+  Alert,
 } from "react-native";
 import { programStyles, styles, userSetting } from "./style";
 import LinearGradient from "../components/LinearGradient";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import useAuth from "../hook/useAuth";
+import { IUser } from "../interface/IUser";
+import { updateUser } from "../service/apiCall";
 
-export default function UserSettings() {
+export default function UserSettings({ setIsLoggedIn }: any) {
   let isIos = false;
   if (Platform.OS === "ios") isIos = true;
 
-  const [resetPasswordFields, setResetPasswordFields] = React.useState({
+  const [resetPasswordFields, setResetPasswordFields] = useState({
     // email:"",
     password: "",
     reEnterPassword: "",
   });
 
-  const [resetPassword, setResetPassword] = React.useState(false);
+  const [resetPassword, setResetPassword] = useState(false);
+  const { email, userName, _id } = useAuth();
+
+  const handleLogout = async () => {
+    console.log("logout start");
+    await AsyncStorage.clear();
+    console.log("storage cleared");
+    setIsLoggedIn(false);
+    console.log("logout finished");
+  };
+
+  const handleResetPassword = async () => {
+    try {
+      if (
+        resetPasswordFields.password !== resetPasswordFields.reEnterPassword
+      ) {
+        Alert.alert(
+          "Validation Error",
+          "Both password and re enter password must match"
+        );
+        return;
+      }
+
+      if (resetPasswordFields.password.length < 8) {
+        Alert.alert("Validation Error", "Password must be 8 chars long");
+        return;
+      }
+      const payload: Partial<IUser> = {
+        _id,
+        password: resetPasswordFields.password,
+      };
+      const response: any = await updateUser(payload);
+      if (!response?.success) {
+        Alert.alert("Failure", response?.message);
+        return;
+      }
+
+      Alert.alert("Success", "password updated");
+      setResetPassword(false);
+    } catch (error) {
+      Alert.alert("Exception", "Please try again");
+    }
+  };
+
+  const deleteDialog = () =>
+    Alert.alert("Confirm Operation", "Are you sure you want to logout?", [
+      { text: "Cancel" },
+      { text: "Yes", onPress: handleLogout },
+    ]);
 
   return (
     <LinearGradient
@@ -33,12 +86,12 @@ export default function UserSettings() {
         </Text>
 
         <Text style={{ ...userSetting.settingText, marginTop: 18 }}>Email</Text>
-        <Text style={userSetting.settingText}>Email@gmail.com</Text>
+        <Text style={userSetting.settingText}>{email}</Text>
 
         <Text style={{ ...userSetting.settingText, marginTop: 12 }}>
           Username
         </Text>
-        <Text style={userSetting.settingText}>Kylegrande</Text>
+        <Text style={userSetting.settingText}> {userName}</Text>
 
         {/* Reset form */}
         {resetPassword && (
@@ -48,7 +101,7 @@ export default function UserSettings() {
                 ...userSetting.textInput,
                 ...userSetting.inputContainer,
               }}
-              placeholder="Password"
+              placeholder="New Password"
               placeholderTextColor={"#ffffff"}
               secureTextEntry={true}
               value={resetPasswordFields.password}
@@ -62,7 +115,7 @@ export default function UserSettings() {
                 ...userSetting.inputContainer,
                 marginTop: 5,
               }}
-              placeholder="Re Enter Password"
+              placeholder="Confirm Password"
               placeholderTextColor={"#ffffff"}
               secureTextEntry={true}
               value={resetPasswordFields.reEnterPassword}
@@ -85,7 +138,8 @@ export default function UserSettings() {
         >
           <TouchableOpacity
             onPress={() => {
-              setResetPassword(true);
+              if (resetPassword) handleResetPassword();
+              else setResetPassword(true);
             }}
           >
             <Text
@@ -114,9 +168,7 @@ export default function UserSettings() {
             position: "absolute",
           }}
         >
-          <TouchableOpacity
-          // onPress={() => navigation.navigate("Create a Program")}
-          >
+          <TouchableOpacity onPress={deleteDialog}>
             <Text
               style={{
                 color: "#ebe2e2",
