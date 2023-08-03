@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Text, View, Pressable, ScrollView,} from 'react-native';
+import { Text, View, Pressable, ScrollView, TouchableOpacity} from 'react-native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 import { StackParamList } from '../UserDiscover';
@@ -9,6 +9,8 @@ import { getGradientColors } from '../../components/getGradient';
 import API, {Program} from '../../api';
 import { FeedStyles } from '../style';
 import { Picker } from '@react-native-picker/picker';
+import { Ionicons } from '@expo/vector-icons';
+
 type DiscoverHomeScreenProps = {
     navigation: NativeStackNavigationProp<StackParamList, 'Discover'>;
 };
@@ -18,6 +20,7 @@ export default function DiscoverHomeScreen({navigation: navigator}: DiscoverHome
     const [programs, setPrograms] = React.useState<Program[]>([]);
     const [error, setError] = React.useState<null | string>(null);
     const [filter, setFilter] = React.useState<string>('');
+    const [showFilter, setShowFilter] = React.useState<boolean>(false);
 
     const filteredPrograms = filter 
     ? programs.filter(program => program.programCategory === filter) 
@@ -46,10 +49,19 @@ export default function DiscoverHomeScreen({navigation: navigator}: DiscoverHome
     return (
         <View>
             <View style={FeedStyles.viewContainer}>
+                <View style={{flexDirection:'row', justifyContent:'space-between'}}>
                 <Text style={FeedStyles.titleBarText}>
                     Discover
                 </Text>
-                <Picker
+                <TouchableOpacity
+                    style={{paddingRight: 30}}
+                    onPress={() => setShowFilter(!showFilter)}
+                >
+                <Ionicons name="ios-filter" size={30} color={ showFilter ? 'orange' : 'gray' } style={{alignSelf:'center'}}/>
+                </TouchableOpacity>
+                </View>
+                {showFilter &&
+                <Picker 
                     selectedValue={filter}
                     onValueChange={(itemValue) =>
                         setFilter(itemValue)
@@ -62,9 +74,8 @@ export default function DiscoverHomeScreen({navigation: navigator}: DiscoverHome
                     <Picker.Item label="Strength" value="strength" />
                     <Picker.Item label="Yoga" value="yoga" />
                     <Picker.Item label="Cardio" value="cardio" />
-
                 </Picker>
-                
+                }
                 <ScrollView style={FeedStyles.programsContainer}// horizontal={true}
                 >
                     {filteredPrograms.map((program, index) => (

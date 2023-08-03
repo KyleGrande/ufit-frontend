@@ -14,7 +14,7 @@ import {RepSetsTracker} from '../../../components/RepSetsTracker';
 import { RoundsTracker } from "../../../components/RoundsTracker";
 
 import api, { Movement, TrackingDataSchema, WorkoutHistory } from "../../../api";
-import { trackingStyles } from '../../style';
+import { programStyles, trackingStyles } from '../../style';
 import { object } from "yup";
 import { FontAwesome } from '@expo/vector-icons'; 
 import { MovementNoteModal } from "../../../components/MovementNoteModal";
@@ -83,15 +83,17 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps){
     return (
 
         <LinearGradient
-        top={getGradientColors(program.programCategory)[0]}
-        bottom={getGradientColors(program.programCategory)[1]}
+        top={getGradientColors(program.programCategory.toLowerCase())[0]}
+        bottom={getGradientColors(program.programCategory.toLowerCase())[1]}
         style={{ minHeight: "100%" }}
         >
         <View style={[trackingStyles.viewContainer]}>
             <Text style={[trackingStyles.titleBarText]}>
                 {session.name} 
             </Text>
-            <ScrollView>
+            <ScrollView 
+            // style={programStyles.programsContainer}
+            >
                 {movements.map(movement => (
                     //map movements
                     <View key={movement._id.$oid}>
@@ -154,12 +156,12 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps){
                 ))}
             </ScrollView>
             <TouchableOpacity
-                    style = {[trackingStyles.timerButton, {alignSelf:'center'}]}
+                    style = {[trackingStyles.submitButton, {alignSelf:'center'}]}
                     onPress={handleSubmit}
                     >
                     <View
                     style={[]}>
-                        <Text>
+                        <Text style={{color:'white', fontWeight:'bold'}}>
                             Submit
                         </Text>
                     </View>
