@@ -64,7 +64,7 @@ export default function DiscoverProgramScreen({ route, navigation }: DiscoverPro
                 {program.programName} 
             </Text>
             <Text style={[discoverProgramStyles.theProgramTitle, {fontWeight: "normal"}]}>
-                Catagory: {program.programCategory.toUpperCase()}
+                Category: {program.programCategory.toUpperCase()}
             </Text>
             <Text style={discoverProgramStyles.programDescription}>
                 {program.programDescription}

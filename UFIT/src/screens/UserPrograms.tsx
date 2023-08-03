@@ -65,6 +65,7 @@ export default function UserPrograms() {
         options={{
           headerTransparent: true,
           headerTintColor: "white",
+          headerTitle: "",
         }}
       />
             

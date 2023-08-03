@@ -1,6 +1,6 @@
 // import * as React from 'react';
 import React, {useState} from 'react';
-import { Text, View, Button, ScrollView, Pressable, TextInput, Touchable, TouchableOpacity } from 'react-native';
+import { Text, View, Button, ScrollView, Pressable, TextInput, Touchable, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { createNativeStackNavigator, NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { StackParamList } from '../UserPrograms';
 import {programStyles, trackingStyles, discoverProgramStyles} from '../style';
@@ -16,15 +16,18 @@ type AICreateScreenProps = {
 export default function AICreate({  }: AICreateScreenProps){
     const [textInput, setTextInput] = useState<string>('');
     const [aiProgram, setAiProgram] = useState<any>();
+    const [isGettingAiProgram, setIsGettingAiProgram] = useState<boolean>(false);
+
     const handleSubmit = () => {
         console.log(textInput);
-    
+        setIsGettingAiProgram(true);
         axios.post('http://localhost:3003/', {
             text: textInput
         })
         .then(response => {
             console.log(response.data);
             setAiProgram(response.data);
+            setIsGettingAiProgram(false);
 
         })
         .catch((error) => {
@@ -119,11 +122,17 @@ export default function AICreate({  }: AICreateScreenProps){
                             </Text>
                         </View>
                     </TouchableOpacity>
+                    {isGettingAiProgram &&
+                        <ActivityIndicator size="large" color="#ffffff" style={{marginTop:70}}/>
 
+                    }
                     {aiProgram &&
                         <ScrollView style={trackingStyles.sessionsContainer}>
                             <Text style={discoverProgramStyles.theProgramTitle}>
                                 {aiProgram.programName}
+                            </Text>
+                            <Text style={[discoverProgramStyles.theProgramTitle, {fontWeight: "normal"}]}>
+                                Category: {aiProgram.programCategory.toUpperCase()}
                             </Text>
                             <Text style={discoverProgramStyles.programDescription}>
                                 {aiProgram.programDescription}
