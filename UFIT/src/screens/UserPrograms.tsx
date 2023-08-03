@@ -14,9 +14,11 @@ import TrackSessionScreen from "./UserProgramsStack/ProgramTracking/TrackSession
 import { Program, Session, Movement } from "../api";
 import  FormProvider  from "./StateContext";
 import TimerScreen from "./UserProgramsStack/ProgramTracking/TimerScreen";
+import AICreate from "./UserProgramsStack/AICreate"
 
 export type StackParamList = {
   "User Programs": undefined; // will be UserPrograms from the DB eventually
+  "AI Create": undefined; //takes nothing maybe userID?
   "Create a Program": undefined; //takes nothing maybe userID?
   "Create a Session": { fields:any, addSession: any, deleteSession: any }; //takes a session object maybe in the future userID?
   "Create a Movement": { addMovement: any, removeMovement:any, fields: any, addSession: any, deleteSession: any };
@@ -55,6 +57,14 @@ export default function UserPrograms() {
         component={ProgramsMainScreen}
         options={{
           headerShown: false,
+        }}
+      />
+      <stack.Screen
+        name="AI Create"
+        component={AICreate}
+        options={{
+          headerTransparent: true,
+          headerTintColor: "white",
         }}
       />
             

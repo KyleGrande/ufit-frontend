@@ -79,8 +79,8 @@ export type WorkoutHistory = {
 import axios from "axios";
 
 export const api = axios.create({
-    // baseURL: 'http://54.205.215.210:3000/api',
-    baseURL: 'http://localhost:3000/api',
+    baseURL: 'http://54.205.215.210:3000/api',
+    // baseURL: 'http://localhost:3000/api',
 });
 
 export default {
@@ -91,4 +91,5 @@ export default {
     deleteProgram: (id: string) => api.delete(`/program/by-id/${id}`),
     getMovementByIds: (ids: {$oid:string}[]) => api.post(`/movement/by-ids/`, {ids}),
     insertWorkoutHistory: (newWorkoutHistory: WorkoutHistory) => api.post('/workout-history', newWorkoutHistory),
+    addMovement: (newMovement: Movement) => api.post('/movement', newMovement),
 }

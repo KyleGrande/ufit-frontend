@@ -42,8 +42,8 @@ export default function ProgramsMainScreen({ navigation }: ProgramsMainScreenPro
                                 { program })}
                         >
                             <LinearGradient
-                                top={getGradientColors(program.programCategory)[0]}
-                                bottom={getGradientColors(program.programCategory)[1]}
+                                top={getGradientColors(program.programCategory.toLowerCase())[0]}
+                                bottom={getGradientColors(program.programCategory.toLowerCase())[1]}
                                 style={programStyles.singleProgramContainer}
                             >
                             <Text style={programStyles.programTitle}>
@@ -53,12 +53,18 @@ export default function ProgramsMainScreen({ navigation }: ProgramsMainScreenPro
                         </Pressable>
                     ))}
                 </ScrollView>
-                <View style={programStyles.buttonContainer}>
+                <View style={[programStyles.buttonContainer,{flexDirection:'row', justifyContent:'space-evenly'}]}>
                     <Button 
                         title="Create Program" 
                         color='orange' 
                         onPress={() => 
                             navigation.navigate('Create a Program')} 
+                    />
+                    <Button 
+                        title="AI Create" 
+                        color='orange' 
+                        onPress={() => 
+                            navigation.navigate('AI Create')} 
                     />
                 </View>
             </View>
