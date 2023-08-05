@@ -45,6 +45,25 @@ export default function AICreate({  }: AICreateScreenProps){
             console.error(err);
         }
     }
+    const handleOnModifyPress = async () => {
+        let textInput2 = JSON.stringify(aiProgram);
+        console.log(textInput2);
+        textInput2 = textInput2 + '/n ' +textInput;
+        console.log(textInput2);
+        setIsGettingAiProgram(true);
+        axios.post('http://localhost:3003/', {
+            text: textInput2
+        })
+        .then(response => {
+            console.log(response.data);
+            setAiProgram(response.data);
+            setIsGettingAiProgram(false);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        })
+    };
+
     const createMovements = async(movements:any) => {
         let movementsBuffer = []
         for(const m of movements){
@@ -109,8 +128,10 @@ export default function AICreate({  }: AICreateScreenProps){
                         placeholderTextColor='white'
                         autoFocus={true}
                         keyboardAppearance='dark'
+                        selectTextOnFocus={true}
                     >
                     </TextInput>
+                    <View style={{flexDirection:'row',justifyContent:'space-evenly',}}>
                     <TouchableOpacity
                         style={[{alignItems:'center',justifyContent:'center'}]}
                         onPress={handleSubmit}
@@ -122,6 +143,20 @@ export default function AICreate({  }: AICreateScreenProps){
                             </Text>
                         </View>
                     </TouchableOpacity>
+                    {aiProgram &&
+                        <TouchableOpacity
+                        style={[{alignItems:'center',justifyContent:'center'}]}
+                        onPress={handleOnModifyPress}
+                        >
+                        <View
+                        style={[trackingStyles.timerButton,{width:200,backgroundColor: 'rgba(0,0,0,0.3)',marginLeft:0, marginRight:20}]}>
+                            <Text style={{color:'white', fontSize:16, fontWeight:'bold',}}>
+                                Modify Program
+                            </Text>
+                        </View>
+                    </TouchableOpacity>
+                    }
+                    </View>
                     {isGettingAiProgram &&
                         <ActivityIndicator size="large" color="#ffffff" style={{marginTop:70}}/>
 
@@ -167,7 +202,7 @@ export default function AICreate({  }: AICreateScreenProps){
                         <View style={programStyles.buttonContainer}>
                             <Button 
                                 title="Add Program" 
-                                color='orange' 
+                                color='white' 
                                 onPress={handleOnPress}
                             />
                         </View>
