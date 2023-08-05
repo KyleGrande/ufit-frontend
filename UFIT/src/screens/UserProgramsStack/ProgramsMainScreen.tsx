@@ -9,6 +9,7 @@ import { getGradientColors } from '../../components/getGradient';
 import { AntDesign } from '@expo/vector-icons'; 
 import {CreateModal} from './CreateModal';
 import { set } from 'react-hook-form';
+import useAuth from "../../hook/useAuth";
 // used for calling navigation ina type safe way
 type ProgramsMainScreenProps = {
     navigation: NativeStackNavigationProp<StackParamList, 'User Programs'>;
@@ -19,10 +20,10 @@ export default function ProgramsMainScreen({ navigation }: ProgramsMainScreenPro
     const [programs, setPrograms] = React.useState<Program[]>([]);
     const [createModalVisble, setCreateModalVisible] = React.useState<boolean>(false);
     const [error, setError] = React.useState<string | null>(null);
-
+    const userId = useAuth()._id as string;
     React.useEffect(() => {
-        API.getPrograms().then((response) => {
-            console.log(response.data);
+        API.getProgramsByUserId(userId).then((response) => {
+            // console.log(response.data);
             setPrograms(response.data.data);
             setError(null);
         })
@@ -30,7 +31,7 @@ export default function ProgramsMainScreen({ navigation }: ProgramsMainScreenPro
             console.log(err);
             setError('Error retrieving data');
         });
-    }, []);
+    }, [userId]);
     const handleCreatePress = React.useCallback(() => {
         setCreateModalVisible(true);
     }, [setCreateModalVisible]);
@@ -52,7 +53,7 @@ export default function ProgramsMainScreen({ navigation }: ProgramsMainScreenPro
                 </TouchableOpacity>
                 </View>
                 <ScrollView style={programStyles.programsContainer}>
-                    {programs.map((program, index) => (
+                    {programs?.map((program, index) => (
                         <Pressable
                             key={program._id.$oid}
                             onPress={() => navigation.navigate('Track a Program',

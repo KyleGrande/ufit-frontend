@@ -8,6 +8,7 @@ import API, { Program, Session } from '../../api';
 import axios from 'axios';
 import LinearGradient from '../../components/LinearGradient';
 import { getGradientColors } from '../../components/getGradient';
+import useAuth from '../../hook/useAuth';
 // used for calling navigation ina type safe way
 type AICreateScreenProps = {
     navigation: NativeStackNavigationProp<StackParamList, 'User Programs'>;
@@ -17,7 +18,7 @@ export default function AICreate({  }: AICreateScreenProps){
     const [textInput, setTextInput] = useState<string>('');
     const [aiProgram, setAiProgram] = useState<any>();
     const [isGettingAiProgram, setIsGettingAiProgram] = useState<boolean>(false);
-
+    const userId = useAuth()._id as string;
     const handleSubmit = () => {
         console.log(textInput);
         setIsGettingAiProgram(true);
@@ -39,6 +40,7 @@ export default function AICreate({  }: AICreateScreenProps){
         let newProgram = {...aiProgram};
         try {
             await handleSessions(newProgram);
+            newProgram.userId = userId;
             let response = await API.addProgram(newProgram);
             console.log(response.data);
         } catch (err) {
