@@ -57,7 +57,7 @@ export default function SignupScreen({ route, navigation }: SignupScreenProps) {
     if (!passwordPattern.test(password)) {
       Alert.alert(
         "Invalid password",
-        "Your password needs to be 8 characters long and include at least one capital letter and one number."
+        "Your password needs to be 8 characters long and include at least one capital letter, one number, and one special character."
       );
       return false;
     }

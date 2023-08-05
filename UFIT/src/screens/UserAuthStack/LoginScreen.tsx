@@ -80,7 +80,7 @@ export default function LoginScreen({ route, navigation }: LoginScreenProps) {
         </View>
         <TextInput
           style={loginStyles.inputContainer}
-          placeholder="Username"
+          placeholder="E-mail"
           value={username}
           onChangeText={setUsername}
         />
