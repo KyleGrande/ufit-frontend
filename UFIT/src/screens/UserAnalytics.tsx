@@ -18,15 +18,31 @@ import DropdownExample from "./DropdownExample";
 import { SafeAreaView } from "react-native-safe-area-context";
 import LinearGradient from "../components/LinearGradient";
 import useAuth from "../hook/useAuth";
+import { IHistory } from "../interface/IHistory";
 
 const screenWidth = Dimensions.get("window").width;
+
+const monthNames = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
 
 export default function UserAnalytics() {
   const [workoutHistory, setWorkoutHistory] = useState<any>([]);
   const [loading, setLoading] = useState(true);
 
   // TODO: step1: fetch userId from storage using useAuth hook
-  const { _id } = useAuth();
+  const { _id, token } = useAuth();
 
   // HINT: It runs as soon as we move to this screen
   // useEffect can never be async,
@@ -37,106 +53,61 @@ export default function UserAnalytics() {
 
     async function getHistory() {
       // TODO: step2: fetch only those histories that belong to userId who has signed in
-      const response = await fetchWorkoutHistoryByUserId(_id || "");
+      const response = await fetchWorkoutHistoryByUserId(
+        _id || "",
+        token || ""
+      );
       console.log("response?.data", response?.data);
-      setWorkoutHistory(response?.data || []);
+
+      const modified = response?.data?.map((iterator: IHistory) => {
+        return {
+          ...iterator,
+          date: !iterator?.date ? new Date() : iterator?.date,
+        };
+      });
+      setWorkoutHistory(modified || []);
       setLoading(false);
     }
-  }, [_id]);
+  }, [_id, token]);
 
-  // separate x-axe and y-axe values data from api
-  // const labelArray = workoutHistory?.map((iterator: any) => {
-  //   //x -axe
-  //   const date = new Date(iterator?.date);
-  //   const label = moment(date).format("MMMM D");
-  //   console.log("label", label);
-  //   return label || "default";
-  // });
-  // const dataArray = workoutHistory?.map((iterator: any) => [
-  //   //y-axe
-  //   iterator?.movements?.length || 0,
-  // ]);
+  // const { dataArray, labelArray } = divideArrayIntoGroups(workoutHistory, 2);
+  const { dataArray, labelArray } = groupDataByMonths(workoutHistory);
 
-  // const labelArray: any = [];
-  // const dataArray: any = [];
-  const { dataArray, labelArray } = divideArrayIntoGroups(workoutHistory, 2);
+  function groupDataByMonths(array: any) {
+    const dict = array?.reduce((result: any, currentValue: any) => {
+      const date = new Date(currentValue?.date);
+      const monthIndex = date.getMonth();
+      const month = monthNames[monthIndex] || "none";
+
+      if (!result[month]) result[month] = [];
+
+      result[month].push(currentValue);
+      return result;
+    }, {});
+
+    console.log("groupedDataByMonths", dict);
+
+    const dataArray: any = [];
+    const labelArray: any = [];
+
+    for (const key in dict) {
+      if (Object.prototype.hasOwnProperty.call(dict, key)) {
+        const element = dict[key];
+        labelArray.push(key);
+        dataArray.push([combineMovements(element)]);
+      }
+    }
+
+    return { dataArray, labelArray };
+  }
 
   console.log("dataArray", dataArray);
   console.log("labelArray", labelArray);
 
-  // function groupData(workoutHistory: any) {
-  //   const groupNumber = Number(
-  //     workoutHistory.length / workoutHistory.length > 5 ? 6 : 1
-  //   );
-  //   let count = 0;
-  //   const labelArray: any = [];
-  //   const dataArray: any = [];
-
-  //   const tempLabel: any = [];
-  //   const tempDate: any = [];
-
-  //   workoutHistory.forEach((iterator: any, index: number) => {
-  //     console.log("index", index);
-  //     console.log("groupNumber", groupNumber);
-  //     let date;
-  //     let label = "";
-  //     try {
-  //       date = new Date(iterator?.date || Date.now());
-  //       label = moment(date).format("MMMM D") || "null";
-  //     } catch (error) {
-  //       label = "none";
-  //     }
-
-  //     if (!(workoutHistory.length > 5)) {
-  //       labelArray.push(label);
-  //       dataArray.push(iterator?.movements?.length || 0);
-  //     } else {
-  //       tempLabel.push(label);
-  //       tempDate.push(iterator?.movements?.length || 0);
-  //     }
-  //   });
-
-  //   return { labelArray, dataArray };
-  // }
-
-  function divideArrayIntoGroups(arr: any, groupSize: number) {
-    const groups = [];
-    let index = 0;
-
-    while (index < arr.length) {
-      groups.push(arr.slice(index, index + groupSize));
-      index += groupSize;
-    }
-
-    const labelArray: any = [];
-    const dataArray: any = [];
-
-    for (const iterator of groups) {
-      labelArray.push(combineLabels(iterator));
-      dataArray.push([combineMovements(iterator)]);
-    }
-
-    return { labelArray, dataArray };
-  }
-
-  function combineLabels(array: any) {
-    let label = "";
-    array?.forEach((element: any, index: number) => {
-      console.log("element", element?.movements?.length);
-      if (index === 0 || index === array.length - 1) {
-        const date = new Date(element?.date);
-        label = moment(date).format("MMMM D") || "none";
-      }
-    });
-    return label;
-  }
-
   function combineMovements(array: any) {
     let count = 0;
     array?.forEach((element: any, index: number) => {
-      console.log("element", element);
-      count = count + element?.movements?.length || 0;
-      // count = count + index;
+      count += element?.movements?.length || 0;
     });
     return count;
   }
@@ -156,6 +127,13 @@ export default function UserAnalytics() {
     console.log("--------------------------------------------");
   };
 
+  if (loading)
+    return (
+      <View>
+        <Text>Loading...</Text>
+      </View>
+    );
+
   return (
     <LinearGradient
       top="#FCC064"
@@ -164,129 +142,126 @@ export default function UserAnalytics() {
     >
       <View style={globalStyle.viewContainer}>
         {/* <Text style={globalStyle.titleBarText}> */}
-        <ScrollView>
-          {/* <View> */}
+        {/* <ScrollView> */}
+        {/* <View> */}
 
-          <SafeAreaView>
-            <Text style={globalStyle.titleBarText}>Analytics</Text>
-            <StackedBarChart
-              // style={styles.chart}
-              data={{
-                labels: labelArray,
-                legend: ["Movements"],
-                data: dataArray,
-                barColors: ["#4CAF50", "#297AB1", "#FFA726"], // Customize bar colors
-              }}
-              width={screenWidth - 10}
-              height={220}
-              chartConfig={{
-                backgroundGradientFrom: "#fff",
-                backgroundGradientTo: "#fff",
-                decimalPlaces: 0, // No decimal places for data values
-                color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`, // Customize label color
-                style: {
-                  borderRadius: 16,
-                },
-              }}
-              hideLegend={false}
-            />
+        <SafeAreaView>
+          <Text style={globalStyle.titleBarText}>Analytics</Text>
+          <StackedBarChart
+            // style={styles.chart}
+            data={{
+              labels: labelArray,
+              legend: ["Movements"],
+              data: dataArray,
+              barColors: ["#4CAF50", "#297AB1", "#FFA726"], // Customize bar colors
+            }}
+            width={screenWidth - 10}
+            height={220}
+            chartConfig={{
+              backgroundGradientFrom: "#fff",
+              backgroundGradientTo: "#fff",
+              decimalPlaces: 0, // No decimal places for data values
+              color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`, // Customize label color
+              style: {
+                borderRadius: 16,
+              },
+            }}
+            hideLegend={false}
+          />
 
-            <DropdownExample
-              options={options}
-              selectedValue={selectedValue}
-              onSelect={handleSelect}
-            />
+          <DropdownExample
+            options={options}
+            selectedValue={selectedValue}
+            onSelect={handleSelect}
+          />
 
-            <FlatList
-              data={selectedValue?.movements || null}
-              renderItem={({ item }: any) => (
-                <View style={styles.card} key={item?._id}>
-                  <Text style={styles.title}>{item?.movementName}</Text>
+          <FlatList
+            data={selectedValue?.movements || null}
+            renderItem={({ item }: any) => (
+              <View style={styles.card} key={item?._id}>
+                <Text style={styles.title}>{item?.movementName}</Text>
 
-                  {item?.trackingData?.trackingType ||
-                  item?.trackingData?.trackingType === 0 ? (
+                {item?.trackingData?.trackingType ||
+                item?.trackingData?.trackingType === 0 ? (
+                  <Text style={styles.content}>
+                    {item?.trackingData?.trackingType}
+                  </Text>
+                ) : null}
+
+                {item?.trackingData?.speed ||
+                item?.trackingData?.speed === 0 ? (
+                  <Text style={styles.content}>
+                    {"speed: " + item?.trackingData?.speed}
+                  </Text>
+                ) : null}
+
+                {item?.trackingData?.rounds ||
+                item?.trackingData?.rounds === 0 ? (
+                  <Text style={styles.content}>
+                    {"rounds: " + item?.trackingData?.rounds}
+                  </Text>
+                ) : null}
+
+                {item?.trackingData?.roundMin &&
+                  item?.trackingData?.roundSec && (
                     <Text style={styles.content}>
-                      {item?.trackingData?.trackingType}
-                    </Text>
-                  ) : null}
-
-                  {item?.trackingData?.speed ||
-                  item?.trackingData?.speed === 0 ? (
-                    <Text style={styles.content}>
-                      {"speed: " + item?.trackingData?.speed}
-                    </Text>
-                  ) : null}
-
-                  {item?.trackingData?.rounds ||
-                  item?.trackingData?.rounds === 0 ? (
-                    <Text style={styles.content}>
-                      {"rounds: " + item?.trackingData?.rounds}
-                    </Text>
-                  ) : null}
-
-                  {item?.trackingData?.roundMin &&
-                    item?.trackingData?.roundSec && (
-                      <Text style={styles.content}>
-                        {"round time: " +
-                          item?.trackingData?.roundMin +
-                          ":" +
-                          item?.trackingData?.roundSec}
-                      </Text>
-                    )}
-
-                  {item?.trackingData?.restMin &&
-                    item?.trackingData?.restSec && (
-                      <Text style={styles.content}>
-                        {"rest time: " +
-                          item?.trackingData?.restMin +
-                          ":" +
-                          item?.trackingData?.restSec}
-                      </Text>
-                    )}
-
-                  {item?.trackingData?.genMin && item?.trackingData?.genSec && (
-                    <Text style={styles.content}>
-                      {"gen time: " +
-                        item?.trackingData?.genMin +
+                      {"round time: " +
+                        item?.trackingData?.roundMin +
                         ":" +
-                        item?.trackingData?.genSec}
+                        item?.trackingData?.roundSec}
                     </Text>
                   )}
 
-                  {item?.trackingData?.sets ||
-                  item?.trackingData?.sets === 0 ? (
-                    <Text style={styles.content}>
-                      {"sets: " + item?.trackingData?.sets}
-                    </Text>
-                  ) : null}
+                {item?.trackingData?.restMin && item?.trackingData?.restSec && (
+                  <Text style={styles.content}>
+                    {"rest time: " +
+                      item?.trackingData?.restMin +
+                      ":" +
+                      item?.trackingData?.restSec}
+                  </Text>
+                )}
 
-                  {item?.trackingData?.reps ||
-                  item?.trackingData?.reps === 0 ? (
-                    <Text style={styles.content}>
-                      {"reps: " + item?.trackingData?.reps}
-                    </Text>
-                  ) : null}
+                {item?.trackingData?.genMin && item?.trackingData?.genSec && (
+                  <Text style={styles.content}>
+                    {"gen time: " +
+                      item?.trackingData?.genMin +
+                      ":" +
+                      item?.trackingData?.genSec}
+                  </Text>
+                )}
 
-                  {item?.trackingData?.weight ||
-                  item?.trackingData?.weight === 0 ? (
-                    <Text style={styles.content}>
-                      {"weight: " + item?.trackingData?.weight}
-                    </Text>
-                  ) : null}
+                {item?.trackingData?.sets || item?.trackingData?.sets === 0 ? (
+                  <Text style={styles.content}>
+                    {"sets: " + item?.trackingData?.sets}
+                  </Text>
+                ) : null}
 
-                  {/* {item?.trackingData?.weight !== undefined &&
+                {item?.trackingData?.reps || item?.trackingData?.reps === 0 ? (
+                  <Text style={styles.content}>
+                    {"reps: " + item?.trackingData?.reps}
+                  </Text>
+                ) : null}
+
+                {item?.trackingData?.weight ||
+                item?.trackingData?.weight === 0 ? (
+                  <Text style={styles.content}>
+                    {"weight: " + item?.trackingData?.weight}
+                  </Text>
+                ) : null}
+
+                {/* {item?.trackingData?.weight !== undefined &&
                     item?.trackingData?.weight === 0 && (
                       <Text style={styles.content}>
                         {"weight: " + (item?.trackingData?.weight || "null")}
                       </Text>
                     )} */}
-                </View>
-              )}
-              keyExtractor={(item: any, index) => item?._id}
-              contentContainerStyle={styles.listContent}
-            />
-          </SafeAreaView>
-        </ScrollView>
+              </View>
+            )}
+            keyExtractor={(item: any, index) => item?._id}
+            contentContainerStyle={styles.listContent}
+          />
+        </SafeAreaView>
+        {/* </ScrollView> */}
       </View>
     </LinearGradient>
   );
@@ -354,208 +329,3 @@ const styles = StyleSheet.create({
     padding: 16,
   },
 });
-
-function getDummyWorkout() {
-  const array: any = [
-    {
-      userId: "64c1963d4566e9992bebffe2",
-      programId: "64c1963d4566e9992bebffe2",
-      sessionName: "Sunday",
-      restDays: 4,
-      date: "2023-07-06",
-      movements: [
-        {
-          section: "section1",
-          movementName: "movement1",
-          trackingData: {
-            trackingType: "rounds",
-            sets: 10,
-            reps: 10,
-            weight: 50,
-            roundMin: 20,
-            roundSec: 38,
-          },
-        },
-        {
-          section: "section2",
-          movementName: "movement2",
-          trackingData: {
-            trackingType: "timer",
-            speed: 5,
-            rounds: 10,
-            roundMin: 20,
-            roundSec: 38,
-            restMin: 59,
-            restSec: 24,
-            genMin: 48,
-            genSec: 55,
-          },
-        },
-        {
-          section: "section3",
-          movementName: "movement3",
-          trackingData: {
-            trackingType: "timer",
-            speed: 5,
-            rounds: 10,
-            roundMin: 20,
-            roundSec: 38,
-            restMin: 59,
-            restSec: 24,
-            genMin: 48,
-            genSec: 55,
-          },
-        },
-        {
-          section: "section3",
-          movementName: "movement3",
-          trackingData: {
-            trackingType: "timer",
-            speed: 5,
-            rounds: 10,
-            roundMin: 20,
-            roundSec: 38,
-            restMin: 59,
-            restSec: 24,
-            genMin: 48,
-            genSec: 55,
-          },
-        },
-      ],
-    },
-    {
-      userId: "64c1963d4566e9992bebffe2",
-      programId: "64c1963d4566e9992bebffe2",
-      sessionName: "Monday session",
-      restDays: 4,
-      date: "2023-07-06",
-      movements: [
-        {
-          section: "section1",
-          movementName: "movement1",
-          trackingData: {
-            trackingType: "timer",
-            speed: 5,
-            weight: 50,
-            rounds: 10,
-            roundMin: 20,
-            roundSec: 38,
-            restMin: 59,
-            restSec: 24,
-            genMin: 48,
-            genSec: 5,
-          },
-        },
-        {
-          section: "section2",
-          movementName: "movement2",
-          trackingData: {
-            trackingType: "timer",
-            speed: 5,
-            rounds: 10,
-            roundMin: 20,
-            roundSec: 38,
-            restMin: 59,
-            restSec: 24,
-            genMin: 48,
-            genSec: 55,
-          },
-        },
-        {
-          section: "section3",
-          movementName: "movement3",
-          trackingData: {
-            trackingType: "timer",
-            speed: 5,
-            rounds: 10,
-            roundMin: 20,
-            roundSec: 38,
-            restMin: 59,
-            restSec: 24,
-            genMin: 48,
-            genSec: 55,
-          },
-        },
-        {
-          section: "section3",
-          movementName: "movement3",
-          trackingData: {
-            trackingType: "timer",
-            speed: 5,
-            rounds: 10,
-            roundMin: 20,
-            roundSec: 38,
-            restMin: 59,
-            restSec: 24,
-            genMin: 48,
-            genSec: 55,
-          },
-        },
-      ],
-    },
-    {
-      userId: "64c1963d4566e9992bebffe2",
-      programId: "64c1963d4566e9992bebffe2",
-      sessionName: "Saturday",
-      restDays: 4,
-      date: "2023-08-06",
-      movements: [
-        {
-          section: "section1",
-          movementName: "movement1",
-          trackingData: {
-            trackingType: "timer",
-            speed: 5,
-            rounds: 10,
-            roundMin: 20,
-            roundSec: 38,
-            restMin: 59,
-            restSec: 24,
-            genMin: 48,
-            genSec: 55,
-          },
-        },
-        {
-          section: "section2",
-          movementName: "movement2",
-          trackingData: {
-            trackingType: "timer",
-            speed: 5,
-            rounds: 10,
-            roundMin: 20,
-            roundSec: 38,
-            restMin: 59,
-            restSec: 24,
-            genMin: 48,
-            genSec: 55,
-          },
-        },
-      ],
-    },
-    {
-      userId: "64c1963d4566e9992bebffe2",
-      programId: "64c1963d4566e9992bebffe2",
-      sessionName: "Wednesday",
-      restDays: 4,
-      date: "2023-08-10",
-      movements: [
-        {
-          section: "section3",
-          movementName: "movement3",
-          trackingData: {
-            trackingType: "timer",
-            speed: 5,
-            rounds: 10,
-            roundMin: 20,
-            roundSec: 38,
-            restMin: 59,
-            restSec: 24,
-            genMin: 48,
-            genSec: 55,
-          },
-        },
-      ],
-    },
-  ];
-  return array;
-}
