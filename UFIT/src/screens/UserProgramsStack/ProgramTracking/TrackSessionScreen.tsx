@@ -61,7 +61,7 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps){
     const handleSubmit = () => {
         console.log(getMovementTrackingData())
         const histories = {
-            userId: '60a6d9b3e13a0a0015b9a8a0',
+            userId: program.userId,
             programId: program._id,
             programName: program.programName,
             sessionName: session.name,

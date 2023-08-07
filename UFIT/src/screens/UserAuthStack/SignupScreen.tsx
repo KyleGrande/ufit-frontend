@@ -57,7 +57,7 @@ export default function SignupScreen({ route, navigation }: SignupScreenProps) {
     if (!passwordPattern.test(password)) {
       Alert.alert(
         "Invalid password",
-        "Your password needs to be 8 characters long and include at least one capital letter and one number."
+        "Your password needs to be 8 characters long and include at least one capital letter, one number, and one special character."
       );
       return false;
     }
@@ -139,6 +139,8 @@ export default function SignupScreen({ route, navigation }: SignupScreenProps) {
                   justifyContent: "center",
                   marginBottom: -50,
                   marginTop: -100,
+                  marginLeft: -30,
+                  paddingLeft: 0,
                 }}
               >
                 <Logo />
@@ -147,33 +149,40 @@ export default function SignupScreen({ route, navigation }: SignupScreenProps) {
               {/* <SafeAreaView> */}
               <TextInput
                 style={loginStyles.inputContainer}
-                placeholder="First Name"
-                value={firstName}
-                onChangeText={setFirstName}
-              />
-              <TextInput
-                style={loginStyles.inputContainer}
-                placeholder="Last Name"
-                value={lastName}
-                onChangeText={setLastName}
+                placeholder="Email"
+                value={email}
+                onChangeText={setEmail}
+                keyboardType="email-address"
+                autoComplete="email"
               />
               <TextInput
                 style={loginStyles.inputContainer}
                 placeholder="Phone Number"
                 value={phoneNumber}
                 onChangeText={setPhoneNumber}
+                keyboardType="phone-pad"
+                autoComplete="tel"
               />
               <TextInput
                 style={loginStyles.inputContainer}
-                placeholder="Email"
-                value={email}
-                onChangeText={setEmail}
+                placeholder="First Name"
+                value={firstName}
+                onChangeText={setFirstName}
+                autoComplete="name"
               />
               <TextInput
                 style={loginStyles.inputContainer}
-                placeholder="userName"
+                placeholder="Last Name"
+                value={lastName}
+                onChangeText={setLastName}
+                autoComplete="name-family"
+              />
+              <TextInput
+                style={loginStyles.inputContainer}
+                placeholder="Username"
                 value={userName}
                 onChangeText={setUserName}
+                autoComplete="username"
               />
               <TextInput
                 style={loginStyles.inputContainer}
@@ -181,6 +190,7 @@ export default function SignupScreen({ route, navigation }: SignupScreenProps) {
                 secureTextEntry
                 value={password}
                 onChangeText={setPassword}
+                autoComplete="password-new"
               />
 
               <TouchableOpacity onPress={handleSignup} style={{ width: "90%" }}>

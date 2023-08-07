@@ -12,9 +12,10 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import UserAuth from './src/screens/UserAuth';
 import UserDiscover from './src/screens/UserDiscover';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { LogBox } from 'react-native'
 // import { Text, View } from 'react-native';
 
-
+// LogBox.ignoreAllLogs (); //Ignore all log notifications for demo
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 

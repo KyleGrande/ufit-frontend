@@ -9,6 +9,7 @@ import { getGradientColors } from "../../components/getGradient";
 
 import API, { Session, NewProgram } from "../../api";
 import { programStyles, trackingStyles, discoverProgramStyles } from '../style';
+import useAuth from "../../hook/useAuth";
 
 // used for accessing route parameters in a type-safe way
 export type DiscoverProgramScreenRouteProp = RouteProp<StackParamList, 'Program'>;
@@ -21,7 +22,7 @@ type DiscoverProgramScreenProps = {
 export default function DiscoverProgramScreen({ route, navigation }: DiscoverProgramScreenProps){
     const { program } = route.params;
     const [movements , setMovements] = useState<any[]>([]);
-
+    const userId = useAuth()._id as string;
     const getMovements = async (ids: {$oid:string}[]) => {
         try {
             const response = await API.getMovementByIds(ids);
@@ -41,7 +42,7 @@ export default function DiscoverProgramScreen({ route, navigation }: DiscoverPro
 
     const handleOnPress = () => {
         let newProgram: NewProgram = {...program};
-        newProgram.userId = '60a6d9b3e13a0a0015b9a8a0';
+        newProgram.userId = userId;
         newProgram.programName = `${program.programName} (copy)`;
         delete newProgram._id;
         API.addProgram(newProgram).then((response) => {

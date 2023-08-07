@@ -80,9 +80,11 @@ export default function LoginScreen({ route, navigation }: LoginScreenProps) {
         </View>
         <TextInput
           style={loginStyles.inputContainer}
-          placeholder="Username"
+          placeholder="E-mail"
           value={username}
+          autoComplete="email"
           onChangeText={setUsername}
+          keyboardType="email-address"
         />
         <TextInput
           style={loginStyles.inputContainer}
@@ -90,6 +92,7 @@ export default function LoginScreen({ route, navigation }: LoginScreenProps) {
           secureTextEntry
           value={password}
           onChangeText={setPassword}
+          autoComplete="password"
         />
         {/* <Button title="Login" onPress={handleLogin} />
       <Button title="Signup" onPress={() => navigation.navigate('Signup')} /> */}

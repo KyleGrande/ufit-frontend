@@ -85,6 +85,7 @@ export const api = axios.create({
 
 export default {
     getPrograms: () => api.get('/program'),
+    getProgramsByUserId: (userId: string) => api.get(`/program/by-userId/${userId}`),
     addProgram: (newProgram: NewProgram) => api.post('/program', newProgram),
     insertProgram: (newProgram: Program) => api.post('/program', newProgram),
     updateProgram: (updatedProgram: Program) => api.put('/program/by-id', updatedProgram),
