@@ -70,7 +70,7 @@ export type WorkoutHistory = {
     sessionName: string;
     // userId: {$oid: string};
     userId: string,
-    workoutDate: Date;
+    date: Date;
     movements: MovementHistory[];
 };
 

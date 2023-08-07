@@ -65,7 +65,7 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps){
             programId: program._id,
             programName: program.programName,
             sessionName: session.name,
-            workoutDate: new Date(),
+            date: new Date(),
             movements: getMovementTrackingData(),
             
         }
