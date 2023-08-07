@@ -7,4 +7,5 @@ export interface IUser {
   userName: string;
   _id: string;
   __v: number;
+  token?: string;
 }

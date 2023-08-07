@@ -23,6 +23,7 @@ const useAuth = () => {
           lastName: data?.lastName,
           phoneNumber: data?.phoneNumber,
           _id: data?.id,
+          token,
         });
       }
     }
