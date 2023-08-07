@@ -7,8 +7,9 @@ import { StackParamList } from "../UserDiscover";
 import LinearGradient from "../../components/LinearGradient";
 import { getGradientColors } from "../../components/getGradient";
 
-import API, { Session, NewProgram } from "../../api";
+import API, { Session, NewProgram, api } from "../../api";
 import { programStyles, trackingStyles, discoverProgramStyles } from '../style';
+import FeedBackCard from "../../components/FeedbackCard";
 
 // used for accessing route parameters in a type-safe way
 export type DiscoverProgramScreenRouteProp = RouteProp<StackParamList, 'Program'>;
@@ -21,7 +22,19 @@ type DiscoverProgramScreenProps = {
 export default function DiscoverProgramScreen({ route, navigation }: DiscoverProgramScreenProps){
     const { program } = route.params;
     const [movements , setMovements] = useState<any[]>([]);
+    const [feedbacks, setFeedbacks] = useState<any[]>([]);
 
+    const getFeedbacks = async () => {
+        try {
+            const response = await api.get(`/feedback/by-pid/${program._id}`);
+            console.log('Feedback data: ');
+            console.log(response.data);
+            setFeedbacks(response.data.data);
+        } catch(err){
+            console.log(err)
+        }
+    }
+    
     const getMovements = async (ids: {$oid:string}[]) => {
         try {
             const response = await API.getMovementByIds(ids);
@@ -31,12 +44,14 @@ export default function DiscoverProgramScreen({ route, navigation }: DiscoverPro
             console.log(error);
         }
     }
+
     useEffect(() => {
         let movementIds:{$oid:string}[] = [];
         program.session.forEach((session) => {
             movementIds.push(...session.movementId);
         } );
         getMovements(movementIds);
+        getFeedbacks();
     }, [program]);
 
     const handleOnPress = () => {
@@ -61,10 +76,13 @@ export default function DiscoverProgramScreen({ route, navigation }: DiscoverPro
         >
         <View style={trackingStyles.viewContainer}>
             <Text style={trackingStyles.titleBarText}>
-                {program.programName} 
+                {program.programName}                 
             </Text>
             <Text style={[discoverProgramStyles.theProgramTitle, {fontWeight: "normal"}]}>
                 Category: {program.programCategory.toUpperCase()}
+            </Text>
+            <Text>
+                {console.log(program._id)}
             </Text>
             <Text style={discoverProgramStyles.programDescription}>
                 {program.programDescription}
@@ -107,7 +125,26 @@ export default function DiscoverProgramScreen({ route, navigation }: DiscoverPro
                         </TouchableOpacity>
                         </View>
                     ))}
+                
                 </ScrollView>
+                <Text style={discoverProgramStyles.theProgramTitle}>
+                    Feedback:
+                </Text>
+                <ScrollView style = {trackingStyles.sessionsContainer}>
+                    {feedbacks?.map((f)=> {
+                        return (
+                            <FeedBackCard username={f.userId} rating = {f.rating} comment = {f.comment} />
+                        )
+                    })}
+                    {/* <FeedBackCard username = "Ricardo" rating = "10" comment = "Awesome program!"/>
+                    <FeedBackCard username = "Ricardo" rating = "10" comment = "Awesome program!"/>
+                    <FeedBackCard username = "Ricardo" rating = "10" comment = "Awesome program!"/>
+                    <FeedBackCard username = "Ricardo" rating = "10" comment = "Awesome program!"/>
+                    <FeedBackCard username = "Ricardo" rating = "10" comment = "Awesome program!"/>
+                    <FeedBackCard username = "Ricardo" rating = "10" comment = "Awesome program!"/>
+                    <FeedBackCard username = "Ricardo" rating = "10" comment = "Awesome program!"/> */}
+                </ScrollView>
+                
                 <View style={programStyles.buttonContainer}>
                     <Button 
                         title="Add Program" 
