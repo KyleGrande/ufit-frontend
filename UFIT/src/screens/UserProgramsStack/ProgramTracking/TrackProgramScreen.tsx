@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import { Text, View, ScrollView, TouchableOpacity } from "react-native";
+import { Text, View, ScrollView, TouchableOpacity, Touchable } from "react-native";
 import { RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
@@ -47,8 +47,13 @@ export default function TrackProgramScreen({ route, navigation }: TrackProgramSc
         >
         <View style={trackingStyles.viewContainer}>
             <Text style={trackingStyles.titleBarText}>
-                {program.programName} 
+                {program.programName}                 
             </Text>
+            <TouchableOpacity style = {{paddingLeft: 20}} onPress ={() => console.log('User wants to write a review!')}>
+                <Text style ={{color: 'white'}}>
+                    Write a review
+                </Text>
+            </TouchableOpacity>
                 <ScrollView style={trackingStyles.sessionsContainer}>
                     {program.session.map((session:Session) => (
                         <View>
