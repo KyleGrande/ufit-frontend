@@ -293,7 +293,7 @@ export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
           
             {
               fields.map((ufit,index) => (
-                <SessionComponent session = {ufit} deleteSession = {deleteSession} idx = {index} />
+                <SessionComponent key={index} session = {ufit} deleteSession = {deleteSession} idx = {index} />
               ))
             }
 

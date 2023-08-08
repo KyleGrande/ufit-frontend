@@ -209,7 +209,7 @@ export default function ProgramSessionCreate({navigation,route}: ProgramSessionC
               }
             
               {fields.map((field,index) => (
-                  <View key={field.id}> 
+                  <View key={index}> 
                     {field.section === 'warmup' ? <MovementComponentOption movement={field} deleteMovement={removeMovement} idx={index} /> : null}                                    
                   </View>
               ))} 
@@ -224,7 +224,7 @@ export default function ProgramSessionCreate({navigation,route}: ProgramSessionC
             }
             
             {fields.map((field,index) => (
-                <View key={field.id}> 
+                <View key={index}> 
                   {field.section ===  'main' ? <MovementComponentOption movement={field} deleteMovement={removeMovement} idx={index} /> : null}                                    
                 </View>
             ))}
@@ -238,7 +238,7 @@ export default function ProgramSessionCreate({navigation,route}: ProgramSessionC
             }
 
             {fields.map((field,index) => (
-              <View key={field.id}> 
+              <View key={index}> 
                 {field.section === 'post' ? <MovementComponentOption movement={field} deleteMovement={removeMovement} idx={index} /> : null}                                    
               </View>
             ))}            

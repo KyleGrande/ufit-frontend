@@ -94,9 +94,9 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps){
             <ScrollView 
             // style={programStyles.programsContainer}
             >
-                {movements.map(movement => (
+                {movements.map((movement, index) => (
                     //map movements
-                    <View key={movement._id.$oid}>
+                    <View key={index}>
                         <View style={[{flexDirection: 'row', alignItems:'center'}]}>
                         <Text style={[trackingStyles.movementName, {fontWeight:'bold'}]}>{movement.movementName}</Text>
                         <TouchableOpacity style={[{ justifyContent: 'center', height:35, width:40}]} onPress={() => handleOnInfoPress(movement)}>
