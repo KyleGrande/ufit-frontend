@@ -50,8 +50,8 @@ export default function TrackProgramScreen({ route, navigation }: TrackProgramSc
                 {program.programName} 
             </Text>
                 <ScrollView style={trackingStyles.sessionsContainer}>
-                    {program.session.map((session:Session) => (
-                        <View>
+                    {program.session.map((session:Session, index) => (
+                        <View key={index}>
                             <Text style={discoverProgramStyles.sessionTitle}>
                                 {session.name}
                             </Text>
@@ -66,11 +66,11 @@ export default function TrackProgramScreen({ route, navigation }: TrackProgramSc
                                 navigation.navigate('Track a Session', { program, session, movements: sessionMovements })}
                             }}
                         >
-                            {session.movementId?.map((movementId) => {
+                            {session.movementId?.map((movementId, index) => {
                                 // Find the movement that corresponds to the movementId in the session
                                 const movement = movements.find((m) => m._id === movementId);
                                 return movement ? (
-                                    <View style={discoverProgramStyles.movementContainer} key={movement._id.$oid}>
+                                    <View style={discoverProgramStyles.movementContainer} key={index+10000}>
                                     <Text style={discoverProgramStyles.movementText}>
                                         {movement.movementName}
                                     </Text>
@@ -84,7 +84,7 @@ export default function TrackProgramScreen({ route, navigation }: TrackProgramSc
                                     </View>
                                     
                                 ) : 
-                                <Text style={discoverProgramStyles.movementText}>
+                                <Text style={discoverProgramStyles.movementText} key={index+10000}>
                                     Movement not found
                                 </Text>
                             })}

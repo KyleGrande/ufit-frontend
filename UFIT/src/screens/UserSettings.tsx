@@ -13,8 +13,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import useAuth from "../hook/useAuth";
 import { IUser } from "../interface/IUser";
 import { updateUser } from "../service/apiCall";
+import { useLoggedInUpdate } from "../provider/UserProvider";
 
-export default function UserSettings({ setIsLoggedIn }: any) {
+export default function UserSettings() {
   let isIos = false;
   if (Platform.OS === "ios") isIos = true;
 
@@ -23,6 +24,8 @@ export default function UserSettings({ setIsLoggedIn }: any) {
     password: "",
     reEnterPassword: "",
   });
+  const setIsLoggedIn = useLoggedInUpdate();
+
 
   const [resetPassword, setResetPassword] = useState(false);
   const { email, userName, _id } = useAuth();

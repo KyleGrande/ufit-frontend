@@ -55,7 +55,7 @@ export default function ProgramsMainScreen({ navigation }: ProgramsMainScreenPro
                 <ScrollView style={programStyles.programsContainer}>
                     {programs?.map((program, index) => (
                         <Pressable
-                            key={program._id.$oid}
+                            key={index}
                             onPress={() => navigation.navigate('Track a Program',
                                 { program })}
                         >

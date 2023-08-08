@@ -5,7 +5,7 @@ import DiscoverProgramScreen from "./DiscoverStack/DiscoverProgramScreen";
 import { Program } from "../api";
 
 export type StackParamList = {
-    "Discover": undefined; 
+    "Discovers": undefined; 
     "Program": { program: Program };
 };
 
@@ -13,9 +13,9 @@ const stack = createNativeStackNavigator<StackParamList>();
 
 export default function UserPrograms() {
   return (
-    <stack.Navigator initialRouteName="Discover">
+    <stack.Navigator initialRouteName="Discovers">
         <stack.Screen
-            name="Discover"
+            name="Discovers"
             component={DiscoverHomeScreen}
             options={{
                 headerTransparent: true,

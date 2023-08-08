@@ -23,8 +23,8 @@ import { insertUser } from "../../service/apiCall";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 interface SignupScreenProps {
-  route: RouteProp<StackParamList, "Signup">;
-  navigation: NativeStackNavigationProp<StackParamList, "Signup">;
+  route?: RouteProp<StackParamList, "Signup">;
+  navigation?: NativeStackNavigationProp<StackParamList, "Signup">;
 }
 
 export default function SignupScreen({ route, navigation }: SignupScreenProps) {
@@ -201,7 +201,11 @@ export default function SignupScreen({ route, navigation }: SignupScreenProps) {
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+              <TouchableOpacity
+                onPress={() =>
+                  navigation ? navigation.navigate("Login") : null
+                }
+              >
                 <Text>Already have an account? Log in here!</Text>
               </TouchableOpacity>
             </KeyboardAvoidingView>

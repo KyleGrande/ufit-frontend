@@ -20,6 +20,7 @@ import LinearGradient from "../components/LinearGradient";
 import useAuth from "../hook/useAuth";
 import { IHistory } from "../interface/IHistory";
 
+// Define the width of the screen width to adjust the chart's width accordingly.
 const screenWidth = Dimensions.get("window").width;
 
 const monthNames = [
@@ -38,6 +39,7 @@ const monthNames = [
 ];
 
 export default function UserAnalytics() {
+  // // State variables
   const [workoutHistory, setWorkoutHistory] = useState<any>([]);
   const [loading, setLoading] = useState(true);
 
@@ -48,17 +50,19 @@ export default function UserAnalytics() {
   // useEffect can never be async,
   // pass empty array in useEffect as an argument
   // mount phase
+
+  // Effect hook to fetch workout history when _id and token change
   useEffect(() => {
     if (_id) getHistory();
 
     async function getHistory() {
       // TODO: step2: fetch only those histories that belong to userId who has signed in
       const response = await fetchWorkoutHistoryByUserId(
-        _id || "",
-        token || ""
+        _id || ""
+        // token || ""
       );
       console.log("response?.data", response?.data);
-
+      // Modify and update workout history data
       const modified = response?.data?.map((iterator: IHistory) => {
         return {
           ...iterator,
@@ -68,11 +72,12 @@ export default function UserAnalytics() {
       setWorkoutHistory(modified || []);
       setLoading(false);
     }
-  }, [_id, token]);
+  }, [_id]);
 
-  // const { dataArray, labelArray } = divideArrayIntoGroups(workoutHistory, 2);
+  // Group workout history data by months
   const { dataArray, labelArray } = groupDataByMonths(workoutHistory);
 
+  // Helper function to group data by months
   function groupDataByMonths(array: any) {
     const dict = array?.reduce((result: any, currentValue: any) => {
       const date = new Date(currentValue?.date);
@@ -86,7 +91,7 @@ export default function UserAnalytics() {
     }, {});
 
     console.log("groupedDataByMonths", dict);
-
+    // Prepare data arrays for the chart
     const dataArray: any = [];
     const labelArray: any = [];
 
@@ -103,7 +108,7 @@ export default function UserAnalytics() {
 
   console.log("dataArray", dataArray);
   console.log("labelArray", labelArray);
-
+  // Helper function to combine movements and count their total
   function combineMovements(array: any) {
     let count = 0;
     array?.forEach((element: any, index: number) => {
@@ -111,22 +116,22 @@ export default function UserAnalytics() {
     });
     return count;
   }
-
+  // Create options for the dropdown menu
   const options = workoutHistory?.map((item: any, index: number) => ({
     ...item,
     label: item?.sessionName,
     value: item?._id || index,
   }));
-
+  // State variable for the selected dropdown value
   const [selectedValue, setSelectedValue] = useState<any>(null);
-
+  // Handle dropdown selection
   const handleSelect = (value: any) => {
     setSelectedValue(value || null);
     console.log("--------------------------------------------");
     console.log("value", value?.movements);
     console.log("--------------------------------------------");
   };
-
+  // Loading state handling
   if (loading)
     return (
       <View>
@@ -140,128 +145,135 @@ export default function UserAnalytics() {
       bottom="#EA9CFD"
       style={{ minHeight: "100%" }}
     >
-      <View style={globalStyle.viewContainer}>
+      <View style={{ paddingTop: 100, height: "100%" }}>
         {/* <Text style={globalStyle.titleBarText}> */}
-        {/* <ScrollView> */}
-        {/* <View> */}
+        <Text style={{ ...globalStyle.titleBarText, paddingBottom: 0 }}>
+          Analytics
+        </Text>
 
-        <SafeAreaView>
-          <Text style={globalStyle.titleBarText}>Analytics</Text>
-          <StackedBarChart
-            // style={styles.chart}
-            data={{
-              labels: labelArray,
-              legend: ["Movements"],
-              data: dataArray,
-              barColors: ["#4CAF50", "#297AB1", "#FFA726"], // Customize bar colors
-            }}
-            width={screenWidth - 10}
-            height={220}
-            chartConfig={{
-              backgroundGradientFrom: "#fff",
-              backgroundGradientTo: "#fff",
-              decimalPlaces: 0, // No decimal places for data values
-              color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`, // Customize label color
-              style: {
-                borderRadius: 16,
-              },
-            }}
-            hideLegend={false}
-          />
+        <ScrollView>
+          {/* <View> */}
 
-          <DropdownExample
-            options={options}
-            selectedValue={selectedValue}
-            onSelect={handleSelect}
-          />
+          <SafeAreaView>
+            <StackedBarChart
+              // style={styles.chart}
+              data={{
+                labels: labelArray,
+                legend: ["Movements"],
+                data: dataArray,
+                barColors: ["#4CAF50", "#297AB1", "#FFA726"], // Customize bar colors
+              }}
+              width={screenWidth - 10}
+              height={220}
+              chartConfig={{
+                backgroundGradientFrom: "#fff",
+                backgroundGradientTo: "#fff",
+                decimalPlaces: 0, // No decimal places for data values
+                color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`, // Customize label color
+                style: {
+                  borderRadius: 16,
+                },
+              }}
+              hideLegend={false}
+            />
 
-          <FlatList
-            data={selectedValue?.movements || null}
-            renderItem={({ item }: any) => (
-              <View style={styles.card} key={item?._id}>
-                <Text style={styles.title}>{item?.movementName}</Text>
+            <DropdownExample
+              options={options}
+              selectedValue={selectedValue}
+              onSelect={handleSelect}
+            />
 
-                {item?.trackingData?.trackingType ||
-                item?.trackingData?.trackingType === 0 ? (
-                  <Text style={styles.content}>
-                    {item?.trackingData?.trackingType}
-                  </Text>
-                ) : null}
+            <FlatList
+              data={selectedValue?.movements || null}
+              scrollEnabled={false}
+              renderItem={({ item }: any) => (
+                <View style={styles.card} key={item?._id}>
+                  <Text style={styles.title}>{item?.movementName}</Text>
 
-                {item?.trackingData?.speed ||
-                item?.trackingData?.speed === 0 ? (
-                  <Text style={styles.content}>
-                    {"speed: " + item?.trackingData?.speed}
-                  </Text>
-                ) : null}
-
-                {item?.trackingData?.rounds ||
-                item?.trackingData?.rounds === 0 ? (
-                  <Text style={styles.content}>
-                    {"rounds: " + item?.trackingData?.rounds}
-                  </Text>
-                ) : null}
-
-                {item?.trackingData?.roundMin &&
-                  item?.trackingData?.roundSec && (
+                  {item?.trackingData?.trackingType ||
+                  item?.trackingData?.trackingType === 0 ? (
                     <Text style={styles.content}>
-                      {"round time: " +
-                        item?.trackingData?.roundMin +
+                      {item?.trackingData?.trackingType}
+                    </Text>
+                  ) : null}
+
+                  {item?.trackingData?.speed ||
+                  item?.trackingData?.speed === 0 ? (
+                    <Text style={styles.content}>
+                      {"speed: " + item?.trackingData?.speed}
+                    </Text>
+                  ) : null}
+
+                  {item?.trackingData?.rounds ||
+                  item?.trackingData?.rounds === 0 ? (
+                    <Text style={styles.content}>
+                      {"rounds: " + item?.trackingData?.rounds}
+                    </Text>
+                  ) : null}
+
+                  {item?.trackingData?.roundMin &&
+                    item?.trackingData?.roundSec && (
+                      <Text style={styles.content}>
+                        {"round time: " +
+                          item?.trackingData?.roundMin +
+                          ":" +
+                          item?.trackingData?.roundSec}
+                      </Text>
+                    )}
+
+                  {item?.trackingData?.restMin &&
+                    item?.trackingData?.restSec && (
+                      <Text style={styles.content}>
+                        {"rest time: " +
+                          item?.trackingData?.restMin +
+                          ":" +
+                          item?.trackingData?.restSec}
+                      </Text>
+                    )}
+
+                  {item?.trackingData?.genMin && item?.trackingData?.genSec && (
+                    <Text style={styles.content}>
+                      {"gen time: " +
+                        item?.trackingData?.genMin +
                         ":" +
-                        item?.trackingData?.roundSec}
+                        item?.trackingData?.genSec}
                     </Text>
                   )}
 
-                {item?.trackingData?.restMin && item?.trackingData?.restSec && (
-                  <Text style={styles.content}>
-                    {"rest time: " +
-                      item?.trackingData?.restMin +
-                      ":" +
-                      item?.trackingData?.restSec}
-                  </Text>
-                )}
+                  {item?.trackingData?.sets ||
+                  item?.trackingData?.sets === 0 ? (
+                    <Text style={styles.content}>
+                      {"sets: " + item?.trackingData?.sets}
+                    </Text>
+                  ) : null}
 
-                {item?.trackingData?.genMin && item?.trackingData?.genSec && (
-                  <Text style={styles.content}>
-                    {"gen time: " +
-                      item?.trackingData?.genMin +
-                      ":" +
-                      item?.trackingData?.genSec}
-                  </Text>
-                )}
+                  {item?.trackingData?.reps ||
+                  item?.trackingData?.reps === 0 ? (
+                    <Text style={styles.content}>
+                      {"reps: " + item?.trackingData?.reps}
+                    </Text>
+                  ) : null}
 
-                {item?.trackingData?.sets || item?.trackingData?.sets === 0 ? (
-                  <Text style={styles.content}>
-                    {"sets: " + item?.trackingData?.sets}
-                  </Text>
-                ) : null}
+                  {item?.trackingData?.weight ||
+                  item?.trackingData?.weight === 0 ? (
+                    <Text style={styles.content}>
+                      {"weight: " + item?.trackingData?.weight}
+                    </Text>
+                  ) : null}
 
-                {item?.trackingData?.reps || item?.trackingData?.reps === 0 ? (
-                  <Text style={styles.content}>
-                    {"reps: " + item?.trackingData?.reps}
-                  </Text>
-                ) : null}
-
-                {item?.trackingData?.weight ||
-                item?.trackingData?.weight === 0 ? (
-                  <Text style={styles.content}>
-                    {"weight: " + item?.trackingData?.weight}
-                  </Text>
-                ) : null}
-
-                {/* {item?.trackingData?.weight !== undefined &&
+                  {/* {item?.trackingData?.weight !== undefined &&
                     item?.trackingData?.weight === 0 && (
                       <Text style={styles.content}>
                         {"weight: " + (item?.trackingData?.weight || "null")}
                       </Text>
                     )} */}
-              </View>
-            )}
-            keyExtractor={(item: any, index) => item?._id}
-            contentContainerStyle={styles.listContent}
-          />
-        </SafeAreaView>
-        {/* </ScrollView> */}
+                </View>
+              )}
+              keyExtractor={(item: any, index) => item?._id}
+              contentContainerStyle={styles.listContent}
+            />
+          </SafeAreaView>
+        </ScrollView>
       </View>
     </LinearGradient>
   );

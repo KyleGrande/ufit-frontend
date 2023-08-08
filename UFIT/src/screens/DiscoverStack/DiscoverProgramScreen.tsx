@@ -74,8 +74,8 @@ export default function DiscoverProgramScreen({ route, navigation }: DiscoverPro
                 Sessions
             </Text>
             <ScrollView style={trackingStyles.sessionsContainer}>
-                    {program.session.map((session:Session) => (
-                        <View>
+                    {program.session.map((session:Session, index:number) => (
+                        <View key={index}>
                             <Text style={discoverProgramStyles.sessionTitle}>
                                 {session.name}
                             </Text>
@@ -83,11 +83,11 @@ export default function DiscoverProgramScreen({ route, navigation }: DiscoverPro
                             key={session._id}
                             style={discoverProgramStyles.singleSessionContainer}
                         >
-                            {session.movementId?.map((movementId) => {
+                            {session.movementId?.map((movementId, index) => {
                                 // Find the movement that corresponds to the movementId in the session
                                 const movement = movements.find((m) => m._id === movementId);
                                 return movement ? (
-                                    <View style={discoverProgramStyles.movementContainer} key={movement._id}>
+                                    <View style={discoverProgramStyles.movementContainer} key={index+10000}>
                                     <Text style={discoverProgramStyles.movementText}>
                                         {movement.movementName}
                                     </Text>
@@ -101,7 +101,7 @@ export default function DiscoverProgramScreen({ route, navigation }: DiscoverPro
                                     </View>
                                     
                                 ) : 
-                                <Text style={discoverProgramStyles.movementText}>
+                                <Text key={index+10000} style={discoverProgramStyles.movementText}>
                                     Movement not found
                                 </Text>
                             })}

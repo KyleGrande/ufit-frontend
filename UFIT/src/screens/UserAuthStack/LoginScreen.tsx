@@ -21,18 +21,20 @@ import { authLogin } from "../../service/apiCall";
 import { IUser } from "../../interface/IUser";
 // import {AsyncStorage} from 'react-native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useLoggedInUpdate } from "../../provider/UserProvider";
 
 // used for calling navigation ina type safe way
 interface LoginScreenProps {
-  route: RouteProp<StackParamList, "Login">;
-  navigation: NativeStackNavigationProp<StackParamList, "Login">;
-  setIsLoggedIn: (value: boolean) => void;
+  route?: RouteProp<StackParamList, "Login">;
+  navigation?: NativeStackNavigationProp<StackParamList, "Login">;
+  // setIsLoggedIn: (value: boolean) => void;
 }
 
 export default function LoginScreen({ route, navigation }: LoginScreenProps) {
-  const setIsLoggedIn = route.params.setIsLoggedIn;
+  // const setIsLoggedIn = route.params.setIsLoggedIn;
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const setIsLoggedIn = useLoggedInUpdate();
 
   const handleLogin = async () => {
     // Check if the username and password are valid
@@ -101,7 +103,7 @@ export default function LoginScreen({ route, navigation }: LoginScreenProps) {
             <Text style={{ color: "white", fontWeight: "bold" }}>Login</Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate("Signup")}>
+        <TouchableOpacity onPress={() => navigation? navigation.navigate("Signup"): null}>
           <Text>Don't have an account? Sign up here!</Text>
         </TouchableOpacity>
       </View>

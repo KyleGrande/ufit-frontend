@@ -175,14 +175,14 @@ export default function AICreate({  }: AICreateScreenProps){
                                 {aiProgram.programDescription}
                             </Text>
 
-                            {aiProgram.session.map((session: any) => (
-                                <View key={session}>
+                            {aiProgram.session.map((session: any, index:number) => (
+                                <View key={index}>
                                     <Text style={discoverProgramStyles.sessionTitle}>
                                         {session.name}
                                     </Text>
                                     <View style={discoverProgramStyles.singleSessionContainer}>
-                                    {session.movements.map((movement: any) => (
-                                        <View key={movement.movementName} style={discoverProgramStyles.movementContainer}>
+                                    {session.movements.map((movement: any, index:number) => (
+                                        <View key={index+10000} style={discoverProgramStyles.movementContainer}>
                                             <Text style={discoverProgramStyles.movementText}>
                                                 {movement.movementName}
                                             </Text>

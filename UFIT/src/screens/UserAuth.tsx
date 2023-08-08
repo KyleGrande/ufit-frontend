@@ -8,12 +8,12 @@ export type StackParamList = {
 }
 
 export interface UserAuthProps {
-    setIsLoggedIn: (value: boolean) => void;
+    setIsLoggedIn?: (value: boolean) => void;
 }
 
 const AuthStack = createNativeStackNavigator();
 
-export default function UserAuth({setIsLoggedIn: setIsLoggedIn}: UserAuthProps) {
+export default function UserAuth() {
     
     return (
         <AuthStack.Navigator
@@ -26,7 +26,7 @@ export default function UserAuth({setIsLoggedIn: setIsLoggedIn}: UserAuthProps) 
         <AuthStack.Screen 
             name="Login" 
             component={Login} 
-            initialParams={{ setIsLoggedIn: setIsLoggedIn }} 
+            // initialParams={{ setIsLoggedIn: setIsLoggedIn }} 
         />            
         <AuthStack.Screen name="Signup" component={Signup} />
         </AuthStack.Navigator>
