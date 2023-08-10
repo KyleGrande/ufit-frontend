@@ -16,10 +16,6 @@ import UserAuth from "./src/screens/UserAuth";
 import UserDiscover from "./src/screens/UserDiscover";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { LogBox } from "react-native";
-import UserProvider, {
-  useLoggedIn,
-  useLoggedInUpdate,
-} from "./src/provider/UserProvider";
 // import { Text, View } from 'react-native';
 
 // LogBox.ignoreAllLogs (); //Ignore all log notifications for demo
@@ -27,9 +23,8 @@ const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
 function StackDecider() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
-  const isLoggedIn = useLoggedIn();
-  const setIsLoggedIn = useLoggedInUpdate();
 
   useEffect(() => {
     extractToken();
@@ -49,22 +44,20 @@ function StackDecider() {
       {isLoggedIn ? (
         <Stack.Screen
           name="App"
-          component={MyTabs}
-          // component={() => <MyTabs setIsLoggedIn={setIsLoggedIn} />}
+          component={() => <MyTabs setIsLoggedIn={setIsLoggedIn} />}
           options={{ headerShown: false }}
         />
       ) : (
         <Stack.Screen
           name="Auth"
-          component={UserAuth}
-          // component={() => <UserAuth setIsLoggedIn={setIsLoggedIn} />}
+          component={() => <UserAuth setIsLoggedIn={setIsLoggedIn} />}
           options={{ headerShown: false }}
         />
       )}
     </Stack.Navigator>
   );
 }
-function MyTabs() {
+function MyTabs({ setIsLoggedIn }: any) {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -105,8 +98,8 @@ function MyTabs() {
       />
       <Tab.Screen
         name="Settings"
-        component={UserSettings}
-        // children={() => <UserSettings setIsLoggedIn={setIsLoggedIn} />}
+        // component={UserSettings}
+        children={() => <UserSettings setIsLoggedIn={setIsLoggedIn} />}
         options={{ headerShown: false }}
       />
     </Tab.Navigator>
@@ -116,9 +109,8 @@ function MyTabs() {
 export default function App() {
   return (
     <NavigationContainer>
-      <UserProvider>
-        <StackDecider />
-      </UserProvider>
+      <StackDecider />
+      {/* <MyTabs /> */}
     </NavigationContainer>
   );
 }

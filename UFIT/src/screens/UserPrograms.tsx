@@ -15,7 +15,7 @@ import { Program, Session, Movement } from "../api";
 import  FormProvider  from "./StateContext";
 import TimerScreen from "./UserProgramsStack/ProgramTracking/TimerScreen";
 import AICreate from "./UserProgramsStack/AICreate"
-
+import { UserProgramsProvider } from "../provider/UserProgramsContext";
 export type StackParamList = {
   "User Programs": undefined; // will be UserPrograms from the DB eventually
   "AI Create": undefined; //takes nothing maybe userID?
@@ -51,6 +51,7 @@ const stack = createNativeStackNavigator<StackParamList>();
 
 export default function UserPrograms() {
   return (
+    <UserProgramsProvider>
     <stack.Navigator initialRouteName="User Programs">
       <stack.Screen
         name="User Programs"
@@ -145,5 +146,6 @@ export default function UserPrograms() {
         }}
       />
     </stack.Navigator>
+    </UserProgramsProvider>
   );
 }
