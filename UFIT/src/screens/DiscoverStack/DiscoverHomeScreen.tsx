@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Text, View, Pressable, ScrollView, TouchableOpacity} from 'react-native';
+import { Text, View, Pressable, ScrollView, TouchableOpacity, SafeAreaView} from 'react-native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 import { StackParamList } from '../UserDiscover';
@@ -47,7 +47,7 @@ export default function DiscoverHomeScreen({navigation: navigator}: DiscoverHome
     }
 
     return (
-        <View>
+            <SafeAreaView>
             <View style={FeedStyles.viewContainer}>
                 <View style={{flexDirection:'row', justifyContent:'space-between'}}>
                 <Text style={FeedStyles.titleBarText}>
@@ -103,6 +103,6 @@ export default function DiscoverHomeScreen({navigation: navigator}: DiscoverHome
                     ))}
                 </ScrollView>
             </View>
-        </View>
+            </SafeAreaView>
     );
 }

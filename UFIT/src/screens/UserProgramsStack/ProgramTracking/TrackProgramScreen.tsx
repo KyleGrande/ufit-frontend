@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import { Text, View, ScrollView, TouchableOpacity } from "react-native";
+import { Text, View, ScrollView, TouchableOpacity, SafeAreaView } from "react-native";
 import { RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
@@ -45,6 +45,7 @@ export default function TrackProgramScreen({ route, navigation }: TrackProgramSc
         bottom={getGradientColors(program.programCategory.toLowerCase())[1]}
         style={{ minHeight: "100%" }}
         >
+        <SafeAreaView>
         <View style={trackingStyles.viewContainer}>
             <Text style={trackingStyles.titleBarText}>
                 {program.programName} 
@@ -93,6 +94,7 @@ export default function TrackProgramScreen({ route, navigation }: TrackProgramSc
                     ))}
                 </ScrollView>
         </View>
+        </SafeAreaView>
         </LinearGradient>
     );
 }

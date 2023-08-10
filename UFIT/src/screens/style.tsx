@@ -15,7 +15,7 @@ export const styles = StyleSheet.create({
 
 export const programStyles = StyleSheet.create({
     viewContainer: {
-        paddingTop: 100,
+        paddingTop: 40,
         height: '100%',
         
     },
@@ -75,7 +75,7 @@ export const programStyles = StyleSheet.create({
 
 export const trackingStyles = StyleSheet.create({
     viewContainer: {
-        paddingTop: 100,
+        // paddingTop: 40,
         height: '100%',
         
         // backgroundColor: 'blue',
@@ -191,7 +191,7 @@ export const creatingStyles = StyleSheet.create({
 
 export const FeedStyles = StyleSheet.create({
     viewContainer: {
-        paddingTop: 100,
+        paddingTop: 40,
         height: '100%',
     },
     programsContainer: {
@@ -283,6 +283,10 @@ export const userSetting = StyleSheet.create({
 });
 
 export const discoverProgramStyles = StyleSheet.create({
+    viewContainer: {
+        paddingTop: 40,
+        height: '100%',
+    },
     programDescription: {
         paddingTop: 20,
         color: 'white',

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Text, View, Button, ScrollView, Pressable, TouchableOpacity } from 'react-native';
+import { Text, View, Button, ScrollView, Pressable, TouchableOpacity, SafeAreaView } from 'react-native';
 import { createNativeStackNavigator, NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { StackParamList } from '../UserPrograms';
 import {programStyles} from '../style';
@@ -40,7 +40,7 @@ export default function ProgramsMainScreen({ navigation }: ProgramsMainScreenPro
     }, [setCreateModalVisible]);
 
     return (
-        <View>
+        <SafeAreaView>
             <View style={programStyles.viewContainer}>
                 <View style={{flexDirection:'row', justifyContent:'space-between'}}>
                 <Text style={programStyles.titleBarText}>
@@ -94,6 +94,6 @@ export default function ProgramsMainScreen({ navigation }: ProgramsMainScreenPro
             setModalVisible={setCreateModalVisible}
             navigation={navigation}
         />
-        </View>
+        </SafeAreaView>
     );
 }

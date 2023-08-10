@@ -1,5 +1,5 @@
 import React, {useState, useCallback} from "react";
-import { Text, View, ScrollView, TouchableOpacity, Modal, TextInput } from "react-native";
+import { Text, View, ScrollView, TouchableOpacity, Modal, TextInput, SafeAreaView } from "react-native";
 import { RouteProp, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AntDesign } from '@expo/vector-icons'; 
@@ -87,6 +87,7 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps){
         bottom={getGradientColors(program.programCategory.toLowerCase())[1]}
         style={{ minHeight: "100%" }}
         >
+        <SafeAreaView>
         <View style={[trackingStyles.viewContainer]}>
             <Text style={[trackingStyles.titleBarText]}>
                 {session.name} 
@@ -178,6 +179,7 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps){
             modalVisible={noteModalVisible}
             setModalVisible={setNoteModalVisible}
         />
+        </SafeAreaView>
 
         </LinearGradient>
         
