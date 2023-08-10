@@ -15,7 +15,6 @@ import { Program, Session, Movement } from "../api";
 import  FormProvider  from "./StateContext";
 import TimerScreen from "./UserProgramsStack/ProgramTracking/TimerScreen";
 import AICreate from "./UserProgramsStack/AICreate"
-
 export type StackParamList = {
   "User Programs": undefined; // will be UserPrograms from the DB eventually
   "AI Create": undefined; //takes nothing maybe userID?

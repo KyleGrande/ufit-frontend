@@ -9,12 +9,13 @@ import axios from 'axios';
 import LinearGradient from '../../components/LinearGradient';
 import { getGradientColors } from '../../components/getGradient';
 import useAuth from '../../hook/useAuth';
+import { useUserPrograms } from '../../provider/UserProgramsContext';
 // used for calling navigation ina type safe way
 type AICreateScreenProps = {
     navigation: NativeStackNavigationProp<StackParamList, 'User Programs'>;
 };
 
-export default function AICreate({  }: AICreateScreenProps){
+export default function AICreate({ navigation  }: AICreateScreenProps){
     const [textInput, setTextInput] = useState<string>('');
     const [aiProgram, setAiProgram] = useState<any>();
     const [isGettingAiProgram, setIsGettingAiProgram] = useState<boolean>(false);
@@ -36,13 +37,18 @@ export default function AICreate({  }: AICreateScreenProps){
         });
     }
 
+    const { addProgram } = useUserPrograms();
     const handleOnPress = async () => {
         let newProgram = {...aiProgram};
         try {
             await handleSessions(newProgram);
             newProgram.userId = userId;
             let response = await API.addProgram(newProgram);
-            console.log(response.data);
+            // console.log(response.data);
+            let createdProgram: Program = response.data.data;
+            addProgram(createdProgram);
+            // navigation.navigate('Track a Program', {program: createdProgram});
+            navigation.navigate('User Programs');
         } catch (err) {
             console.error(err);
         }

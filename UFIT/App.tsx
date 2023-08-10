@@ -20,6 +20,7 @@ import UserProvider, {
   useLoggedIn,
   useLoggedInUpdate,
 } from "./src/provider/UserProvider";
+import { UserProgramsProvider } from "./src/provider/UserProgramsContext";
 // import { Text, View } from 'react-native';
 
 // LogBox.ignoreAllLogs (); //Ignore all log notifications for demo
@@ -66,6 +67,7 @@ function StackDecider() {
 }
 function MyTabs() {
   return (
+    <UserProgramsProvider>
     <Tab.Navigator
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
@@ -110,6 +112,8 @@ function MyTabs() {
         options={{ headerShown: false }}
       />
     </Tab.Navigator>
+    </UserProgramsProvider>
+
   );
 }
 

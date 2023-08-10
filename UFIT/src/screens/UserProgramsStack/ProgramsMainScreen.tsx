@@ -10,6 +10,8 @@ import { AntDesign } from '@expo/vector-icons';
 import {CreateModal} from './CreateModal';
 import { set } from 'react-hook-form';
 import useAuth from "../../hook/useAuth";
+import { useUserPrograms } from '../../provider/UserProgramsContext';
+
 // used for calling navigation ina type safe way
 type ProgramsMainScreenProps = {
     navigation: NativeStackNavigationProp<StackParamList, 'User Programs'>;
@@ -17,21 +19,22 @@ type ProgramsMainScreenProps = {
 
 export default function ProgramsMainScreen({ navigation }: ProgramsMainScreenProps){
     
-    const [programs, setPrograms] = React.useState<Program[]>([]);
+    // const [programs, setPrograms] = React.useState<Program[]>([]);
+    const { programs } = useUserPrograms();
     const [createModalVisble, setCreateModalVisible] = React.useState<boolean>(false);
     const [error, setError] = React.useState<string | null>(null);
     const userId = useAuth()._id as string;
-    React.useEffect(() => {
-        API.getProgramsByUserId(userId).then((response) => {
-            // console.log(response.data);
-            setPrograms(response.data.data);
-            setError(null);
-        })
-        .catch((err) => {
-            console.log(err);
-            setError('Error retrieving data');
-        });
-    }, [userId]);
+    // React.useEffect(() => {
+    //     API.getProgramsByUserId(userId).then((response) => {
+    //         // console.log(response.data);
+    //         setPrograms(response.data.data);
+    //         setError(null);
+    //     })
+    //     .catch((err) => {
+    //         console.log(err);
+    //         setError('Error retrieving data');
+    //     });
+    // }, [userId]);
     const handleCreatePress = React.useCallback(() => {
         setCreateModalVisible(true);
     }, [setCreateModalVisible]);

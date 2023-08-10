@@ -13,6 +13,7 @@ const stack = createNativeStackNavigator<StackParamList>();
 
 export default function UserPrograms() {
   return (
+    
     <stack.Navigator initialRouteName="Discovers">
         <stack.Screen
             name="Discovers"

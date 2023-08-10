@@ -54,6 +54,7 @@ export type TrackingDataSchema = {
     roundMinRemain?: number;
     speed?: number;
     weight?: number;
+    notes?: string;
 };
 
 export type MovementHistory = {
