@@ -12,7 +12,7 @@ import { Picker } from '@react-native-picker/picker';
 import { Ionicons } from '@expo/vector-icons';
 
 type DiscoverHomeScreenProps = {
-    navigation: NativeStackNavigationProp<StackParamList, 'Discover'>;
+    navigation: NativeStackNavigationProp<StackParamList, 'Discovers'>;
 };
 
 export default function DiscoverHomeScreen({navigation: navigator}: DiscoverHomeScreenProps) {

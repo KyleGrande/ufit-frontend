@@ -16,7 +16,7 @@ export type DiscoverProgramScreenRouteProp = RouteProp<StackParamList, 'Program'
 
 type DiscoverProgramScreenProps = {
     route: DiscoverProgramScreenRouteProp;
-    navigation: NativeStackNavigationProp<StackParamList, 'Discover'>;
+    navigation: NativeStackNavigationProp<StackParamList, 'Discovers'>;
 };
 
 export default function DiscoverProgramScreen({ route, navigation }: DiscoverProgramScreenProps){
