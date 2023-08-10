@@ -7,9 +7,10 @@ import { StackParamList } from "../UserDiscover";
 import LinearGradient from "../../components/LinearGradient";
 import { getGradientColors } from "../../components/getGradient";
 
-import API, { Session, NewProgram } from "../../api";
+import API, { Session, NewProgram, Program } from "../../api";
 import { programStyles, trackingStyles, discoverProgramStyles } from '../style';
 import useAuth from "../../hook/useAuth";
+import { useUserPrograms } from "../../provider/UserProgramsContext";
 
 // used for accessing route parameters in a type-safe way
 export type DiscoverProgramScreenRouteProp = RouteProp<StackParamList, 'Program'>;
@@ -23,6 +24,8 @@ export default function DiscoverProgramScreen({ route, navigation }: DiscoverPro
     const { program } = route.params;
     const [movements , setMovements] = useState<any[]>([]);
     const userId = useAuth()._id as string;
+    const { addProgram } = useUserPrograms();
+
     const getMovements = async (ids: {$oid:string}[]) => {
         try {
             const response = await API.getMovementByIds(ids);
@@ -46,6 +49,11 @@ export default function DiscoverProgramScreen({ route, navigation }: DiscoverPro
         newProgram.programName = `${program.programName} (copy)`;
         delete newProgram._id;
         API.addProgram(newProgram).then((response) => {
+            console.log(response.data.data);
+            let createdProgram = response.data.data;
+            addProgram(createdProgram);
+            //works but has an error
+            // navigation.navigate('Track a Program', { program: createdProgram });
         }
         ).catch((err) => {
             console.log(err);

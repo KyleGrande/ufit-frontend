@@ -5,23 +5,21 @@ import useAuth from '../hook/useAuth';
 type UserProgramsContextProps = {
   programs: Program[] | null;
   error: string | null;
-  loading: boolean;
+  addProgram: (program: Program) => void; 
 };
 
 export const UserProgramsContext = createContext<UserProgramsContextProps>({
   programs: null,
   error: null,
-  loading: false,
+  addProgram: () => {},
 });
 
 export function UserProgramsProvider({ children }: { children: React.ReactNode }) {
   const [programs, setPrograms] = useState<Program[] | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
   const userId = useAuth()._id as string;
 
   useEffect(() => {
-    setLoading(true);
     API.getProgramsByUserId(userId)
       .then((response) => {
         setPrograms(response.data.data);
@@ -31,11 +29,15 @@ export function UserProgramsProvider({ children }: { children: React.ReactNode }
         console.log(err);
         setError('Error retrieving data');
       })
-      .finally(() => setLoading(false));
   }, [userId]);
 
+  const addProgram = (program: Program) => {
+    console.log ('addProgram', program);
+    setPrograms((prevPrograms) => (prevPrograms ? [...prevPrograms, program] : [program]));
+  };
+
   return (
-    <UserProgramsContext.Provider value={{ programs, error, loading }}>
+    <UserProgramsContext.Provider value={{ programs, error, addProgram }}>
       {children}
     </UserProgramsContext.Provider>
   );

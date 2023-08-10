@@ -16,6 +16,11 @@ import UserAuth from "./src/screens/UserAuth";
 import UserDiscover from "./src/screens/UserDiscover";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { LogBox } from "react-native";
+import UserProvider, {
+  useLoggedIn,
+  useLoggedInUpdate,
+} from "./src/provider/UserProvider";
+import { UserProgramsProvider } from "./src/provider/UserProgramsContext";
 // import { Text, View } from 'react-native';
 
 // LogBox.ignoreAllLogs (); //Ignore all log notifications for demo
@@ -23,8 +28,9 @@ const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
 function StackDecider() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
+  const isLoggedIn = useLoggedIn();
+  const setIsLoggedIn = useLoggedInUpdate();
 
   useEffect(() => {
     extractToken();
@@ -44,21 +50,24 @@ function StackDecider() {
       {isLoggedIn ? (
         <Stack.Screen
           name="App"
-          component={() => <MyTabs setIsLoggedIn={setIsLoggedIn} />}
+          component={MyTabs}
+          // component={() => <MyTabs setIsLoggedIn={setIsLoggedIn} />}
           options={{ headerShown: false }}
         />
       ) : (
         <Stack.Screen
           name="Auth"
-          component={() => <UserAuth setIsLoggedIn={setIsLoggedIn} />}
+          component={UserAuth}
+          // component={() => <UserAuth setIsLoggedIn={setIsLoggedIn} />}
           options={{ headerShown: false }}
         />
       )}
     </Stack.Navigator>
   );
 }
-function MyTabs({ setIsLoggedIn }: any) {
+function MyTabs() {
   return (
+    <UserProgramsProvider>
     <Tab.Navigator
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
@@ -98,19 +107,22 @@ function MyTabs({ setIsLoggedIn }: any) {
       />
       <Tab.Screen
         name="Settings"
-        // component={UserSettings}
-        children={() => <UserSettings setIsLoggedIn={setIsLoggedIn} />}
+        component={UserSettings}
+        // children={() => <UserSettings setIsLoggedIn={setIsLoggedIn} />}
         options={{ headerShown: false }}
       />
     </Tab.Navigator>
+    </UserProgramsProvider>
+
   );
 }
 
 export default function App() {
   return (
     <NavigationContainer>
-      <StackDecider />
-      {/* <MyTabs /> */}
+      <UserProvider>
+        <StackDecider />
+      </UserProvider>
     </NavigationContainer>
   );
 }

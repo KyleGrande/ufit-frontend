@@ -22,6 +22,7 @@ import { LogBox } from 'react-native';
 import axios from "axios"
 import LinearGradient from "../../../components/LinearGradient";
 import {api} from "../../../api";
+import { useUserPrograms } from "../../../provider/UserProgramsContext";
 LogBox.ignoreLogs([
   'Non-serializable values were found in the navigation state',
 ]);
@@ -95,7 +96,7 @@ export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
   }
 
 
-
+  const { addProgram } = useUserPrograms();
   const onSubmit = async(data:any) => {         
     console.log('Form Data:', data);   
     try {
@@ -112,6 +113,8 @@ export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
       let formSubmission = await api.post('/program', parsedData );      
       if (formSubmission.data.success){
         console.log(formSubmission.data.data);
+        let createdProgram = formSubmission.data.data;
+        addProgram(createdProgram);
         navigation.navigate('User Programs');
       }else{
         console.log('Error: ', 'Form submission was a failure'); // maybe a notification system to notify the user
