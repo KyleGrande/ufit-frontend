@@ -221,6 +221,7 @@ export const FeedStyles = StyleSheet.create({
         color: 'gray',
         fontSize: 30,
         fontWeight: 'bold',
+
     },
     programTitle: {
         fontSize: 20,
@@ -265,12 +266,12 @@ export const userSetting = StyleSheet.create({
         padding: 12,
         borderColor: "#ffffff",
         marginTop: 12,
-        color: "#ffffff",
+        color: "gray",
         marginLeft: 10,
         marginRight: 10,
     },
     settingText: {
-        color: "#ffffff",
+        color: "gray",
         fontSize: 18,
         paddingLeft: 20,
     },
