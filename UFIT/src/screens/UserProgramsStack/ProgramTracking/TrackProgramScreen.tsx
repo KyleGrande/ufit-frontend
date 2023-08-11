@@ -92,14 +92,7 @@ export default function TrackProgramScreen({
                             }${movement.typeTracking.roundSec}`}
                       </Text>
                     </View>
-                  ) : (
-                    <Text
-                      style={discoverProgramStyles.movementText}
-                      key={index + 10000}
-                    >
-                      Movement not found
-                    </Text>
-                  );
+                  ) : null
                 })}
               </TouchableOpacity>
             </View>
