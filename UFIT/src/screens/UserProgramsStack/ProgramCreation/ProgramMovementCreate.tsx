@@ -123,16 +123,14 @@ export default function ProgramMovementCreate({
 
   return (
     <LinearGradient top="#000" bottom="#EA9CFD" style={{ minHeight: "100%" }}>
-      <View style={creatingStyles.viewContainer}>
-        <View style={{ paddingLeft: 15 }}>
-          <ScrollView
-            style={{ width: "100%", height: "90%" }}
-            contentContainerStyle={{ flexGrow: 1 }}
-          >
-            <Text style={{ fontSize: 30, fontWeight: "bold", color: "white" }}>
+  <SafeAreaView>
+    {/* <View style={{...creatingStyles.viewContainer,paddingRight: 20}}> */}
+      <View style={{ paddingLeft: 15, paddingTop: 45,}}>
+        <ScrollView>
+            {/* <Text style={{ fontSize: 30, fontWeight: "bold", color: "white" }}>
               Add Movement
-            </Text>
-            <SafeAreaView style={{ height: "100%", flex: 1 }}>
+            </Text> */}
+            {/* <SafeAreaView style={{ height: "100%", flex: 1 }}> */}
               <Controller
                 control={control}
                 rules={{
@@ -967,7 +965,7 @@ export default function ProgramMovementCreate({
                   </View>
                 )}
               />
-            </SafeAreaView>
+            {/* </SafeAreaView> */}
             <View style={{ flex: 1 }}>
               <Button
                 title="Save Movement"
@@ -977,7 +975,7 @@ export default function ProgramMovementCreate({
             </View>
           </ScrollView>
         </View>
-      </View>
+      </SafeAreaView>
     </LinearGradient>
   );
 }

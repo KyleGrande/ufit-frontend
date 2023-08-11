@@ -127,11 +127,11 @@ export default function UserPrograms() {
       <stack.Screen
         name="Track a Session"
         component={TrackSessionScreen}
-        options={{
+        options={({ route }) => ({
+          title: route.params.session.name,
           headerTransparent: true,
           headerTintColor: "white",
-          headerTitle: "",
-        }}
+        })}
       />
       <stack.Screen
         name="TimerScreen"

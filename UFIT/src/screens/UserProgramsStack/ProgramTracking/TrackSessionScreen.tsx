@@ -89,9 +89,9 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps){
         >
         <SafeAreaView>
         <View style={[trackingStyles.viewContainer]}>
-            <Text style={[trackingStyles.titleBarText]}>
+            {/* <Text style={[trackingStyles.titleBarText]}>
                 {session.name} 
-            </Text>
+            </Text> */}
             <ScrollView 
             // style={programStyles.programsContainer}
             >
@@ -178,6 +178,17 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps){
             selectedMovement={selectedMovement}
             modalVisible={noteModalVisible}
             setModalVisible={setNoteModalVisible}
+            onSaveNote={(notes: string) => {
+                const movementName = selectedMovement?.movementName ?? '';
+                const currentData = trackingData[movementName] || {};
+                setTrackingData(prevData => ({
+                    ...prevData,
+                    [movementName]: {
+                        ...currentData,
+                        notes
+                    }
+                }));
+            }}
         />
         </SafeAreaView>
 

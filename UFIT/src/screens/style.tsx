@@ -334,6 +334,7 @@ export const discoverProgramStyles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         color: 'white',
+        paddingBottom:3,
         // padding: 5,
     },
 
