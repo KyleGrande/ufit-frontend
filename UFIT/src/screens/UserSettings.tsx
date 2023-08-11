@@ -6,8 +6,9 @@ import {
   Platform,
   TextInput,
   Alert,
+  SafeAreaView
 } from "react-native";
-import { programStyles, styles, userSetting } from "./style";
+import { programStyles, styles, userSetting, FeedStyles } from "./style";
 import LinearGradient from "../components/LinearGradient";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import useAuth from "../hook/useAuth";
@@ -78,13 +79,15 @@ export default function UserSettings() {
     ]);
 
   return (
-    <LinearGradient
-      top="#FCC064"
-      bottom="#EA9CFD"
-      style={{ minHeight: "100%" }}
-    >
-      <View style={{ ...styles.viewContainer, flex: 1 }}>
-        <Text style={{ ...styles.titleBarText, color: "#ffffff" }}>
+    // <LinearGradient
+    //   top="#ffffff"
+    //   bottom="#ffffff"
+    //   style={{ minHeight: "100%" }}
+    // >
+      <SafeAreaView>
+      <View style={FeedStyles.viewContainer}>
+
+        <Text style={{...FeedStyles.titleBarText , color: "gray" }}>
           Settings
         </Text>
 
@@ -105,7 +108,7 @@ export default function UserSettings() {
                 ...userSetting.inputContainer,
               }}
               placeholder="New Password"
-              placeholderTextColor={"#ffffff"}
+              placeholderTextColor={"gray"}
               secureTextEntry={true}
               value={resetPasswordFields.password}
               onChangeText={(value) =>
@@ -119,7 +122,7 @@ export default function UserSettings() {
                 marginTop: 5,
               }}
               placeholder="Confirm Password"
-              placeholderTextColor={"#ffffff"}
+              placeholderTextColor={"gray"}
               secureTextEntry={true}
               value={resetPasswordFields.reEnterPassword}
               onChangeText={(value) =>
@@ -147,7 +150,7 @@ export default function UserSettings() {
           >
             <Text
               style={{
-                color: "#ebe2e2",
+                color: "white",
                 backgroundColor: "#000",
                 fontWeight: "bold",
                 padding: 12,
@@ -174,13 +177,13 @@ export default function UserSettings() {
           <TouchableOpacity onPress={deleteDialog}>
             <Text
               style={{
-                color: "#ebe2e2",
-                backgroundColor: "#000",
+                color: "white",
+                backgroundColor: "orange",
                 fontWeight: "bold",
                 padding: 12,
                 borderRadius: isIos ? 10 : 10,
-                opacity: 0.7,
-                borderWidth: 1,
+                // opacity: 0.7,
+                // borderWidth: 1,
                 overflow: "hidden",
               }}
             >
@@ -189,6 +192,7 @@ export default function UserSettings() {
           </TouchableOpacity>
         </View>
       </View>
-    </LinearGradient>
+      </SafeAreaView>
+    // </LinearGradient>
   );
 }

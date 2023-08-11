@@ -8,7 +8,7 @@ import {
   ScrollView,
   FlatList,
 } from "react-native";
-import { styles as globalStyle } from "./style";
+import { FeedStyles, programStyles, styles as globalStyle } from "./style";
 import { StackedBarChart } from "react-native-chart-kit";
 import { fetchWorkoutHistoryByUserId } from "../service/apiCall";
 // import AutocompleteInput from "react-native-autocomplete-input";
@@ -140,21 +140,21 @@ export default function UserAnalytics() {
     );
 
   return (
-    <LinearGradient
-      top="#FCC064"
-      bottom="#EA9CFD"
-      style={{ minHeight: "100%" }}
-    >
-      <View style={{ paddingTop: 100, height: "100%" }}>
+    // <LinearGradient
+    //   top="#ffffff"
+    //   bottom="#ffffff"
+    //   style={{ minHeight: "100%" }}
+    // >
+    <SafeAreaView>
+      <View style={{...FeedStyles.viewContainer }}>
         {/* <Text style={globalStyle.titleBarText}> */}
-        <Text style={{ ...globalStyle.titleBarText, paddingBottom: 0 }}>
+        <Text style={{ ...FeedStyles.titleBarText}}>
           Analytics
         </Text>
 
-        <ScrollView>
+        <ScrollView style={{ marginTop:20}}>
           {/* <View> */}
 
-          <SafeAreaView>
             <StackedBarChart
               // style={styles.chart}
               data={{
@@ -272,10 +272,10 @@ export default function UserAnalytics() {
               keyExtractor={(item: any, index) => item?._id}
               contentContainerStyle={styles.listContent}
             />
-          </SafeAreaView>
         </ScrollView>
       </View>
-    </LinearGradient>
+      </SafeAreaView>
+    // </LinearGradient>
   );
 }
 
