@@ -86,7 +86,6 @@ function MyTabs() {
         tabBarActiveTintColor: "orange",
         tabBarInactiveTintColor: "gray",
         tabBarStyle: {
-          height: 100,
         },
       })}
     >

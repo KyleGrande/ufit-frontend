@@ -11,6 +11,7 @@ import API, { Session, NewProgram, Program } from "../../api";
 import { programStyles, trackingStyles, discoverProgramStyles } from '../style';
 import useAuth from "../../hook/useAuth";
 import { useUserPrograms } from "../../provider/UserProgramsContext";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 // used for accessing route parameters in a type-safe way
 export type DiscoverProgramScreenRouteProp = RouteProp<StackParamList, 'Program'>;
@@ -68,7 +69,8 @@ export default function DiscoverProgramScreen({ route, navigation }: DiscoverPro
         bottom={getGradientColors(program.programCategory.toLowerCase())[1]}
         style={{ minHeight: "100%" }}
         >
-        <View style={trackingStyles.viewContainer}>
+        <SafeAreaView>
+        <View style={discoverProgramStyles.viewContainer}>
             <Text style={trackingStyles.titleBarText}>
                 {program.programName} 
             </Text>
@@ -125,6 +127,7 @@ export default function DiscoverProgramScreen({ route, navigation }: DiscoverPro
                     />
                 </View>
         </View>
+        </SafeAreaView>
         </LinearGradient>
     );
 }
