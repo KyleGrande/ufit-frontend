@@ -132,14 +132,15 @@ export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
       bottom="#EA9CFD"
       style={{ minHeight: "100%" }}
     >   
-    <View style={{...creatingStyles.viewContainer,paddingRight: 20}}>
-      <View style={{ paddingLeft: 15 }}>
+    <SafeAreaView>
+    {/* <View style={{...creatingStyles.viewContainer,paddingRight: 20}}> */}
+      <View style={{ paddingLeft: 15, paddingTop: 15 }}>
         <ScrollView>
-          <Text style={{ fontSize: 30, fontWeight: "bold", color: "white" }}>
+          {/* <Text style={{ fontSize: 30, fontWeight: "bold", color: "white" }}>
             Create A Program
-          </Text>
+          </Text> */}
         
-          <SafeAreaView style={{ marginTop: 40 }}>
+          {/* <SafeAreaView style={{ marginTop: 40 }}> */}
           
           <Controller 
             control={control}
@@ -269,7 +270,7 @@ export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
               )}
             />
            
-          </SafeAreaView>
+          {/* </SafeAreaView> */}
           {/* 
           Add session button --> new page pop up --> 
             1. Persist data of this page in Object, 
@@ -323,7 +324,8 @@ export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
         </ScrollView>
 
       </View>
-    </View>
+    {/* </View> */}
+    </SafeAreaView>
   </LinearGradient>
  );
 }

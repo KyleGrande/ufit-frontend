@@ -43,7 +43,7 @@ export type typetracking = {
     restSec: number;
     roundMin: number;
     roundSec: number;
-    notes: string;
+    notes?: string;
 };
 export type TrackingDataSchema = {
     trackingType: string;
@@ -94,4 +94,5 @@ export default {
     getMovementByIds: (ids: {$oid:string}[]) => api.post(`/movement/by-ids/`, {ids}),
     insertWorkoutHistory: (newWorkoutHistory: WorkoutHistory) => api.post('/workout-history', newWorkoutHistory),
     addMovement: (newMovement: Movement) => api.post('/movement', newMovement),
+    getHistoryByProgramId: (programId: {$oid:string}) => api.get(`/workout-history/by-program-id/${programId}`),
 }

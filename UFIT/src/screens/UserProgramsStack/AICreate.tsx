@@ -1,6 +1,6 @@
 // import * as React from 'react';
 import React, {useState} from 'react';
-import { Text, View, Button, ScrollView, Pressable, TextInput, Touchable, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { Text, View, Button, ScrollView, Pressable, TextInput, Touchable, TouchableOpacity, ActivityIndicator, SafeAreaView } from 'react-native';
 import { createNativeStackNavigator, NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { StackParamList } from '../UserPrograms';
 import {programStyles, trackingStyles, discoverProgramStyles} from '../style';
@@ -121,7 +121,8 @@ export default function AICreate({ navigation  }: AICreateScreenProps){
         bottom={aiProgram ? getGradientColors(aiProgram.programCategory.toLowerCase())[1] : "#EA9CFD"}
         style={{ minHeight: "100%" }}
         >   
-                <View style={programStyles.viewContainer}>
+        <SafeAreaView>
+                {/* <View style={programStyles.viewContainer}> */}
                     <Text style={[programStyles.titleBarText, {color:'white', alignSelf:'center', paddingLeft:0}]}>
                         AI Create
                     </Text>
@@ -216,7 +217,8 @@ export default function AICreate({ navigation  }: AICreateScreenProps){
                         </View>
                     </ScrollView>
                 }
-                </View>
+                {/* </View> */}
+                </SafeAreaView>
         </LinearGradient>
     );
 }

@@ -96,13 +96,14 @@ export default function ProgramSessionCreate({navigation,route}: ProgramSessionC
       bottom="#EA9CFD"
       style={{ minHeight: "100%" }}
     >  
-    <View style={{...creatingStyles.viewContainer}}>
-      <View style={{ paddingLeft: 15, paddingRight: 15 }}>
+    <SafeAreaView>
+    {/* <View style={{...creatingStyles.viewContainer}}> */}
+      <View style={{ paddingLeft: 15, paddingRight: 15, paddingTop:15 }}>
         <ScrollView style={{ height: "90%" }}>
-          <Text style={{ fontSize: 30, fontWeight: "bold", color: "white" }}>
+          {/* <Text style={{ fontSize: 30, fontWeight: "bold", color: "white" }}>
             Session
-          </Text>
-          <SafeAreaView style={{ marginTop: 40 }}>
+          </Text> */}
+          {/* <SafeAreaView style={{ marginTop: 40 }}> */}
             <Controller
               control={control}
               rules={{
@@ -243,7 +244,7 @@ export default function ProgramSessionCreate({navigation,route}: ProgramSessionC
               </View>
             ))}            
             
-          </SafeAreaView>
+          {/* </SafeAreaView> */}
 
           <View>
             <Button
@@ -263,7 +264,8 @@ export default function ProgramSessionCreate({navigation,route}: ProgramSessionC
           </View>
         </ScrollView>
       </View>
-    </View>
+    {/* </View> */}
+    </SafeAreaView>
     </LinearGradient>
   );
 }
