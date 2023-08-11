@@ -11,43 +11,53 @@ import ProgramMovementCreate from "./UserProgramsStack/ProgramCreation/ProgramMo
 import ProgramsMainScreen from "./UserProgramsStack/ProgramsMainScreen";
 import TrackProgramScreen from "./UserProgramsStack/ProgramTracking/TrackProgramScreen";
 import TrackSessionScreen from "./UserProgramsStack/ProgramTracking/TrackSessionScreen";
+import ProgramEditMovementScreen from "./UserProgramsStack/ProgramEditStack/ProgramEditMovement";
 import { Program, Session, Movement } from "../api";
-import  FormProvider  from "./StateContext";
+import FormProvider from "./StateContext";
 import TimerScreen from "./UserProgramsStack/ProgramTracking/TimerScreen";
-import AICreate from "./UserProgramsStack/AICreate"
+import AICreate from "./UserProgramsStack/AICreate";
 
 export type StackParamList = {
   "User Programs": undefined; // will be UserPrograms from the DB eventually
   "AI Create": undefined; //takes nothing maybe userID?
   "Create a Program": undefined; //takes nothing maybe userID?
-  "Create a Session": { fields:any, addSession: any, deleteSession: any }; //takes a session object maybe in the future userID?
-  "Create a Movement": { addMovement: any, removeMovement:any, fields: any, addSession: any, deleteSession: any };
-  "Track a Program": { 
-                      program: Program 
-                    }; //takes a program object maybe in the future userID?
-  "Track a Session": { 
-                      program: Program,
-                      session: Session,
-                      movements:  Movement[] 
-                      }; //takes a session object maybe in the future userID?
-  'TimerScreen': {
-                  movementName: string, 
-                  roundMin: number,
-                  roundSec: number,
-                  rounds: number, 
-                  restMin: number,
-                  restSec: number,
-                  onEnd: (
-                    movement: string, 
-                    roundsCompleted: number, 
-                    timeRemaining: number) => void;
-                };
+  "Create a Session": { fields: any; addSession: any; deleteSession: any }; //takes a session object maybe in the future userID?
+  "Create a Movement": {
+    addMovement: any;
+    removeMovement: any;
+    fields: any;
+    addSession: any;
+    deleteSession: any;
+  };
+  "Track a Program": {
+    program: Program;
+  }; //takes a program object maybe in the future userID?
+  "Track a Session": {
+    program: Program;
+    session: Session;
+    movements: Movement[];    
+  }; //takes a session object maybe in the future userID?
+  TimerScreen: {
+    movementName: string;
+    roundMin: number;
+    roundSec: number;
+    rounds: number;
+    restMin: number;
+    restSec: number;
+    onEnd: (
+      movement: string,
+      roundsCompleted: number,
+      timeRemaining: number
+    ) => void;
+  };
+  "Edit Program Movement": {
+    movement:any,
+    program: any
+  };
 };
 // Login: { setIsLoggedIn: (value: boolean) => void };
 
 const stack = createNativeStackNavigator<StackParamList>();
-
-
 
 export default function UserPrograms() {
   return (
@@ -68,23 +78,23 @@ export default function UserPrograms() {
           headerTitle: "",
         }}
       />
-            
-      <stack.Screen 
-      name="Create a Program"
-      options={{
-        headerTransparent: true,
-        headerTintColor: "white",
-      }}
-      > 
+
+      <stack.Screen
+        name="Create a Program"
+        options={{
+          headerTransparent: true,
+          headerTintColor: "white",
+        }}
+      >
         {(props) => (
           <FormProvider>
             <ProgramCreate {...props}></ProgramCreate>
           </FormProvider>
-        )}           
+        )}
       </stack.Screen>
 
       <stack.Screen
-        name="Create a Session"        
+        name="Create a Session"
         options={{
           headerTransparent: true,
           headerTintColor: "white",
@@ -94,25 +104,26 @@ export default function UserPrograms() {
           <FormProvider>
             <ProgramSessionCreate {...props}></ProgramSessionCreate>
           </FormProvider>
-        )} 
-        </stack.Screen>
+        )}
+      </stack.Screen>
 
       <stack.Screen
-        name="Create a Movement"   
-
+        name="Create a Movement"
         options={{
           headerTransparent: true,
           headerTintColor: "white",
         }}
-        initialParams={
-          {addMovement: (value: any) => {console.log(value)}}
-        }
+        initialParams={{
+          addMovement: (value: any) => {
+            console.log(value);
+          },
+        }}
       >
         {(props) => (
           <FormProvider>
             <ProgramMovementCreate {...props}></ProgramMovementCreate>
           </FormProvider>
-        )}         
+        )}
       </stack.Screen>
 
       <stack.Screen
@@ -124,7 +135,8 @@ export default function UserPrograms() {
           headerTitle: "",
         }}
       />
-      
+        
+
       <stack.Screen
         name="Track a Session"
         component={TrackSessionScreen}
@@ -134,14 +146,23 @@ export default function UserPrograms() {
           headerTitle: "",
         }}
       />
+
       <stack.Screen
         name="TimerScreen"
         component={TimerScreen}
         options={{
-          presentation: 'modal',
+          presentation: "modal",
           headerTransparent: true,
           headerTintColor: "white",
           headerTitle: "",
+        }}
+      />
+
+      <stack.Screen
+        name="Edit Program Movement"
+        component={ProgramEditMovementScreen}
+        options={{
+          headerShown: false,
         }}
       />
     </stack.Navigator>
