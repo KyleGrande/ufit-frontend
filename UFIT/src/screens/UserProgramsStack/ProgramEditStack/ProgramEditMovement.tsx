@@ -121,6 +121,7 @@ export default function ProgramEditMovementScreen({navigation,route}: ProgramEdi
 
     const onDelete = () => {
       api.delete(`/movement/by-id/${movement._id}`);
+      handleMovements(program);
       navigation.goBack();
     }
 
