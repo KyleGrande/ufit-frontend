@@ -27,6 +27,22 @@ export const RoundsTracker = ({rounds, roundMin, roundSec, restMin,restSec, move
     // const [localTime, setLocalTime] = useState(time);
     // const [localRest, setLocalRest] = useState(rest);
     
+    useEffect(()=> {
+        setLocalRounds(rounds);
+    }, [rounds])
+    useEffect(()=> {
+        setLocalRoundMin(roundMin);
+    }, [roundMin])
+    useEffect(()=> {
+        setLocalRoundSec(roundSec);
+    }, [roundSec])
+    useEffect(()=> {
+        setLocalRestMin(restMin);
+    }, [restMin])
+    useEffect(()=> {
+        setLocalRestSec(restSec);
+    }, [restSec])
+
 
     const navigation = useNavigation<NativeStackNavigationProp<StackParamList, 'Track a Session'>>();
 

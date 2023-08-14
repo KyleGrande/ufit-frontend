@@ -21,6 +21,7 @@ import UserProvider, {
   useLoggedInUpdate,
 } from "./src/provider/UserProvider";
 import { UserProgramsProvider } from "./src/provider/UserProgramsContext";
+import { MovementsProvider } from "./src/screens/MovementsContext";
 // import { Text, View } from 'react-native';
 
 // LogBox.ignoreAllLogs (); //Ignore all log notifications for demo
@@ -120,7 +121,9 @@ export default function App() {
   return (
     <NavigationContainer>
       <UserProvider>
+        <MovementsProvider>
         <StackDecider />
+        </MovementsProvider>
       </UserProvider>
     </NavigationContainer>
   );
