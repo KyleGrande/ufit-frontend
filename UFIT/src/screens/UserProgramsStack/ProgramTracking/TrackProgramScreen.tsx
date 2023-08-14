@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Text, View, ScrollView, TouchableOpacity } from "react-native";
 import { RouteProp } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-
+import useAuth from "../../../hook/useAuth";
 import { StackParamList } from "../../UserPrograms";
 import LinearGradient from "../../../components/LinearGradient";
 import { getGradientColors } from "../../../components/getGradient";
@@ -28,7 +28,7 @@ export default function TrackProgramScreen({
 }: TrackProgramScreenProps) {
   const { program } = route.params;
   const { movements, handleMovements } = useMovementsContext();
-  
+  const userId = useAuth()._id as string;
   useEffect(() => {
     handleMovements(program);
   }, [program]);
@@ -41,9 +41,19 @@ export default function TrackProgramScreen({
       bottom={getGradientColors(program.programCategory.toLowerCase())[1]}
       style={{ minHeight: "100%" }}
     >
-      <View style={trackingStyles.viewContainer}>
+      <View style={{...trackingStyles.viewContainer, marginTop: 50}}>
         <Text style={trackingStyles.titleBarText}>{program.programName}</Text>
-        
+        {/* ()=> console.log(program._id, userId) */}
+        <TouchableOpacity style = {{paddingLeft: 20}} onPress = {()=> 
+        navigation.navigate('Write Feedback', 
+        {
+          programId: String(program._id), 
+          userId: userId
+        })}>
+          <Text>
+            Feedback?
+          </Text>
+        </TouchableOpacity>
         <ScrollView style={trackingStyles.sessionsContainer}>
           {program.session.map((session: Session, index) => (
             <View key={index}>
