@@ -20,6 +20,19 @@ export const RepSetsTracker = ({movement, sets, reps, weight, onRepSetTrackerCha
     const [localWeight, setLocalWeight] = useState(weight || 0);
     const [localReps, setLocalReps] = useState(reps || 0);
 
+
+    useEffect(()=> {
+        setLocalSets(sets || 0);
+        setRepStates([...Array(sets)].map(()=>'') || []);
+    }, [sets])
+    useEffect(()=> {
+        setLocalReps(reps || 0)
+    }, [reps])
+    useEffect(()=> {
+        setLocalWeight(weight || 0);
+    }, [weight])
+    
+
     const callOnSetRepTrackerChange = useCallback(() => { //needed callback on setRepTrackerChange to only change when repStates changes
         const setsCompleted = repStates.filter(state => state === 'pass').length;
         onRepSetTrackerChange(setsCompleted, localWeight, localReps);
