@@ -1,8 +1,10 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import API, {Movement} from '../api';
+import API, {Movement, api} from '../api';
 
 interface MovementsContextValue {
   movements: Movement[];
+  feedbacks: any,
+  getFeedbacks: (program: any) => void;
   handleMovements: (program: any) => void;
 }
 
@@ -22,7 +24,18 @@ interface MovementsProviderProps {
 
 export const MovementsProvider: React.FC<MovementsProviderProps> = ({ children }) => {
   const [movements, setMovements] = useState<Movement[]>([]);
+  const [feedbacks, setFeedbacks] = useState<any[]>([]);
 
+  const getFeedbacks = async (program:any) => {
+    try {
+        const response = await api.get(`/feedback/by-pid/${program._id}`);
+        console.log('Feedback data: ');
+        console.log(response.data);
+        setFeedbacks(response.data.data);
+    } catch(err){
+        console.log(err)
+    }
+}
   const getMovements = async (ids: { $oid: string }[]) => {
     try {
         const response = await API.getMovementByIds(ids);
@@ -43,7 +56,9 @@ export const MovementsProvider: React.FC<MovementsProviderProps> = ({ children }
 
   const contextValue: MovementsContextValue = {
     movements,
+    feedbacks,
     handleMovements,
+    getFeedbacks
   };
 
   return (
