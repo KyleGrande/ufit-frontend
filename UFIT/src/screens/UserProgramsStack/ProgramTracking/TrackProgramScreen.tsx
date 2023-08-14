@@ -43,9 +43,7 @@ export default function TrackProgramScreen({
     >
       <View style={trackingStyles.viewContainer}>
         <Text style={trackingStyles.titleBarText}>{program.programName}</Text>
-        <Text>
-            Update Works
-        </Text>
+        
         <ScrollView style={trackingStyles.sessionsContainer}>
           {program.session.map((session: Session, index) => (
             <View key={index}>
