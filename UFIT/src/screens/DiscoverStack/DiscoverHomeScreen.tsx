@@ -29,6 +29,7 @@ export default function DiscoverHomeScreen({navigation: navigator}: DiscoverHome
     // get all programs from the database
     React.useEffect(() => {
         API.getPrograms().then((response) => {
+            //works?
             let noOriginalPrograms = response.data.data.filter((program: Program) => !program.originalProgramId);
             setPrograms(noOriginalPrograms);
             setError(null);
