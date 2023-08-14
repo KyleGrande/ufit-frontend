@@ -1,5 +1,6 @@
 export type Program = {
     _id: { $oid: string};
+    originalProgramId?: { $oid: string};
     programName: string;
     programDescription: string;
     programCategory: string;
@@ -10,6 +11,7 @@ export type Program = {
 };
 export type NewProgram = {
     _id?: { $oid: string};
+    originalProgramId?: { $oid: string};
     programName: string;
     programDescription: string;
     programCategory: string;
@@ -80,8 +82,8 @@ export type WorkoutHistory = {
 import axios from "axios";
 
 export const api = axios.create({
-    baseURL: 'http://54.205.215.210:3000/api',
-    // baseURL: 'http://localhost:3000/api',
+    // baseURL: 'http://54.205.215.210:3000/api',
+    baseURL: 'http://localhost:3000/api',
 });
 
 export default {

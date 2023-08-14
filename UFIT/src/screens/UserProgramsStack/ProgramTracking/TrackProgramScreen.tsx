@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, ScrollView, TouchableOpacity } from "react-native";
+import { Text, View, ScrollView, TouchableOpacity, SafeAreaView } from "react-native";
 import { RouteProp } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import useAuth from "../../../hook/useAuth";
@@ -41,19 +41,22 @@ export default function TrackProgramScreen({
       bottom={getGradientColors(program.programCategory.toLowerCase())[1]}
       style={{ minHeight: "100%" }}
     >
-      <View style={{...trackingStyles.viewContainer, marginTop: 50}}>
+      <SafeAreaView>
+      {/* <View style={{...trackingStyles.viewContainer, marginTop: 50}}> */}
         <Text style={trackingStyles.titleBarText}>{program.programName}</Text>
         {/* ()=> console.log(program._id, userId) */}
+        {program.originalProgramId !== undefined &&
         <TouchableOpacity style = {{paddingLeft: 20}} onPress = {()=> 
         navigation.navigate('Write Feedback', 
         {
-          programId: String(program._id), 
+          programId: String(program.originalProgramId), 
           userId: userId
         })}>
           <Text>
             Feedback?
           </Text>
         </TouchableOpacity>
+        }
         <ScrollView style={trackingStyles.sessionsContainer}>
           {program.session.map((session: Session, index) => (
             <View key={index}>
@@ -106,7 +109,8 @@ export default function TrackProgramScreen({
             </View>
           ))}
         </ScrollView>
-      </View>
+      {/* </View> */}
+      </SafeAreaView>
     </LinearGradient>
   );
 }

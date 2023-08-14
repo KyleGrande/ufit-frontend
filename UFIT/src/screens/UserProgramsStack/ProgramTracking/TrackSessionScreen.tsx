@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Modal,
   TextInput,
+  SafeAreaView
 } from "react-native";
 import { useEffect } from "react";
 import { RouteProp, useNavigation } from "@react-navigation/native";
@@ -117,8 +118,9 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps) {
       bottom={getGradientColors(program.programCategory.toLowerCase())[1]}
       style={{ minHeight: "100%" }}
     >
+      <SafeAreaView>
       <View style={[trackingStyles.viewContainer]}>
-        <Text style={[trackingStyles.titleBarText]}>{session.name}</Text>
+        {/* <Text style={[trackingStyles.titleBarText]}>{session.name}</Text> */}
         <ScrollView
         // style={programStyles.programsContainer}
         >
@@ -248,6 +250,7 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps) {
                 }));
             }}
         />
+      </SafeAreaView>
     </LinearGradient>
   );
 }
