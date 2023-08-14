@@ -12,6 +12,7 @@ import ProgramsMainScreen from "./UserProgramsStack/ProgramsMainScreen";
 import TrackProgramScreen from "./UserProgramsStack/ProgramTracking/TrackProgramScreen";
 import TrackSessionScreen from "./UserProgramsStack/ProgramTracking/TrackSessionScreen";
 import ProgramEditMovementScreen from "./UserProgramsStack/ProgramEditStack/ProgramEditMovement";
+import ProgramWriteFeedBack from "./UserProgramsStack/ProgramFeedback/WriteProgramFeedback";
 import { Program, Session, Movement } from "../api";
 import FormProvider from "./StateContext";
 import TimerScreen from "./UserProgramsStack/ProgramTracking/TimerScreen";
@@ -53,6 +54,10 @@ export type StackParamList = {
     movement:any,
     program: any
   };
+  "Write Feedback": {
+    programId: string,
+    userId: string
+  }
 };
 // Login: { setIsLoggedIn: (value: boolean) => void };
 
@@ -164,6 +169,13 @@ export default function UserPrograms() {
           headerShown: false,
         }}
       />
+      <stack.Screen
+        name = "Write Feedback"
+        component = {ProgramWriteFeedBack}
+        options= {{
+          headerShown: false,
+        }}
+        />
     </stack.Navigator>
   );
 }
