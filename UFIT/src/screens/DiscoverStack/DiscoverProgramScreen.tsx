@@ -7,12 +7,13 @@ import { StackParamList } from "../UserDiscover";
 import LinearGradient from "../../components/LinearGradient";
 import { getGradientColors } from "../../components/getGradient";
 
-import API, { Session, NewProgram, Program } from "../../api";
+import API, { Session, NewProgram, Program, api } from "../../api";
 import { programStyles, trackingStyles, discoverProgramStyles } from '../style';
 import useAuth from "../../hook/useAuth";
 import { useUserPrograms } from "../../provider/UserProgramsContext";
 import { SafeAreaView } from "react-native-safe-area-context";
-
+import { useMovementsContext } from "../MovementsContext";
+import FeedBackCard from "../../components/FeedbackCard";
 // used for accessing route parameters in a type-safe way
 export type DiscoverProgramScreenRouteProp = RouteProp<StackParamList, 'Program'>;
 
@@ -23,25 +24,24 @@ type DiscoverProgramScreenProps = {
 
 export default function DiscoverProgramScreen({ route, navigation }: DiscoverProgramScreenProps){
     const { program } = route.params;
-    const [movements , setMovements] = useState<any[]>([]);
+    const { movements, handleMovements, feedbacks, getFeedbacks } = useMovementsContext();
+    const [movementsData , setMovements] = useState<any[]>([]);
+    const [feedbackData, setFeedbacks] = useState(feedbacks);
     const userId = useAuth()._id as string;
     const { addProgram } = useUserPrograms();
 
-    const getMovements = async (ids: {$oid:string}[]) => {
-        try {
-            const response = await API.getMovementByIds(ids);
-            // console.log('response.data', response.data.data);
-            setMovements(response.data.data);
-        } catch (error) {
-            console.log(error);
-        }
-    }
-    useEffect(() => {
-        let movementIds:{$oid:string}[] = [];
-        program.session.forEach((session) => {
-            movementIds.push(...session.movementId);
-        } );
-        getMovements(movementIds);
+    useEffect(()=> {
+        setFeedbacks(feedbacks);
+    }, [feedbacks])
+
+    useEffect(()=> {
+        setMovements(movements);
+    }, [movements])
+    
+
+    useEffect(() => {        
+        handleMovements(program);
+        getFeedbacks(program);
     }, [program]);
 
     const handleOnPress = () => {
@@ -95,7 +95,7 @@ export default function DiscoverProgramScreen({ route, navigation }: DiscoverPro
                         >
                             {session.movementId?.map((movementId, index) => {
                                 // Find the movement that corresponds to the movementId in the session
-                                const movement = movements.find((m) => m._id === movementId);
+                                const movement = movementsData.find((m) => m._id === movementId);
                                 return movement ? (
                                     <View style={discoverProgramStyles.movementContainer} key={index+10000}>
                                     <Text style={discoverProgramStyles.movementText}>
@@ -111,13 +111,28 @@ export default function DiscoverProgramScreen({ route, navigation }: DiscoverPro
                                     </View>
                                     
                                 ) : 
-                                <Text key={index+10000} style={discoverProgramStyles.movementText}>
-                                    Movement not found
-                                </Text>
+                                null
                             })}
                         </TouchableOpacity>
                         </View>
                     ))}
+                </ScrollView>
+                <Text style={discoverProgramStyles.theProgramTitle}>
+                    Feedback:
+                </Text>
+                <ScrollView style = {trackingStyles.sessionsContainer}>
+                    {feedbacks?.map((f:any)=> {
+                        return (
+                            <FeedBackCard username={f.userId} rating = {f.rating} comment = {f.comment} />
+                        )
+                    })}
+                    {/* <FeedBackCard username = "Ricardo" rating = "10" comment = "Awesome program!"/>
+                    <FeedBackCard username = "Ricardo" rating = "10" comment = "Awesome program!"/>
+                    <FeedBackCard username = "Ricardo" rating = "10" comment = "Awesome program!"/>
+                    <FeedBackCard username = "Ricardo" rating = "10" comment = "Awesome program!"/>
+                    <FeedBackCard username = "Ricardo" rating = "10" comment = "Awesome program!"/>
+                    <FeedBackCard username = "Ricardo" rating = "10" comment = "Awesome program!"/>
+                    <FeedBackCard username = "Ricardo" rating = "10" comment = "Awesome program!"/> */}
                 </ScrollView>
                 <View style={programStyles.buttonContainer}>
                     <Button 
