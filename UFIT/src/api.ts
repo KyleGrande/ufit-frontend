@@ -82,8 +82,8 @@ export type WorkoutHistory = {
 import axios from "axios";
 
 export const api = axios.create({
-    // baseURL: 'http://54.205.215.210:3000/api',
-    baseURL: 'http://localhost:3000/api',
+    baseURL: 'http://54.205.215.210:3000/api',
+    // baseURL: 'http://localhost:3000/api',
 });
 
 export default {
