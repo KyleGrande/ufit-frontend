@@ -43,7 +43,12 @@ type TrackSessionScreenProps = {
 export default function TrackSessionScreen({ route }: TrackSessionScreenProps) {
   const { movements } = useMovementsContext();
   const { program, session } = route.params;
+  const [movementsData, setMovementsData] = useState(movements);
   
+  //update with data fetched from database
+  useEffect(() => {
+    setMovementsData(movements);
+  }, [movements])
   
   type TrackingData = Record<string, TrackingDataSchema[]>;
 
@@ -77,13 +82,13 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps) {
   );
 
   const getMovementTrackingData = useCallback(() => {
-    return movements.map((movement) => ({
+    return movementsData.map((movement) => ({
       movementId: movement._id,
       movementName: movement.movementName,
       section: "main",
       trackingData: trackingData[movement.movementName],
     }));
-  }, [movements, trackingData]);
+  }, [movementsData, trackingData]);
 
   const handleSubmit = () => {
     console.log(getMovementTrackingData());
@@ -117,7 +122,7 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps) {
         <ScrollView
         // style={programStyles.programsContainer}
         >
-          {movements.map((movement, index) => (
+          {movementsData.map((movement, index) => (
             //map movements
             <View key={index}>
               <View style={[{ flexDirection: "row", alignItems: "center" }]}>
