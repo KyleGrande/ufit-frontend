@@ -23,6 +23,7 @@ import axios from "axios"
 import LinearGradient from "../../../components/LinearGradient";
 import {api} from "../../../api";
 import { useUserPrograms } from "../../../provider/UserProgramsContext";
+import useAuth from '../../../hook/useAuth';
 LogBox.ignoreLogs([
   'Non-serializable values were found in the navigation state',
 ]);
@@ -35,6 +36,8 @@ type ProgramsMainScreenProps = {
 
 export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
   const { control, handleSubmit, getValues, setValue, watch } = useFormContext();
+  const userId = useAuth()._id as string;
+
   const sessionsFieldArray = useFieldArray({
     control: control,
     name: 'sessions'
@@ -106,6 +109,7 @@ export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
       // console.log(data);
       let parsedData = {
         programName: data.programName,
+        userId: userId,
         programDescription: data.programDescription,
         programCategory: data.programCategory,
         session: data.sessions,        

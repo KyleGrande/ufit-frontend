@@ -23,7 +23,8 @@ export default function AICreate({ navigation  }: AICreateScreenProps){
     const handleSubmit = () => {
         console.log(textInput);
         setIsGettingAiProgram(true);
-        axios.post('http://localhost:3003/', {
+        axios.post('http://192.168.0.209:3003/', {
+        // axios.post('http://localhost:3003/', {
             text: textInput
         })
         .then(response => {

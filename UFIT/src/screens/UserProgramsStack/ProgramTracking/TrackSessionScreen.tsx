@@ -106,6 +106,7 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps) {
       .insertWorkoutHistory(histories)
       .then((response) => {
         console.log(response.status);
+        navigation.navigate("User Programs");
       })
       .catch((err) => {
         console.log(err);
