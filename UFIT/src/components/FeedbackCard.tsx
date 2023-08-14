@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, View, TouchableOpacity } from 'react-native';
-
+import {api} from '../api';
 type FeedBackCardProps = {
     username: any,
     comment: any,
@@ -32,7 +32,10 @@ export const FeedBackCard = ({username, comment, rating}: FeedBackCardProps) => 
                 </Text>            
             </View>
                 <Text>
-                    {username} 
+                    {/*
+                    TODO: get userName from database user id
+                    Maybe new route to get userName?
+                    {username}  */}
                 </Text>                        
         </View>
     )
