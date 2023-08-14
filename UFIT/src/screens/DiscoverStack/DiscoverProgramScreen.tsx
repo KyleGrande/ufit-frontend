@@ -118,11 +118,11 @@ export default function DiscoverProgramScreen({ route, navigation }: DiscoverPro
                         </View>
                     ))}
                 </ScrollView>
+                {feedbacks && feedbacks?.length > 0 &&(
+                <>
                 <Text style={discoverProgramStyles.theProgramTitle}>
                     Feedback:
                 </Text>
-                {/* if feedback show */}
-                { feedbacks?  
                 <ScrollView style = {[trackingStyles.sessionsContainer, {height:'25%'}]}>
                     {feedbacks?.map((f:any)=> {
                         return (
@@ -137,11 +137,8 @@ export default function DiscoverProgramScreen({ route, navigation }: DiscoverPro
                     <FeedBackCard username = "Ricardo" rating = "10" comment = "Awesome program!"/>
                     <FeedBackCard username = "Ricardo" rating = "10" comment = "Awesome program!"/> */}
                 </ScrollView>
-                :
-                <Text style={discoverProgramStyles.programDescription}>
-                    No feedback yet!
-                </Text>
-                }
+                </>
+                )}
                 <View style={programStyles.buttonContainer}>
                     <Button 
                         title="Add Program" 
