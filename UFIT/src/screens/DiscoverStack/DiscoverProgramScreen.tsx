@@ -48,6 +48,7 @@ export default function DiscoverProgramScreen({ route, navigation }: DiscoverPro
         let newProgram: NewProgram = {...program};
         newProgram.userId = userId;
         newProgram.programName = `${program.programName} (copy)`;
+        newProgram.originalProgramId = program._id;
         delete newProgram._id;
         API.addProgram(newProgram).then((response) => {
             console.log(response.data.data);
@@ -117,10 +118,12 @@ export default function DiscoverProgramScreen({ route, navigation }: DiscoverPro
                         </View>
                     ))}
                 </ScrollView>
+                {feedbacks && feedbacks?.length > 0 &&(
+                <>
                 <Text style={discoverProgramStyles.theProgramTitle}>
                     Feedback:
                 </Text>
-                <ScrollView style = {trackingStyles.sessionsContainer}>
+                <ScrollView style = {[trackingStyles.sessionsContainer, {height:'25%'}]}>
                     {feedbacks?.map((f:any)=> {
                         return (
                             <FeedBackCard username={f.userId} rating = {f.rating} comment = {f.comment} />
@@ -134,6 +137,8 @@ export default function DiscoverProgramScreen({ route, navigation }: DiscoverPro
                     <FeedBackCard username = "Ricardo" rating = "10" comment = "Awesome program!"/>
                     <FeedBackCard username = "Ricardo" rating = "10" comment = "Awesome program!"/> */}
                 </ScrollView>
+                </>
+                )}
                 <View style={programStyles.buttonContainer}>
                     <Button 
                         title="Add Program" 

@@ -1,5 +1,6 @@
 export type Program = {
     _id: { $oid: string};
+    originalProgramId?: { $oid: string};
     programName: string;
     programDescription: string;
     programCategory: string;
@@ -10,6 +11,7 @@ export type Program = {
 };
 export type NewProgram = {
     _id?: { $oid: string};
+    originalProgramId?: { $oid: string};
     programName: string;
     programDescription: string;
     programCategory: string;
