@@ -10,6 +10,7 @@ import { getGradientColors } from "../../../components/getGradient";
 import API, { Session, Movement } from "../../../api";
 import { trackingStyles, discoverProgramStyles } from "../../style";
 import { useMovementsContext } from "../../MovementsContext";
+import { MaterialIcons } from '@expo/vector-icons';
 
 // used for accessing route parameters in a type-safe way
 export type TrackProgramScreenRouteProp = RouteProp<
@@ -46,15 +47,16 @@ export default function TrackProgramScreen({
         <Text style={trackingStyles.titleBarText}>{program.programName}</Text>
         {/* ()=> console.log(program._id, userId) */}
         {program.originalProgramId !== undefined &&
-        <TouchableOpacity style = {{paddingLeft: 20}} onPress = {()=> 
+        <TouchableOpacity style = {{marginLeft: 20,marginTop:10}} onPress = {()=> 
         navigation.navigate('Write Feedback', 
         {
           programId: String(program.originalProgramId), 
           userId: userId
         })}>
-          <Text>
-            Feedback?
-          </Text>
+          <View style={[trackingStyles.submitButton,{flexDirection:'row', alignSelf:'flex-start', maxWidth:'40%'}]}>
+            <Text style={[discoverProgramStyles.sessionTitle, {fontSize:16, fontWeight:'normal'}]}>Leave a Review </Text>
+          <MaterialIcons name="feedback" size={16} color="white" />
+          </View>
         </TouchableOpacity>
         }
         <ScrollView style={trackingStyles.sessionsContainer}>

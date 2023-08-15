@@ -47,7 +47,7 @@ export default function DiscoverProgramScreen({ route, navigation }: DiscoverPro
     const handleOnPress = () => {
         let newProgram: NewProgram = {...program};
         newProgram.userId = userId;
-        newProgram.programName = `${program.programName} (copy)`;
+        newProgram.programName = program.programName;
         newProgram.originalProgramId = program._id;
         delete newProgram._id;
         API.addProgram(newProgram).then((response) => {

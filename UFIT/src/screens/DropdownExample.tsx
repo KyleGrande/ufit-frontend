@@ -7,6 +7,7 @@ import {
   Modal,
   FlatList,
   Dimensions,
+  Pressable,
 } from "react-native";
 
 const screenWidth = Dimensions.get("window").width;
@@ -36,7 +37,23 @@ const Dropdown = ({ options, selectedValue, onSelect }: any) => {
         visible={modalVisible}
         onRequestClose={() => setModalVisible(false)}
       >
-        <View style={styles.modalOverlay}>
+        <Pressable style={{flex: 1,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        minWidth: 40,
+                        backgroundColor: 'rgba(0,0,0,0.5)'}} 
+                onPress={() => setModalVisible(false)} 
+                onStartShouldSetResponder={() => true}>
+        <View style={{
+                    // backgroundColor: 'white',
+                    padding: 20,
+                    borderRadius: 20,
+                    minWidth: 300,
+                    minHeight: 200,
+                flexDirection: 'row',
+            justifyContent: 'space-around'}} 
+                onStartShouldSetResponder={() => true}
+        >
           <View style={styles.modalContent}>
             <FlatList
               data={options}
@@ -54,6 +71,7 @@ const Dropdown = ({ options, selectedValue, onSelect }: any) => {
             />
           </View>
         </View>
+        </Pressable>
       </Modal>
     </View>
   );

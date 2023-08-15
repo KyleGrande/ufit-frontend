@@ -9,7 +9,7 @@ type CreateodalProps = {
 
 export const CreateModal = ({ modalVisible, setModalVisible, navigation}: CreateodalProps) => (
     <Modal
-    animationType="slide"
+    animationType="fade"
     transparent={true}
     visible={modalVisible}
     onRequestClose={() => {

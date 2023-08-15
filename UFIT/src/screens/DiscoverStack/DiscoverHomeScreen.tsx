@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Text, View, Pressable, ScrollView, TouchableOpacity, SafeAreaView} from 'react-native';
+import { Text, View, Pressable, ScrollView, TouchableOpacity, SafeAreaView,} from 'react-native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 import { StackParamList } from '../UserDiscover';
@@ -65,6 +65,7 @@ export default function DiscoverHomeScreen({navigation: navigator}: DiscoverHome
                 {showFilter &&
                 <Picker 
                     selectedValue={filter}
+                    
                     onValueChange={(itemValue) =>
                         setFilter(itemValue)
                     }
