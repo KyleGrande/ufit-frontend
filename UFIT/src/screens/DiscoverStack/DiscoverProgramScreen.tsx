@@ -123,9 +123,11 @@ export default function DiscoverProgramScreen({ route, navigation }: DiscoverPro
                     Feedback:
                 </Text>
                 <ScrollView >
-                    {feedbacks?.map((f:any)=> {
+                    {feedbacks?.map((f:any, index:number)=> {
                         return (
+                            <View key={index}>
                             <FeedBackCard username={f.userId} rating = {f.rating} comment = {f.comment} />
+                            </View>
                         )
                     })}
                     {/* <FeedBackCard username = "Ricardo" rating = "10" comment = "Awesome program!"/>

@@ -125,6 +125,7 @@ export default function TrackProgramScreen({
             {history.length === 0 && <Text style={{color:'white', fontSize:16,}}>Complete a Session to View History</Text>
             }
             {history.map((session: any, index) => (
+              <View key={index}>
               <TouchableOpacity style={[discoverProgramStyles.singleSessionContainer, {minHeight:40, marginBottom:5}]}>
                 <View style={{flexDirection:'row', justifyContent:'space-between'}}>
                 <Text style={discoverProgramStyles.movementText}>  
@@ -135,6 +136,7 @@ export default function TrackProgramScreen({
                 </Text>
                 </View>
               </TouchableOpacity>
+              </View>
 
             ))}
           </ScrollView>
