@@ -97,7 +97,10 @@ export default function ProgramMovementCreate({
         movementDescription: yup
           .string()
           .required("Movement description is required"),
-        movementLink: yup.string().required("Movement Link is required"),
+        movementLink: yup.string().required("Movement Link is required").matches(
+    /^(?:https?:\/\/)?(?:www\.)?youtube\.com\/watch\?v=[\w-]+$/,
+    'Invalid YouTube link'
+  ),
         typeTracking: yup
           .object()
           .shape({
