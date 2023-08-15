@@ -24,7 +24,7 @@ export default function DiscoverHomeScreen({navigation: navigator}: DiscoverHome
     const [showFilter, setShowFilter] = React.useState<boolean>(false);
 
     const filteredPrograms = filter 
-    ? programs.filter(program => program.programCategory === filter) 
+    ? programs.filter(program => program.programCategory.toLowerCase() === filter.toLowerCase()) 
     : programs;
     
     // get all programs from the database
@@ -78,6 +78,7 @@ export default function DiscoverHomeScreen({navigation: navigator}: DiscoverHome
                     <Picker.Item label="Strength" value="strength" />
                     <Picker.Item label="Yoga" value="Yoga" />
                     <Picker.Item label="Cardio" value="Cardio" />
+                    <Picker.Item label="Custom" value="custom" />
                     
                 </Picker>
                 }

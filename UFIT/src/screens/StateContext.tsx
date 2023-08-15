@@ -37,7 +37,7 @@ const FormProvider = ({children}:any) => {
             programDescription: yup.string().required('Program Description is Required'),
             programCategory: yup.string().
             required('Please select an option').
-            oneOf(['strength', 'yoga']),    
+            oneOf(['strength', 'yoga', 'cardio', 'custom']),    
             sessions: yup
                 .array()
                 .of(

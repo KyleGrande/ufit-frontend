@@ -9,6 +9,6 @@ export const getGradientColors = (programCategory: string) => {
         case 'weight loss':
             return ['#0D6817', '#FFEB3A'];
         default:
-            return ['black', 'white'];
+            return ['#ea5459', '#f7ba2c'];
     }
 };
