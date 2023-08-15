@@ -7,9 +7,10 @@ import LinearGradient from '../../components/LinearGradient';
 import { getGradientColors } from '../../components/getGradient';
 
 import API, {Program} from '../../api';
-import { FeedStyles, programStyles } from '../style';
+import { FeedStyles, programStyles, trackingStyles, discoverProgramStyles } from '../style';
 import { Picker } from '@react-native-picker/picker';
 import { Ionicons } from '@expo/vector-icons';
+import {FontAwesome5} from '@expo/vector-icons';
 
 type DiscoverHomeScreenProps = {
     navigation: NativeStackNavigationProp<StackParamList, 'Discovers'>;
@@ -102,9 +103,36 @@ export default function DiscoverHomeScreen({navigation: navigator}: DiscoverHome
                             <Text style={FeedStyles.programTitle}>
                                 {program.programName}
                             </Text>
+                            {
+                                program.programCategory.toLowerCase() === 'strength' && (
+                                    <Text style={{color:'white', paddingLeft:5}}>
+                                        <Ionicons name="barbell" size={20} color="white" /> Strength
+                                    </Text>
+                                )
+                            }
+                            {
+                                program.programCategory.toLowerCase() === 'yoga' && (
+                                    <Text style={{color:'white', paddingLeft:5}}>
+                                        <Ionicons name="fitness" size={20} color="white" /> Yoga
+                                    </Text>
+                                )
+                            }
+                            {
+                                program.programCategory.toLowerCase() === 'cardio' && (
+                                    <Text style={{color:'white', paddingLeft:5}}>
+                                        <Ionicons name="walk" size={20} color="white" /> Cardio
+                                    </Text>
+                                )
+                            }
+                            {program.isCreatedByAI && (
+                                <Text style={[ { color:'white', paddingLeft:5, paddingVertical:5}]}>
+                                      <FontAwesome5 name="brain" size={20} color="white" /> AI Generated
+                                </Text>
+                            )} 
                             <Text style={FeedStyles.programDescription}>
                                 {program.programDescription.substring(0, 100) + '...'}
                             </Text>
+
                             </LinearGradient>
                         </Pressable>
                     ))}

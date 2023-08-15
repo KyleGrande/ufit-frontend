@@ -15,6 +15,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useMovementsContext } from "../MovementsContext";
 import FeedBackCard from "../../components/FeedbackCard";
 import { FontAwesome5 } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 // used for accessing route parameters in a type-safe way
 export type DiscoverProgramScreenRouteProp = RouteProp<StackParamList, 'Program'>;
 
@@ -87,9 +88,27 @@ export default function DiscoverProgramScreen({ route, navigation }: DiscoverPro
             <FontAwesome5 name="brain" size={24} color="white" />
           </View>
             )}
-            <Text style={[discoverProgramStyles.theProgramTitle, { fontWeight:'normal', fontSize:20, marginTop:5}]}> 
-            Category: {program.programCategory.toUpperCase()}
-            </Text>          
+            {
+                program.programCategory.toLowerCase() === 'strength' && (
+                    <Text style={{color:'white', marginLeft:20, fontSize:20, marginTop:10}}>
+                    <Ionicons name="barbell" size={20} color="white" /> Strength
+                    </Text>
+                    )
+            }
+            {
+                program.programCategory.toLowerCase() === 'yoga' && (
+                    <Text style={{color:'white', marginLeft:20, fontSize:20, marginTop:10}}>
+                        <Ionicons name="fitness" size={20} color="white" /> Yoga
+                    </Text>
+                )
+            }
+            {
+                program.programCategory.toLowerCase() === 'cardio' && (
+                    <Text style={{color:'white', marginLeft:20, marginTop:10, fontSize:20}}>
+                        <Ionicons name="walk" size={20} color="white" /> Cardio
+                    </Text>
+                )
+            }
             <Text style={discoverProgramStyles.programDescription}>
                 {program.programDescription}
             </Text>
