@@ -76,8 +76,8 @@ export default function DiscoverHomeScreen({navigation: navigator}: DiscoverHome
                     >
                     <Picker.Item label="All Catagories" value='' />
                     <Picker.Item label="Strength" value="strength" />
-                    <Picker.Item label="Yoga" value="yoga" />
-                    <Picker.Item label="Cardio" value="cardio" />
+                    <Picker.Item label="Yoga" value="Yoga" />
+                    <Picker.Item label="Cardio" value="Cardio" />
                     
                 </Picker>
                 }
@@ -103,6 +103,11 @@ export default function DiscoverHomeScreen({navigation: navigator}: DiscoverHome
                             <Text style={FeedStyles.programTitle}>
                                 {program.programName}
                             </Text>
+                            <View style={{flexDirection:'column', justifyContent:'space-between'}}>
+                            <Text style={[FeedStyles.programDescription,{height:'60%'}]}>
+                                {program.programDescription.substring(0, 100) + '...'}
+                            </Text>
+                            <View style={{flexDirection:'row', justifyContent:'space-evenly', alignContent:'center', width:'100%', alignItems:'center', alignSelf:'flex-end' }}>
                             {
                                 program.programCategory.toLowerCase() === 'strength' && (
                                     <Text style={{color:'white', paddingLeft:5}}>
@@ -125,14 +130,12 @@ export default function DiscoverHomeScreen({navigation: navigator}: DiscoverHome
                                 )
                             }
                             {program.isCreatedByAI && (
-                                <Text style={[ { color:'white', paddingLeft:5, paddingVertical:5}]}>
-                                      <FontAwesome5 name="brain" size={20} color="white" /> AI Generated
+                                <Text style={[ { color:'white', paddingLeft:5, paddingVertical:5, }]}>
+                                    <FontAwesome5 name="brain" size={20} color="white" /> AI Generated
                                 </Text>
                             )} 
-                            <Text style={FeedStyles.programDescription}>
-                                {program.programDescription.substring(0, 100) + '...'}
-                            </Text>
-
+                            </View>
+                           </View>
                             </LinearGradient>
                         </Pressable>
                     ))}
