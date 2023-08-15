@@ -220,13 +220,13 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps) {
               )}
             </View>
           ))}
-                  <View style={[programStyles.buttonContainer,{marginVertical:10}]}>
+                  <TouchableOpacity style={[programStyles.buttonContainer,{marginVertical:10}]} onPress={handleSubmit}>
                     <Button 
                         title="Submit" 
                         color='white' 
                         onPress={handleSubmit}
                     />
-                </View>
+                </TouchableOpacity>
         </ScrollView>
         {/* <TouchableOpacity
           style={[programStyles.buttonContainer, { alignSelf: "center", marginBottom:10 }]}

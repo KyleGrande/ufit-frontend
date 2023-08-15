@@ -89,11 +89,14 @@ export default function DiscoverHomeScreen({navigation: navigator}: DiscoverHome
                             key={index}
                             onPress={() => navigator.navigate('Program',
                                 { program })}
+                            style={{shadowColor:'#171717',shadowOffset: {width: -2, height: 4},
+                            shadowOpacity: 0.2,
+                            shadowRadius: 3,}}
                         >
                             <LinearGradient
                                 top={getGradientColors(program.programCategory.toLowerCase())[0]}
                                 bottom={getGradientColors(program.programCategory.toLowerCase())[1]}
-                                style={FeedStyles.singleProgramContainer}
+                                style={[FeedStyles.singleProgramContainer]}
                             >
                             <Text style={FeedStyles.programTitle}>
                                 {program.programName}

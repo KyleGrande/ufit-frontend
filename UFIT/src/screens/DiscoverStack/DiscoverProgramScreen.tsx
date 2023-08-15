@@ -122,7 +122,7 @@ export default function DiscoverProgramScreen({ route, navigation }: DiscoverPro
                 <Text style={discoverProgramStyles.sessionTitle}>
                     Feedback:
                 </Text>
-                <ScrollView style = {[trackingStyles.sessionsContainer, {height:'25%'}]}>
+                <ScrollView >
                     {feedbacks?.map((f:any)=> {
                         return (
                             <FeedBackCard username={f.userId} rating = {f.rating} comment = {f.comment} />
@@ -140,13 +140,13 @@ export default function DiscoverProgramScreen({ route, navigation }: DiscoverPro
                 )}
                 </ScrollView>
                 
-                <View style={programStyles.buttonContainer}>
+                <TouchableOpacity style={programStyles.buttonContainer} onPress={handleOnPress}>
                     <Button 
                         title="Add Program" 
                         color='white' 
                         onPress={handleOnPress}
                     />
-                </View>
+                </TouchableOpacity>
         </View>
         </SafeAreaView>
         </LinearGradient>

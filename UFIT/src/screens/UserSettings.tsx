@@ -6,9 +6,10 @@ import {
   Platform,
   TextInput,
   Alert,
-  SafeAreaView
+  SafeAreaView,
+  Button
 } from "react-native";
-import { programStyles, styles, userSetting, FeedStyles } from "./style";
+import { programStyles, styles,discoverProgramStyles, userSetting, FeedStyles, trackingStyles } from "./style";
 import LinearGradient from "../components/LinearGradient";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import useAuth from "../hook/useAuth";
@@ -174,22 +175,14 @@ export default function UserSettings() {
             position: "absolute",
           }}
         >
-          <TouchableOpacity onPress={deleteDialog}>
-            <Text
-              style={{
-                color: "white",
-                backgroundColor: "orange",
-                fontWeight: "bold",
-                padding: 12,
-                borderRadius: isIos ? 10 : 10,
-                // opacity: 0.7,
-                // borderWidth: 1,
-                overflow: "hidden",
-              }}
-            >
-              Logout
-            </Text>
-          </TouchableOpacity>
+            <TouchableOpacity style={trackingStyles.submitButton}
+            onPress={deleteDialog}>
+            <Button
+              title="Logout"
+              color="white"
+              onPress={deleteDialog}
+            />
+            </TouchableOpacity>
         </View>
       </View>
       </SafeAreaView>

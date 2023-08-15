@@ -173,6 +173,7 @@ export default function UserPrograms() {
         name = "Write Feedback"
         component = {ProgramWriteFeedBack}
         options= {{
+          presentation: "modal",
           headerShown: false,
         }}
         />
