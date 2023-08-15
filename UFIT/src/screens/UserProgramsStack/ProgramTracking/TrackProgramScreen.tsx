@@ -7,10 +7,11 @@ import { StackParamList } from "../../UserPrograms";
 import LinearGradient from "../../../components/LinearGradient";
 import { getGradientColors } from "../../../components/getGradient";
 
-import API, { Session, Movement } from "../../../api";
+import API, { Session, Movement, WorkoutHistory } from "../../../api";
 import { trackingStyles, discoverProgramStyles } from "../../style";
 import { useMovementsContext } from "../../MovementsContext";
 import { MaterialIcons } from '@expo/vector-icons';
+import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 
 // used for accessing route parameters in a type-safe way
 export type TrackProgramScreenRouteProp = RouteProp<
@@ -27,12 +28,21 @@ export default function TrackProgramScreen({
   route,
   navigation,
 }: TrackProgramScreenProps) {
+  const [history, setHistory] = useState<WorkoutHistory[]>([]);
   const { program } = route.params;
   const { movements, handleMovements } = useMovementsContext();
   const userId = useAuth()._id as string;
   useEffect(() => {
     handleMovements(program);
   }, [program]);
+  useEffect(() => {
+    getHistory();
+    async function getHistory() {
+      const history = await API.getHistoryByProgramId(program._id);
+      setHistory(history.data.data.reverse());
+
+    }
+  }, []);
 
 
 
@@ -110,6 +120,24 @@ export default function TrackProgramScreen({
               </TouchableOpacity>
             </View>
           ))}
+          <Text style={discoverProgramStyles.sessionTitle}>History</Text>
+          <ScrollView>
+            {history.length === 0 && <Text style={{color:'white', fontSize:16,}}>Complete a Session to View History</Text>
+            }
+            {history.map((session: any, index) => (
+              <TouchableOpacity style={[discoverProgramStyles.singleSessionContainer, {minHeight:40, marginBottom:5}]}>
+                <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+                <Text style={discoverProgramStyles.movementText}>  
+                  {session.sessionName}
+                </Text>
+                <Text style={discoverProgramStyles.movementText}>  
+                  {session.date.slice(0,10)}
+                </Text>
+                </View>
+              </TouchableOpacity>
+
+            ))}
+          </ScrollView>
         </ScrollView>
       {/* </View> */}
       </SafeAreaView>

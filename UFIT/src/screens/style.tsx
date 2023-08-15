@@ -39,7 +39,7 @@ export const programStyles = StyleSheet.create({
         width: '50%',
         backgroundColor: 'rgba(0,0,0,0.3)',
         height: 50,
-        marginBottom: 20,
+        // marginBottom: 20,
         alignItems: 'center',
         justifyContent: 'center',
         alignSelf: 'center',
@@ -109,9 +109,10 @@ export const trackingStyles = StyleSheet.create({
         justifyContent: 'center',
         // height: 70,
         minHeight: 70,
-        marginTop: 20,
+        marginBottom: 20,
         borderRadius: 10,
         paddingLeft: 10,
+        paddingRight: 10,
         // backgroundColor: 'white',
         backgroundColor: 'rgba(255,255,255,0.5)',
 
@@ -153,7 +154,7 @@ export const trackingStyles = StyleSheet.create({
         fontWeight: 'bold',
         color: 'white',
         padding: 5,
-        marginLeft: 20,
+        marginLeft: 10,
         marginTop: 10,
     },
     trackingTextInput: {
@@ -327,6 +328,8 @@ export const discoverProgramStyles = StyleSheet.create({
         borderRadius: 10,
         paddingLeft: 10,
         paddingRight: 10,
+        justifyContent: 'center',
+
         // backgroundColor: 'white',
         backgroundColor: 'rgba(0,0,0,0.2)',
 
