@@ -56,8 +56,6 @@ export default function TrackProgramScreen({
     ]);
 
   const handleDelete = () => {
-    alert("Program Deleted");
-
     deleteProgram(program._id);
     API.deleteProgram(program._id).then((response) => {
       console.log(response.data.data);

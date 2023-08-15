@@ -43,18 +43,28 @@ export const RepSetsTracker = ({movement, sets, reps, weight, onRepSetTrackerCha
     }, [callOnSetRepTrackerChange]);
 
     const handleStateChange = (index: number) => {
-        const newStates = [...repStates]; //create copy ofrepStates
-        const currentStateIndex = states.indexOf(newStates[index]); //get index of current state
-        const nextState = states[(currentStateIndex + 1) % states.length]; //get next state
-        newStates[index] = nextState; //set new state
-        setRepStates(newStates); //update state
-        callOnSetRepTrackerChange();
+    const newStates = [...repStates];
+    const currentStateIndex = states.indexOf(newStates[index]);
+    const nextState = states[(currentStateIndex + 1) % states.length];
+
+    if (nextState === 'pass') {
+        for (let i = 0; i <= index; i++) {
+            if (newStates[i] === '') {
+                newStates[i] = 'pass';
+            }
+        }
     }
+    newStates[index] = nextState;
+
+    setRepStates(newStates);
+    callOnSetRepTrackerChange();
+};
+
 
     const handleSetsChange = (setsString: string) => {
         const setsNum = Number(setsString);
-        setLocalSets(setsNum);
-        const newStates = [...Array(setsNum)].map(() => '');
+        setLocalSets(setsNum);    
+        const newStates = [...repStates.slice(0, setsNum), ...Array(Math.max(0, setsNum - repStates.length)).fill('')];
         setRepStates(newStates);
         callOnSetRepTrackerChange();
     }
