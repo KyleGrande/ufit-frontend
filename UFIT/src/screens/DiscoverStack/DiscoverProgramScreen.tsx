@@ -14,6 +14,7 @@ import { useUserPrograms } from "../../provider/UserProgramsContext";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useMovementsContext } from "../MovementsContext";
 import FeedBackCard from "../../components/FeedbackCard";
+import { FontAwesome5 } from '@expo/vector-icons';
 // used for accessing route parameters in a type-safe way
 export type DiscoverProgramScreenRouteProp = RouteProp<StackParamList, 'Program'>;
 
@@ -75,9 +76,15 @@ export default function DiscoverProgramScreen({ route, navigation }: DiscoverPro
             <Text style={trackingStyles.titleBarText}>
                 {program.programName} 
             </Text>
-            <Text style={[discoverProgramStyles.theProgramTitle, {fontWeight: "normal"}]}>
-                Category: {program.programCategory.toUpperCase()}
-            </Text>
+            {program.isCreatedByAI && (
+            <View style={[trackingStyles.submitButton,{flexDirection:'row', alignSelf:'flex-start', maxWidth:'40%', marginLeft:20, marginVertical:5}]}>
+            <Text style={[discoverProgramStyles.sessionTitle, {fontSize:16, fontWeight:'normal'}]}>AI Generated  </Text>
+            <FontAwesome5 name="brain" size={24} color="white" />
+          </View>
+            )}
+            <Text style={[discoverProgramStyles.theProgramTitle, { fontWeight:'normal', fontSize:20, marginTop:5}]}> 
+            Category: {program.programCategory.toUpperCase()}
+            </Text>          
             <Text style={discoverProgramStyles.programDescription}>
                 {program.programDescription}
             </Text>

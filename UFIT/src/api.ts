@@ -1,6 +1,7 @@
 export type Program = {
     _id: { $oid: string};
     originalProgramId?: { $oid: string};
+    isCreatedByAI?: boolean;
     programName: string;
     programDescription: string;
     programCategory: string;
@@ -12,6 +13,7 @@ export type Program = {
 export type NewProgram = {
     _id?: { $oid: string};
     originalProgramId?: { $oid: string};
+    isCreatedByAI?: boolean;
     programName: string;
     programDescription: string;
     programCategory: string;

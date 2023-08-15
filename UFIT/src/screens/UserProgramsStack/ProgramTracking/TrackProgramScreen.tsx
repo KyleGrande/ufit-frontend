@@ -39,7 +39,9 @@ export default function TrackProgramScreen({
     getHistory();
     async function getHistory() {
       const history = await API.getHistoryByProgramId(program._id);
-      setHistory(history.data.data.reverse());
+      if (history.data.data) {
+        setHistory(history.data.data.reverse());
+      }
 
     }
   }, []);

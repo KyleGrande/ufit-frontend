@@ -44,6 +44,7 @@ export default function AICreate({ navigation  }: AICreateScreenProps){
         try {
             await handleSessions(newProgram);
             newProgram.userId = userId;
+            newProgram.isCreatedByAI = true;
             let response = await API.addProgram(newProgram);
             // console.log(response.data);
             let createdProgram: Program = response.data.data;
