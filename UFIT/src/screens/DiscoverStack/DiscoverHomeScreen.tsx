@@ -77,6 +77,7 @@ export default function DiscoverHomeScreen({navigation: navigator}: DiscoverHome
                     <Picker.Item label="Strength" value="strength" />
                     <Picker.Item label="Yoga" value="yoga" />
                     <Picker.Item label="Cardio" value="cardio" />
+                    
                 </Picker>
                 }
                 <ScrollView style={programStyles.programsContainer}// horizontal={true}

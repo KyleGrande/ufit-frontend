@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, ScrollView, TouchableOpacity, SafeAreaView } from "react-native";
+import { Text, View, ScrollView, TouchableOpacity, SafeAreaView, Alert } from "react-native";
 import { RouteProp } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import useAuth from "../../../hook/useAuth";
@@ -12,6 +12,8 @@ import { trackingStyles, discoverProgramStyles } from "../../style";
 import { useMovementsContext } from "../../MovementsContext";
 import { MaterialIcons } from '@expo/vector-icons';
 import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
+import { AntDesign } from '@expo/vector-icons';
+import { useUserPrograms } from "../../../provider/UserProgramsContext";
 
 // used for accessing route parameters in a type-safe way
 export type TrackProgramScreenRouteProp = RouteProp<
@@ -30,6 +32,7 @@ export default function TrackProgramScreen({
 }: TrackProgramScreenProps) {
   const [history, setHistory] = useState<WorkoutHistory[]>([]);
   const { program } = route.params;
+  const { deleteProgram } = useUserPrograms();
   const { movements, handleMovements } = useMovementsContext();
   const userId = useAuth()._id as string;
   useEffect(() => {
@@ -46,6 +49,22 @@ export default function TrackProgramScreen({
     }
   }, []);
 
+  const deleteDialog = () =>
+    Alert.alert("Delete Program?", "Are you sure you want to delete? \n This action cannot be undone.", [
+      { text: "Cancel" },
+      { text: "Yes", onPress: handleDelete },
+    ]);
+
+  const handleDelete = () => {
+    alert("Program Deleted");
+
+    deleteProgram(program._id);
+    API.deleteProgram(program._id).then((response) => {
+      console.log(response.data.data);
+      navigation.navigate("User Programs");
+    });
+  };
+
 
 
   return (
@@ -55,17 +74,21 @@ export default function TrackProgramScreen({
       style={{ minHeight: "100%" }}
     >
       <SafeAreaView>
-      {/* <View style={{...trackingStyles.viewContainer, marginTop: 50}}> */}
+      <View style={{flexDirection:'row', justifyContent:'space-between'}}>
         <Text style={trackingStyles.titleBarText}>{program.programName}</Text>
+        <TouchableOpacity style={{ alignSelf:'flex-end', marginRight:20}} onPress={deleteDialog}>
+        <AntDesign name="delete" size={30} color="white" style={{alignSelf:'flex-end'}} />
+        </TouchableOpacity>
+        </View>
         {/* ()=> console.log(program._id, userId) */}
         {program.originalProgramId !== undefined &&
-        <TouchableOpacity style = {{marginLeft: 20,marginTop:10}} onPress = {()=> 
+        <TouchableOpacity style = {{marginLeft: 20,marginTop:10, width:'40%',}} onPress = {()=> 
         navigation.navigate('Write Feedback', 
         {
           programId: String(program.originalProgramId), 
           userId: userId
         })}>
-          <View style={[trackingStyles.submitButton,{flexDirection:'row', alignSelf:'flex-start', maxWidth:'40%'}]}>
+          <View style={[trackingStyles.submitButton,{flexDirection:'row', alignSelf:'flex-start', width:'100%'}]}>
             <Text style={[discoverProgramStyles.sessionTitle, {fontSize:16, fontWeight:'normal'}]}>Leave a Review </Text>
           <MaterialIcons name="feedback" size={16} color="white" />
           </View>

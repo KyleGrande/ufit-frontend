@@ -6,12 +6,14 @@ type UserProgramsContextProps = {
   programs: Program[] | null;
   error: string | null;
   addProgram: (program: Program) => void; 
+  deleteProgram: (programId: { $oid: string; }) => void;
 };
 
 export const UserProgramsContext = createContext<UserProgramsContextProps>({
   programs: null,
   error: null,
   addProgram: () => {},
+  deleteProgram: () => {},
 });
 
 export function UserProgramsProvider({ children }: { children: React.ReactNode }) {
@@ -36,8 +38,13 @@ export function UserProgramsProvider({ children }: { children: React.ReactNode }
     setPrograms((prevPrograms) => (prevPrograms ? [...prevPrograms, program] : [program]));
   };
 
+  const deleteProgram = (programId: { $oid: string; }) => {
+    console.log ('deleteProgram', programId);
+    setPrograms((prevPrograms) => (prevPrograms ? prevPrograms.filter((program) => program._id !== programId) : []));
+  };
+
   return (
-    <UserProgramsContext.Provider value={{ programs, error, addProgram }}>
+    <UserProgramsContext.Provider value={{ programs, error, addProgram, deleteProgram }}>
       {children}
     </UserProgramsContext.Provider>
   );

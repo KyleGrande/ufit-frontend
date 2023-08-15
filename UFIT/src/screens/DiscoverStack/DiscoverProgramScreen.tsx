@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Text, View, ScrollView, TouchableOpacity } from "react-native";
+import { Button, Text, View, ScrollView, TouchableOpacity, Alert } from "react-native";
 import { RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
@@ -55,6 +55,10 @@ export default function DiscoverProgramScreen({ route, navigation }: DiscoverPro
             console.log(response.data.data);
             let createdProgram = response.data.data;
             addProgram(createdProgram);
+            Alert.alert(
+                "Subscribed!",
+                "Program has been added to Your Programs"
+            );
             //works but has an error
             // navigation.navigate('Track a Program', { program: createdProgram });
         }
@@ -76,6 +80,7 @@ export default function DiscoverProgramScreen({ route, navigation }: DiscoverPro
             <Text style={trackingStyles.titleBarText}>
                 {program.programName} 
             </Text>
+
             {program.isCreatedByAI && (
             <View style={[trackingStyles.submitButton,{flexDirection:'row', alignSelf:'flex-start', maxWidth:'40%', marginLeft:20, marginVertical:5}]}>
             <Text style={[discoverProgramStyles.sessionTitle, {fontSize:16, fontWeight:'normal'}]}>AI Generated  </Text>
