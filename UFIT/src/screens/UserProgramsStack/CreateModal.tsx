@@ -9,7 +9,7 @@ type CreateodalProps = {
 
 export const CreateModal = ({ modalVisible, setModalVisible, navigation}: CreateodalProps) => (
     <Modal
-    animationType="slide"
+    animationType="fade"
     transparent={true}
     visible={modalVisible}
     onRequestClose={() => {
@@ -41,7 +41,7 @@ export const CreateModal = ({ modalVisible, setModalVisible, navigation}: Create
         }}
         style={{alignSelf: 'center', borderColor:'orange', borderWidth:2, borderRadius:10, padding:10,backgroundColor:'rgba(255,255,255,0.9)'}}
         >
-    <Text style={{color: 'orange', alignSelf: 'center', paddingBottom:10, fontSize:36, fontWeight:'bold', letterSpacing:2}}>User</Text>
+    <Text style={{color: 'orange', alignSelf: 'center', paddingBottom:10, fontSize:36, fontWeight:'bold', letterSpacing:2}}>YOU</Text>
     <Text style={{color: 'orange', alignSelf: 'center', fontSize:36, letterSpacing:1.1}}>Create</Text>
     </TouchableOpacity>
     <Entypo name="flow-line" size={80} color="orange" style={{alignSelf:'center'}}/>

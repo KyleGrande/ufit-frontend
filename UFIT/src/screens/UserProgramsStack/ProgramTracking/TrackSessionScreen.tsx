@@ -6,7 +6,8 @@ import {
   TouchableOpacity,
   Modal,
   TextInput,
-  SafeAreaView
+  SafeAreaView,
+  Button,
 } from "react-native";
 import { useEffect } from "react";
 import { RouteProp, useNavigation } from "@react-navigation/native";
@@ -219,15 +220,23 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps) {
               )}
             </View>
           ))}
+                  <TouchableOpacity style={[programStyles.buttonContainer,{marginVertical:10}]} onPress={handleSubmit}>
+                    <Button 
+                        title="Submit" 
+                        color='white' 
+                        onPress={handleSubmit}
+                    />
+                </TouchableOpacity>
         </ScrollView>
-        <TouchableOpacity
-          style={[trackingStyles.submitButton, { alignSelf: "center" }]}
+        {/* <TouchableOpacity
+          style={[programStyles.buttonContainer, { alignSelf: "center", marginBottom:10 }]}
           onPress={handleSubmit}
         >
           <View style={[]}>
             <Text style={{ color: "white", fontWeight: "bold" }}>Submit</Text>
           </View>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
+
       </View>
 
       <MovementInfoModal

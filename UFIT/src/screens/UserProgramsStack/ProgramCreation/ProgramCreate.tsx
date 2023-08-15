@@ -264,6 +264,8 @@ export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
                   <Picker.Item label="SELECT" value="undefined" />
                   <Picker.Item label="Strength" value="strength" />
                   <Picker.Item label="Yoga" value="yoga" />
+                  <Picker.Item label="Cardio" value="cardio" />
+                  <Picker.Item label="Custom" value="custom" />
                 </Picker>
                 
                 {fieldState?.error && (

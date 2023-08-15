@@ -108,6 +108,7 @@ export default function SignupScreen({ route, navigation }: SignupScreenProps) {
         return;
       }
       Alert.alert("Success", "Signed up");
+      navigation?.navigate("Login");
     } catch (error) {
       Alert.alert("Exception", "Please try again");
     }

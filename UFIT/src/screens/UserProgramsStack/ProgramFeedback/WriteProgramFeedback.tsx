@@ -13,10 +13,11 @@ import {
 import { StackParamList } from "../../UserPrograms";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import LinearGradient from "../../../components/LinearGradient";
-import { creatingStyles } from "../../style";
+import { creatingStyles, discoverProgramStyles, programStyles, trackingStyles } from "../../style";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Controller, useForm } from "react-hook-form";
 import {api} from '../../../api';
+import FeedBackCard from "../../../components/FeedbackCard";
 export type ProgramWriteFeedBackProp = RouteProp<
   StackParamList,
   "Write Feedback"
@@ -63,7 +64,7 @@ export default function ProgramWriteFeedBack({
     }    
   }
   return (
-    <LinearGradient top="#000" bottom="#EA9CFD" style={{ minHeight: "100%" }}>
+    <LinearGradient top="#000" bottom="#ffffff" style={{ minHeight: "100%" }}>
       <View
         style={{
           ...creatingStyles.viewContainer,
@@ -71,15 +72,13 @@ export default function ProgramWriteFeedBack({
           paddingLeft: 20,
         }}
       >
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+        {/* <TouchableOpacity onPress={() => navigation.goBack()}>
           <Text style={{ color: "white" }}>Go Back</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         <ScrollView>          
           <Text style={{ fontSize: 30, fontWeight: "bold", color: "white" }}>
-            Write Feedback!
+            Review the Program
           </Text>
-          
-          <SafeAreaView>
             <Controller
                 control = {control}
                 name = "rating"
@@ -119,11 +118,16 @@ export default function ProgramWriteFeedBack({
             <Text style = {{color: 'white', fontSize: 22}}>
                             Any comments?
             </Text>
-            
-            <Text style = {{color: 'yellow'}}>
-                {watch('comment')}
+            {/* <View style={trackingStyles.singleSessionContainer}> */}
+            {/* <Text>
+              Rating: {watch('rating')}
             </Text>
-            
+            <Text style = {[ {color: 'black'}]}>
+                
+                "{watch('comment')} "
+            </Text> */}
+            <FeedBackCard username={null} rating = {watch('rating')} comment = {watch('comment')} />
+            {/* </View> */}
             <Controller
                 control = {control}
                 name = "comment"
@@ -153,14 +157,15 @@ export default function ProgramWriteFeedBack({
                 )}
                 
             />
-            
-          </SafeAreaView>        
-        </ScrollView>
-        <Button
-            title="Submit Feedback"
-            color="yellow"
+          <TouchableOpacity onPress={handleSubmit(onSubmit)} style={programStyles.buttonContainer}>
+          <Button
+            title="Submit Review"
+            color="white"
             onPress={handleSubmit(onSubmit)}
-        />
+        />     
+        </TouchableOpacity>
+        </ScrollView>
+
       </View>
     </LinearGradient>
   );

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Text, View, ScrollView, TouchableOpacity } from "react-native";
+import { Button, Text, View, ScrollView, TouchableOpacity, Alert } from "react-native";
 import { RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
@@ -14,6 +14,8 @@ import { useUserPrograms } from "../../provider/UserProgramsContext";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useMovementsContext } from "../MovementsContext";
 import FeedBackCard from "../../components/FeedbackCard";
+import { FontAwesome5 } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 // used for accessing route parameters in a type-safe way
 export type DiscoverProgramScreenRouteProp = RouteProp<StackParamList, 'Program'>;
 
@@ -47,13 +49,17 @@ export default function DiscoverProgramScreen({ route, navigation }: DiscoverPro
     const handleOnPress = () => {
         let newProgram: NewProgram = {...program};
         newProgram.userId = userId;
-        newProgram.programName = `${program.programName} (copy)`;
+        newProgram.programName = program.programName;
         newProgram.originalProgramId = program._id;
         delete newProgram._id;
         API.addProgram(newProgram).then((response) => {
             console.log(response.data.data);
             let createdProgram = response.data.data;
             addProgram(createdProgram);
+            Alert.alert(
+                "Subscribed!",
+                "Program has been added to Your Programs"
+            );
             //works but has an error
             // navigation.navigate('Track a Program', { program: createdProgram });
         }
@@ -75,9 +81,34 @@ export default function DiscoverProgramScreen({ route, navigation }: DiscoverPro
             <Text style={trackingStyles.titleBarText}>
                 {program.programName} 
             </Text>
-            <Text style={[discoverProgramStyles.theProgramTitle, {fontWeight: "normal"}]}>
-                Category: {program.programCategory.toUpperCase()}
-            </Text>
+
+            {program.isCreatedByAI && (
+            <View style={[trackingStyles.submitButton,{flexDirection:'row', alignSelf:'flex-start', maxWidth:'40%', marginLeft:20, marginVertical:5}]}>
+            <Text style={[discoverProgramStyles.sessionTitle, {fontSize:16, fontWeight:'normal'}]}>AI Generated  </Text>
+            <FontAwesome5 name="brain" size={24} color="white" />
+          </View>
+            )}
+            {
+                program.programCategory.toLowerCase() === 'strength' && (
+                    <Text style={{color:'white', marginLeft:20, fontSize:20, marginTop:10}}>
+                    <Ionicons name="barbell" size={20} color="white" /> Strength
+                    </Text>
+                    )
+            }
+            {
+                program.programCategory.toLowerCase() === 'yoga' && (
+                    <Text style={{color:'white', marginLeft:20, fontSize:20, marginTop:10}}>
+                        <Ionicons name="fitness" size={20} color="white" /> Yoga
+                    </Text>
+                )
+            }
+            {
+                program.programCategory.toLowerCase() === 'cardio' && (
+                    <Text style={{color:'white', marginLeft:20, marginTop:10, fontSize:20}}>
+                        <Ionicons name="walk" size={20} color="white" /> Cardio
+                    </Text>
+                )
+            }
             <Text style={discoverProgramStyles.programDescription}>
                 {program.programDescription}
             </Text>
@@ -117,16 +148,17 @@ export default function DiscoverProgramScreen({ route, navigation }: DiscoverPro
                         </TouchableOpacity>
                         </View>
                     ))}
-                </ScrollView>
-                {feedbacks && feedbacks?.length > 0 &&(
+                    {feedbacks && feedbacks?.length > 0 &&(
                 <>
-                <Text style={discoverProgramStyles.theProgramTitle}>
+                <Text style={discoverProgramStyles.sessionTitle}>
                     Feedback:
                 </Text>
-                <ScrollView style = {[trackingStyles.sessionsContainer, {height:'25%'}]}>
-                    {feedbacks?.map((f:any)=> {
+                <ScrollView >
+                    {feedbacks?.map((f:any, index:number)=> {
                         return (
+                            <View key={index}>
                             <FeedBackCard username={f.userId} rating = {f.rating} comment = {f.comment} />
+                            </View>
                         )
                     })}
                     {/* <FeedBackCard username = "Ricardo" rating = "10" comment = "Awesome program!"/>
@@ -139,13 +171,15 @@ export default function DiscoverProgramScreen({ route, navigation }: DiscoverPro
                 </ScrollView>
                 </>
                 )}
-                <View style={programStyles.buttonContainer}>
+                </ScrollView>
+                
+                <TouchableOpacity style={programStyles.buttonContainer} onPress={handleOnPress}>
                     <Button 
                         title="Add Program" 
                         color='white' 
                         onPress={handleOnPress}
                     />
-                </View>
+                </TouchableOpacity>
         </View>
         </SafeAreaView>
         </LinearGradient>

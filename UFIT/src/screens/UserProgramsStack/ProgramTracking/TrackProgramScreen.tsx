@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, ScrollView, TouchableOpacity, SafeAreaView } from "react-native";
+import { Text, View, ScrollView, TouchableOpacity, SafeAreaView, Alert } from "react-native";
 import { RouteProp } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import useAuth from "../../../hook/useAuth";
@@ -7,9 +7,13 @@ import { StackParamList } from "../../UserPrograms";
 import LinearGradient from "../../../components/LinearGradient";
 import { getGradientColors } from "../../../components/getGradient";
 
-import API, { Session, Movement } from "../../../api";
+import API, { Session, Movement, WorkoutHistory } from "../../../api";
 import { trackingStyles, discoverProgramStyles } from "../../style";
 import { useMovementsContext } from "../../MovementsContext";
+import { MaterialIcons } from '@expo/vector-icons';
+import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
+import { AntDesign } from '@expo/vector-icons';
+import { useUserPrograms } from "../../../provider/UserProgramsContext";
 
 // used for accessing route parameters in a type-safe way
 export type TrackProgramScreenRouteProp = RouteProp<
@@ -26,12 +30,38 @@ export default function TrackProgramScreen({
   route,
   navigation,
 }: TrackProgramScreenProps) {
+  const [history, setHistory] = useState<WorkoutHistory[]>([]);
   const { program } = route.params;
+  const { deleteProgram } = useUserPrograms();
   const { movements, handleMovements } = useMovementsContext();
   const userId = useAuth()._id as string;
   useEffect(() => {
     handleMovements(program);
   }, [program]);
+  useEffect(() => {
+    getHistory();
+    async function getHistory() {
+      const history = await API.getHistoryByProgramId(program._id);
+      if (history.data.data) {
+        setHistory(history.data.data.reverse());
+      }
+
+    }
+  }, []);
+
+  const deleteDialog = () =>
+    Alert.alert("Delete Program?", "Are you sure you want to delete? \n This action cannot be undone.", [
+      { text: "Cancel" },
+      { text: "Yes", onPress: handleDelete },
+    ]);
+
+  const handleDelete = () => {
+    deleteProgram(program._id);
+    API.deleteProgram(program._id).then((response) => {
+      console.log(response.data.data);
+      navigation.navigate("User Programs");
+    });
+  };
 
 
 
@@ -42,19 +72,24 @@ export default function TrackProgramScreen({
       style={{ minHeight: "100%" }}
     >
       <SafeAreaView>
-      {/* <View style={{...trackingStyles.viewContainer, marginTop: 50}}> */}
+      <View style={{flexDirection:'row', justifyContent:'space-between'}}>
         <Text style={trackingStyles.titleBarText}>{program.programName}</Text>
+        <TouchableOpacity style={{ alignSelf:'flex-end', marginRight:20}} onPress={deleteDialog}>
+        <AntDesign name="delete" size={30} color="white" style={{alignSelf:'flex-end'}} />
+        </TouchableOpacity>
+        </View>
         {/* ()=> console.log(program._id, userId) */}
         {program.originalProgramId !== undefined &&
-        <TouchableOpacity style = {{paddingLeft: 20}} onPress = {()=> 
+        <TouchableOpacity style = {{marginLeft: 20,marginTop:10, width:'40%',}} onPress = {()=> 
         navigation.navigate('Write Feedback', 
         {
           programId: String(program.originalProgramId), 
           userId: userId
         })}>
-          <Text>
-            Feedback?
-          </Text>
+          <View style={[trackingStyles.submitButton,{flexDirection:'row', alignSelf:'flex-start', width:'100%'}]}>
+            <Text style={[discoverProgramStyles.sessionTitle, {fontSize:16, fontWeight:'normal'}]}>Leave a Review </Text>
+          <MaterialIcons name="feedback" size={16} color="white" />
+          </View>
         </TouchableOpacity>
         }
         <ScrollView style={trackingStyles.sessionsContainer}>
@@ -108,6 +143,26 @@ export default function TrackProgramScreen({
               </TouchableOpacity>
             </View>
           ))}
+          <Text style={discoverProgramStyles.sessionTitle}>History</Text>
+          <ScrollView>
+            {history.length === 0 && <Text style={{color:'white', fontSize:16,}}>Complete a Session to View History</Text>
+            }
+            {history.map((session: any, index) => (
+              <View key={index}>
+              <TouchableOpacity style={[discoverProgramStyles.singleSessionContainer, {minHeight:40, marginBottom:5}]}>
+                <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+                <Text style={discoverProgramStyles.movementText}>  
+                  {session.sessionName}
+                </Text>
+                <Text style={discoverProgramStyles.movementText}>  
+                  {session.date.slice(0,10)}
+                </Text>
+                </View>
+              </TouchableOpacity>
+              </View>
+
+            ))}
+          </ScrollView>
         </ScrollView>
       {/* </View> */}
       </SafeAreaView>

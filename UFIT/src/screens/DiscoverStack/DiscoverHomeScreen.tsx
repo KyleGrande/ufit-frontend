@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Text, View, Pressable, ScrollView, TouchableOpacity, SafeAreaView} from 'react-native';
+import { Text, View, Pressable, ScrollView, TouchableOpacity, SafeAreaView,} from 'react-native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 import { StackParamList } from '../UserDiscover';
@@ -7,9 +7,10 @@ import LinearGradient from '../../components/LinearGradient';
 import { getGradientColors } from '../../components/getGradient';
 
 import API, {Program} from '../../api';
-import { FeedStyles, programStyles } from '../style';
+import { FeedStyles, programStyles, trackingStyles, discoverProgramStyles } from '../style';
 import { Picker } from '@react-native-picker/picker';
 import { Ionicons } from '@expo/vector-icons';
+import {FontAwesome5} from '@expo/vector-icons';
 
 type DiscoverHomeScreenProps = {
     navigation: NativeStackNavigationProp<StackParamList, 'Discovers'>;
@@ -65,6 +66,7 @@ export default function DiscoverHomeScreen({navigation: navigator}: DiscoverHome
                 {showFilter &&
                 <Picker 
                     selectedValue={filter}
+                    
                     onValueChange={(itemValue) =>
                         setFilter(itemValue)
                     }
@@ -74,8 +76,9 @@ export default function DiscoverHomeScreen({navigation: navigator}: DiscoverHome
                     >
                     <Picker.Item label="All Catagories" value='' />
                     <Picker.Item label="Strength" value="strength" />
-                    <Picker.Item label="Yoga" value="yoga" />
-                    <Picker.Item label="Cardio" value="cardio" />
+                    <Picker.Item label="Yoga" value="Yoga" />
+                    <Picker.Item label="Cardio" value="Cardio" />
+                    
                 </Picker>
                 }
                 <ScrollView style={programStyles.programsContainer}// horizontal={true}
@@ -88,18 +91,51 @@ export default function DiscoverHomeScreen({navigation: navigator}: DiscoverHome
                             key={index}
                             onPress={() => navigator.navigate('Program',
                                 { program })}
+                            style={{shadowColor:'#171717',shadowOffset: {width: -2, height: 4},
+                            shadowOpacity: 0.2,
+                            shadowRadius: 3,}}
                         >
                             <LinearGradient
                                 top={getGradientColors(program.programCategory.toLowerCase())[0]}
                                 bottom={getGradientColors(program.programCategory.toLowerCase())[1]}
-                                style={FeedStyles.singleProgramContainer}
+                                style={[FeedStyles.singleProgramContainer]}
                             >
                             <Text style={FeedStyles.programTitle}>
                                 {program.programName}
                             </Text>
-                            <Text style={FeedStyles.programDescription}>
+                            <View style={{flexDirection:'column', justifyContent:'space-between'}}>
+                            <Text style={[FeedStyles.programDescription,{height:'60%'}]}>
                                 {program.programDescription.substring(0, 100) + '...'}
                             </Text>
+                            <View style={{flexDirection:'row', justifyContent:'space-evenly', alignContent:'center', width:'100%', alignItems:'center', alignSelf:'flex-end' }}>
+                            {
+                                program.programCategory.toLowerCase() === 'strength' && (
+                                    <Text style={{color:'white', paddingLeft:5}}>
+                                        <Ionicons name="barbell" size={20} color="white" /> Strength
+                                    </Text>
+                                )
+                            }
+                            {
+                                program.programCategory.toLowerCase() === 'yoga' && (
+                                    <Text style={{color:'white', paddingLeft:5}}>
+                                        <Ionicons name="fitness" size={20} color="white" /> Yoga
+                                    </Text>
+                                )
+                            }
+                            {
+                                program.programCategory.toLowerCase() === 'cardio' && (
+                                    <Text style={{color:'white', paddingLeft:5}}>
+                                        <Ionicons name="walk" size={20} color="white" /> Cardio
+                                    </Text>
+                                )
+                            }
+                            {program.isCreatedByAI && (
+                                <Text style={[ { color:'white', paddingLeft:5, paddingVertical:5, }]}>
+                                    <FontAwesome5 name="brain" size={20} color="white" /> AI Generated
+                                </Text>
+                            )} 
+                            </View>
+                           </View>
                             </LinearGradient>
                         </Pressable>
                     ))}

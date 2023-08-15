@@ -44,6 +44,7 @@ export default function AICreate({ navigation  }: AICreateScreenProps){
         try {
             await handleSessions(newProgram);
             newProgram.userId = userId;
+            newProgram.isCreatedByAI = true;
             let response = await API.addProgram(newProgram);
             // console.log(response.data);
             let createdProgram: Program = response.data.data;
@@ -123,6 +124,7 @@ export default function AICreate({ navigation  }: AICreateScreenProps){
         style={{ minHeight: "100%" }}
         >   
         <SafeAreaView>
+        <View style={discoverProgramStyles.viewContainer}>
                 {/* <View style={programStyles.viewContainer}> */}
                     <Text style={[programStyles.titleBarText, {color:'white', alignSelf:'center', paddingLeft:0}]}>
                         AI Create
@@ -219,6 +221,7 @@ export default function AICreate({ navigation  }: AICreateScreenProps){
                     </ScrollView>
                 }
                 {/* </View> */}
+                </View>
                 </SafeAreaView>
         </LinearGradient>
     );
