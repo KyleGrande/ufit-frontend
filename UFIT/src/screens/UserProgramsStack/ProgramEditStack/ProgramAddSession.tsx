@@ -21,7 +21,8 @@ import {
   import MovementComponentOption from "../components/MovementCardOption";
   import FormErrorMsg from "../components/FormErrorMsg";
   import LinearGradient from "../../../components/LinearGradient";
-
+  import { api } from "../../../api";
+  import { useUserPrograms } from "../../../provider/UserProgramsContext";
   interface SessionData {
     name: string;
     restDays: string;  
@@ -36,8 +37,9 @@ import {
   }
 
   export default function ProgramAddSession({navigation,route}: ProgramAddSessionProps) {
-    // Form state management + form validation      
-    
+    // Form state management + form validation     
+    const { program } = route.params; 
+    const { handlePrograms,updateProgram } = useUserPrograms()
     const methods = useForm<SessionData>({
       defaultValues: {      
         restDays: "0",      
@@ -69,7 +71,39 @@ import {
       watch,
       formState: { errors },
     } = methods;
+    
+    const createMovements = async(movements:any) => {
+      let movementsBuffer = []
+      for(const m of movements){
+        try{
+          console.log('MOVEMENT DATA POST TO SERVER');
+          console.log(m);
+          let response = await api.post('/movement', m);
+          console.log("getting response............");
+          if (response.data.success) {
+              console.log('response.success exists');            
+              movementsBuffer.push(response.data.data._id);
+          } else {
+              console.log('no response.success');
+              return [];
+          }
+        }
+        catch(err){
+          console.log('Error: ', err);
+          return [];
+        }
+      }
   
+      return movementsBuffer;
+    }
+    const handleSession = async(data:any) => {
+      try {
+        let handledMovements = await createMovements(data.movements);
+        data["movementId"] = handledMovements;
+      }catch(err){
+        console.log(err);
+      }
+    }
     // Passed to movement form
     const addMovement = (movement:object) => {
       const movements = getValues('movements') || [];
@@ -82,8 +116,16 @@ import {
     }
 
 
-    const onSessionSubmit = (data:any) => {
-        console.log(data);
+    const onSessionSubmit = async(data:any) => {
+        try {
+          let movementReq = await handleSession(data);
+          data.id = program._id;
+          await updateProgram(data);
+          await handlePrograms();
+          navigation.goBack();
+        }catch(err){
+          console.log(err);
+        }
     }
   
 
@@ -103,7 +145,7 @@ import {
 
     </TouchableOpacity>
       {/* <View style={{...creatingStyles.viewContainer}}> */}
-        <View style={{ paddingLeft: 15, paddingRight: 15, paddingTop:15 }}>
+        <View style={{ paddingLeft: 15, paddingRight: 15, paddingTop:15 }}>          
           <ScrollView style={{ height: "90%" }}>
             {/* <Text style={{ fontSize: 30, fontWeight: "bold", color: "white" }}>
               Session
