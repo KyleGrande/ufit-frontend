@@ -47,7 +47,11 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps) {
   const { movements } = useMovementsContext();
   const { program, session } = route.params;
   const [movementsData, setMovementsData] = useState(movements);
-  
+  const [programData, setProgramData] = useState(program);
+
+  useEffect(() => {
+    setProgramData(program);
+  }, [program])
   //update with data fetched from database
   useEffect(() => {
     setMovementsData(movements);
@@ -96,9 +100,9 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps) {
   const handleSubmit = () => {
     console.log(getMovementTrackingData());
     const histories = {
-      userId: program.userId,
-      programId: program._id,
-      programName: program.programName,
+      userId: programData.userId,
+      programId: programData._id,
+      programName: programData.programName,
       sessionName: session.name,
       date: new Date(),
       movements: getMovementTrackingData(),
@@ -117,8 +121,8 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps) {
 
   return (
     <LinearGradient
-      top={getGradientColors(program.programCategory.toLowerCase())[0]}
-      bottom={getGradientColors(program.programCategory.toLowerCase())[1]}
+      top={getGradientColors(programData.programCategory.toLowerCase())[0]}
+      bottom={getGradientColors(programData.programCategory.toLowerCase())[1]}
       style={{ minHeight: "100%" }}
     >
       <SafeAreaView>
@@ -164,7 +168,7 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps) {
                     style = {{paddingLeft: 20}}
                     onPress = {() => navigation.navigate('Edit Program Movement', {
                         movement: movement,
-                        program: program
+                        program: programData
                     })}
                   >
                         <Text style = {{color: 'white'}}>
@@ -267,7 +271,7 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps) {
                     style = {{paddingLeft: 20}}
                     onPress = {() => navigation.navigate('Edit Program Movement', {
                         movement: movement,
-                        program: program
+                        program: programData
                     })}
                   >
                         <Text style = {{color: 'white'}}>
@@ -370,7 +374,7 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps) {
                     style = {{paddingLeft: 20}}
                     onPress = {() => navigation.navigate('Edit Program Movement', {
                         movement: movement,
-                        program: program
+                        program: programData
                     })}
                   >
                         <Text style = {{color: 'white'}}>
@@ -440,7 +444,7 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps) {
                     title = "Add Movement"
                     color = "white"
                     onPress = {() => navigation.navigate("Add Movement Tracking", {
-                      program: program,
+                      program: programData,
                       session: session,
                     })}
                   />

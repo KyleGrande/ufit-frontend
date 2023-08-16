@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, ScrollView, TouchableOpacity, SafeAreaView, Alert } from "react-native";
+import { Text, View, ScrollView, TouchableOpacity, SafeAreaView, Alert,Button } from "react-native";
 import { RouteProp } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import useAuth from "../../../hook/useAuth";
@@ -8,7 +8,7 @@ import LinearGradient from "../../../components/LinearGradient";
 import { getGradientColors } from "../../../components/getGradient";
 
 import API, { Session, Movement, WorkoutHistory } from "../../../api";
-import { trackingStyles, discoverProgramStyles } from "../../style";
+import { trackingStyles, discoverProgramStyles, programStyles } from "../../style";
 import { useMovementsContext } from "../../MovementsContext";
 import { MaterialIcons } from '@expo/vector-icons';
 import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
@@ -32,16 +32,22 @@ export default function TrackProgramScreen({
 }: TrackProgramScreenProps) {
   const [history, setHistory] = useState<WorkoutHistory[]>([]);
   const { program } = route.params;
+  const [programData, setProgramData] = useState(program);
   const { deleteProgram } = useUserPrograms();
   const { movements, handleMovements } = useMovementsContext();
   const userId = useAuth()._id as string;
+
+  useEffect(()=> {
+    setProgramData(program);
+  }, [program])
+
   useEffect(() => {
-    handleMovements(program);
-  }, [program]);
+    handleMovements(programData);
+  }, [programData]);
   useEffect(() => {
     getHistory();
     async function getHistory() {
-      const history = await API.getHistoryByProgramId(program._id);
+      const history = await API.getHistoryByProgramId(programData._id);
       if (history.data.data) {
         setHistory(history.data.data.reverse());
       }
@@ -56,8 +62,8 @@ export default function TrackProgramScreen({
     ]);
 
   const handleDelete = () => {
-    deleteProgram(program._id);
-    API.deleteProgram(program._id).then((response) => {
+    deleteProgram(programData._id);
+    API.deleteProgram(programData._id).then((response) => {
       console.log(response.data.data);
       navigation.navigate("User Programs");
     });
@@ -67,23 +73,23 @@ export default function TrackProgramScreen({
 
   return (
     <LinearGradient
-      top={getGradientColors(program.programCategory.toLowerCase())[0]}
-      bottom={getGradientColors(program.programCategory.toLowerCase())[1]}
+      top={getGradientColors(programData.programCategory.toLowerCase())[0]}
+      bottom={getGradientColors(programData.programCategory.toLowerCase())[1]}
       style={{ minHeight: "100%" }}
     >
       <SafeAreaView>
       <View style={{flexDirection:'row', justifyContent:'space-between'}}>
-        <Text style={trackingStyles.titleBarText}>{program.programName}</Text>
+        <Text style={trackingStyles.titleBarText}>{programData.programName}</Text>
         <TouchableOpacity style={{ alignSelf:'flex-end', marginRight:20}} onPress={deleteDialog}>
         <AntDesign name="delete" size={30} color="white" style={{alignSelf:'flex-end'}} />
         </TouchableOpacity>
         </View>
         {/* ()=> console.log(program._id, userId) */}
-        {program.originalProgramId !== undefined &&
+        {programData.originalProgramId !== undefined &&
         <TouchableOpacity style = {{marginLeft: 20,marginTop:10, width:'40%',}} onPress = {()=> 
         navigation.navigate('Write Feedback', 
         {
-          programId: String(program.originalProgramId), 
+          programId: String(programData.originalProgramId), 
           userId: userId
         })}>
           <View style={[trackingStyles.submitButton,{flexDirection:'row', alignSelf:'flex-start', width:'100%'}]}>
@@ -93,7 +99,7 @@ export default function TrackProgramScreen({
         </TouchableOpacity>
         }
         <ScrollView style={trackingStyles.sessionsContainer}>
-          {program.session.map((session: Session, index) => (
+          {programData.session.map((session: Session, index) => (
             <View key={index}>
               <Text style={discoverProgramStyles.sessionTitle}>
                 {session.name}
@@ -110,7 +116,7 @@ export default function TrackProgramScreen({
                       )
                       .filter(Boolean) as Movement[];
                     navigation.navigate("Track a Session", {
-                      program: program,
+                      program: programData,
                       session: session,
                       movements: sessionMovements,                      
                     });
@@ -163,8 +169,16 @@ export default function TrackProgramScreen({
 
             ))}
           </ScrollView>
+          <TouchableOpacity style={[programStyles.buttonContainer,{marginVertical:10}]}>
+      <Button
+                    title = "Add Session"
+                    color = "white"
+                    onPress = {() => console.log('hello')}
+        />
+        </TouchableOpacity>
         </ScrollView>
       {/* </View> */}
+      
       </SafeAreaView>
     </LinearGradient>
   );
