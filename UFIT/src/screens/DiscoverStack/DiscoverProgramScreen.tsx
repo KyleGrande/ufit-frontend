@@ -109,6 +109,13 @@ export default function DiscoverProgramScreen({ route, navigation }: DiscoverPro
                     </Text>
                 )
             }
+            {
+                program.programCategory.toLowerCase() === 'custom' && (
+                    <Text style={{color:'white', marginLeft:20, marginTop:10, fontSize:20}}>
+                        <FontAwesome5 name="pencil-ruler" size={20} color="white" /> Custom               
+                    </Text>
+                )
+            }
             <Text style={discoverProgramStyles.programDescription}>
                 {program.programDescription}
             </Text>

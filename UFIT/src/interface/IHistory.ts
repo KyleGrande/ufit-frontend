@@ -5,6 +5,7 @@ export interface IHistory {
   date: string;
   userId: string;
   programId: string;
+  programName: string;
   movements: IMovement[];
   __v: number;
 }
