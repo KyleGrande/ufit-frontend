@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "UFIT",
-    "slug": "UFIT",
+    "slug": "ufit",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -25,6 +25,18 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "53c87392-6194-448b-83f6-c846d30ebbd2"
+      }
+    },
+    "owner": "kylegrande",
+    "runtimeVersion": {
+      "policy": "sdkVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/53c87392-6194-448b-83f6-c846d30ebbd2"
     }
   }
 }

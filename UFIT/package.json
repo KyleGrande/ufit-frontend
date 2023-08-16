@@ -16,6 +16,7 @@
     "@react-navigation/native": "^6.1.7",
     "@react-navigation/native-stack": "^6.9.13",
     "axios": "^1.4.0",
+    "eas-cli": "^4.1.2",
     "expo": "~48.0.18",
     "expo-av": "~13.2.1",
     "expo-linear-gradient": "~12.1.2",
@@ -33,7 +34,8 @@
     "react-native-svg": "13.4.0",
     "react-native-webview": "11.26.0",
     "react-native-youtube-iframe": "^2.3.0",
-    "yup": "^1.2.0"
+    "yup": "^1.2.0",
+    "expo-updates": "~0.16.4"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

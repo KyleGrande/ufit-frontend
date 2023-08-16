@@ -1,18 +1,28 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, ScrollView, TouchableOpacity, SafeAreaView, Alert,Button } from "react-native";
+import {
+  Text,
+  View,
+  ScrollView,
+  TouchableOpacity,
+  SafeAreaView,
+  Alert,
+  Button,
+} from "react-native";
 import { RouteProp } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import useAuth from "../../../hook/useAuth";
 import { StackParamList } from "../../UserPrograms";
 import LinearGradient from "../../../components/LinearGradient";
 import { getGradientColors } from "../../../components/getGradient";
-
 import API, { Session, Movement, WorkoutHistory } from "../../../api";
-import { trackingStyles, discoverProgramStyles, programStyles } from "../../style";
+import {
+  trackingStyles,
+  discoverProgramStyles,
+  programStyles,
+} from "../../style";
 import { useMovementsContext } from "../../MovementsContext";
-import { MaterialIcons } from '@expo/vector-icons';
-import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
-import { AntDesign } from '@expo/vector-icons';
+import { MaterialIcons } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 import { useUserPrograms } from "../../../provider/UserProgramsContext";
 
 // used for accessing route parameters in a type-safe way
@@ -37,13 +47,17 @@ export default function TrackProgramScreen({
   const { movements, handleMovements } = useMovementsContext();
   const userId = useAuth()._id as string;
 
-  useEffect(()=> {    
-    setProgramData(programs.find(p=> p._id === program._id));        
-  }, [programs, program._id])
+  //GET PROGRAM
+  useEffect(() => {
+    setProgramData(programs.find((p) => p._id === program._id));
+  }, [programs, program._id]);
 
+  //GET MOVEMENTS
   useEffect(() => {
     handleMovements(programData);
   }, [programData]);
+
+  //GET HISTORY
   useEffect(() => {
     getHistory();
     async function getHistory() {
@@ -51,16 +65,17 @@ export default function TrackProgramScreen({
       if (history.data.data) {
         setHistory(history.data.data.reverse());
       }
-
     }
   }, []);
 
   const deleteDialog = () =>
-    Alert.alert("Delete Program?", "Are you sure you want to delete? \n This action cannot be undone.", [
-      { text: "Cancel" },
-      { text: "Yes", onPress: handleDelete },
-    ]);
+    Alert.alert(
+      "Delete Program?",
+      "Are you sure you want to delete? \n This action cannot be undone.",
+      [{ text: "Cancel" }, { text: "Yes", onPress: handleDelete }]
+    );
 
+    //DELETE PROGRAM
   const handleDelete = () => {
     deleteProgram(programData._id);
     navigation.navigate("User Programs");
@@ -69,8 +84,6 @@ export default function TrackProgramScreen({
     });
   };
 
-
-
   return (
     <LinearGradient
       top={getGradientColors(programData.programCategory.toLowerCase())[0]}
@@ -78,26 +91,54 @@ export default function TrackProgramScreen({
       style={{ minHeight: "100%" }}
     >
       <SafeAreaView>
-      <View style={{flexDirection:'row', justifyContent:'space-between'}}>
-        <Text style={trackingStyles.titleBarText}>{programData.programName}</Text>
-        <TouchableOpacity style={{ alignSelf:'flex-end', marginRight:20}} onPress={deleteDialog}>
-        <AntDesign name="delete" size={30} color="white" style={{alignSelf:'flex-end'}} />
-        </TouchableOpacity>
+        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+          <Text style={trackingStyles.titleBarText}>
+            {programData.programName}
+          </Text>
+          <TouchableOpacity
+            style={{ alignSelf: "flex-end", marginRight: 20 }}
+            onPress={deleteDialog}
+          >
+            <AntDesign
+              name="delete"
+              size={30}
+              color="white"
+              style={{ alignSelf: "flex-end" }}
+            />
+          </TouchableOpacity>
         </View>
-        {/* ()=> console.log(program._id, userId) */}
-        {programData.originalProgramId !== undefined &&
-        <TouchableOpacity style = {{marginLeft: 20,marginTop:10, width:'40%',}} onPress = {()=> 
-        navigation.navigate('Write Feedback', 
-        {
-          programId: String(programData.originalProgramId), 
-          userId: userId
-        })}>
-          <View style={[trackingStyles.submitButton,{flexDirection:'row', alignSelf:'flex-start', width:'100%'}]}>
-            <Text style={[discoverProgramStyles.sessionTitle, {fontSize:16, fontWeight:'normal'}]}>Leave a Review </Text>
-          <MaterialIcons name="feedback" size={16} color="white" />
-          </View>
-        </TouchableOpacity>
-        }
+        {programData.originalProgramId !== undefined && (
+          <TouchableOpacity
+            style={{ marginLeft: 20, marginTop: 10, width: "40%" }}
+            onPress={() =>
+              navigation.navigate("Write Feedback", {
+                programId: String(programData.originalProgramId),
+                userId: userId,
+              })
+            }
+          >
+            <View
+              style={[
+                trackingStyles.submitButton,
+                {
+                  flexDirection: "row",
+                  alignSelf: "flex-start",
+                  width: "100%",
+                },
+              ]}
+            >
+              <Text
+                style={[
+                  discoverProgramStyles.sessionTitle,
+                  { fontSize: 16, fontWeight: "normal" },
+                ]}
+              >
+                Leave a Review{" "}
+              </Text>
+              <MaterialIcons name="feedback" size={16} color="white" />
+            </View>
+          </TouchableOpacity>
+        )}
         <ScrollView style={trackingStyles.sessionsContainer}>
           {programData.session.map((session: Session, index) => (
             <View key={index}>
@@ -118,7 +159,7 @@ export default function TrackProgramScreen({
                     navigation.navigate("Track a Session", {
                       program: programData,
                       session: session,
-                      movements: sessionMovements,                      
+                      movements: sessionMovements,
                     });
                   }
                 }}
@@ -144,41 +185,55 @@ export default function TrackProgramScreen({
                             }${movement.typeTracking.roundSec}`}
                       </Text>
                     </View>
-                  ) : null
+                  ) : null;
                 })}
               </TouchableOpacity>
             </View>
           ))}
           <Text style={discoverProgramStyles.sessionTitle}>History</Text>
           <ScrollView>
-            {history.length === 0 && <Text style={{color:'white', fontSize:16,}}>Complete a Session to View History</Text>
-            }
+            {history.length === 0 && (
+              <Text style={{ color: "white", fontSize: 16 }}>
+                Complete a Session to View History
+              </Text>
+            )}
             {history.map((session: any, index) => (
               <View key={index}>
-              <TouchableOpacity style={[discoverProgramStyles.singleSessionContainer, {minHeight:40, marginBottom:5}]}>
-                <View style={{flexDirection:'row', justifyContent:'space-between'}}>
-                <Text style={discoverProgramStyles.movementText}>  
-                  {session.sessionName}
-                </Text>
-                <Text style={discoverProgramStyles.movementText}>  
-                  {session.date.slice(0,10)}
-                </Text>
-                </View>
-              </TouchableOpacity>
+                <TouchableOpacity
+                  style={[
+                    discoverProgramStyles.singleSessionContainer,
+                    { minHeight: 40, marginBottom: 5 },
+                  ]}
+                >
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <Text style={discoverProgramStyles.movementText}>
+                      {session.sessionName}
+                    </Text>
+                    <Text style={discoverProgramStyles.movementText}>
+                      {session.date.slice(0, 10)}
+                    </Text>
+                  </View>
+                </TouchableOpacity>
               </View>
-
             ))}
           </ScrollView>
-          <TouchableOpacity style={[programStyles.buttonContainer,{marginVertical:10}]}>
-      <Button
-          title = "Add Session"
-          color = "white"
-          onPress = {() => navigation.navigate('Program Add Session', {program:program})}
-      />
-        </TouchableOpacity>
+          <TouchableOpacity
+            style={[programStyles.buttonContainer, { marginVertical: 10 }]}
+          >
+            <Button
+              title="Add Session"
+              color="white"
+              onPress={() =>
+                navigation.navigate("Program Add Session", { program: program })
+              }
+            />
+          </TouchableOpacity>
         </ScrollView>
-      {/* </View> */}
-      
       </SafeAreaView>
     </LinearGradient>
   );
