@@ -134,7 +134,7 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps) {
             ): null}
         {movementsData.map((movement, index) => (
             //map movements
-          <View>               
+          <View key={movement._id}>               
             {movement.section === "warmup" ? (
               <View>
                      <View style={[{ flexDirection: "row", alignItems: "center" }]}>
@@ -237,7 +237,7 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps) {
             ): null}
           
           {movementsData.map((movement, index) => (
-          <View>
+          <View key={movement._id}>
             {movement.section === "main" ? (
               <View>
                      <View style={[{ flexDirection: "row", alignItems: "center" }]}>
@@ -340,7 +340,7 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps) {
             ): null}
             
             {movementsData.map((movement, index) => (
-            <View>
+            <View key={movement._id}>
             {movement.section === "post" ? (
               <View>
                      <View style={[{ flexDirection: "row", alignItems: "center" }]}>
