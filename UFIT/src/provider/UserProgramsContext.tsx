@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
-import API, { Program } from '../api';
+import API, { Program,api } from '../api';
 import useAuth from '../hook/useAuth';
 
 type UserProgramsContextProps = {
@@ -7,6 +7,8 @@ type UserProgramsContextProps = {
   error: string | null;
   addProgram: (program: Program) => void; 
   deleteProgram: (programId: { $oid: string; }) => void;
+  handlePrograms: ()=>void;
+  updateProgram: (data:any) => void;
 };
 
 export const UserProgramsContext = createContext<UserProgramsContextProps>({
@@ -14,6 +16,8 @@ export const UserProgramsContext = createContext<UserProgramsContextProps>({
   error: null,
   addProgram: () => {},
   deleteProgram: () => {},
+  handlePrograms: () =>{},
+  updateProgram: ()=>{},
 });
 
 export function UserProgramsProvider({ children }: { children: React.ReactNode }) {
@@ -21,16 +25,19 @@ export function UserProgramsProvider({ children }: { children: React.ReactNode }
   const [error, setError] = useState<string | null>(null);
   const userId = useAuth()._id as string;
 
+  const handlePrograms = async() => {
+    try{
+      let res = await API.getProgramsByUserId(userId);
+      setPrograms(res.data.data);
+      setError(null);
+    }catch(err){
+      console.log(err);
+      setError('Error Retrieving Data');
+    }
+  }
+
   useEffect(() => {
-    API.getProgramsByUserId(userId)
-      .then((response) => {
-        setPrograms(response.data.data);
-        setError(null);
-      })
-      .catch((err) => {
-        console.log(err);
-        setError('Error retrieving data');
-      })
+    handlePrograms();
   }, [userId]);
 
   const addProgram = (program: Program) => {
@@ -42,9 +49,29 @@ export function UserProgramsProvider({ children }: { children: React.ReactNode }
     console.log ('deleteProgram', programId);
     setPrograms((prevPrograms) => (prevPrograms ? prevPrograms.filter((program) => program._id !== programId) : []));
   };
+  
+  // delete and add sessions uses this function
+  const updateProgram = async (data: any) => {
+    // api call to update the specific program
+    try {
+      let response = await api.put('/program/by-id', data);
+      if(response.data.success){
+        console.log(response.data);
+        return true;
+      }
+      else{
+        console.log(response.data);
+        return false;
+      }
+    } catch(err){
+      console.log(err);
+      return false;
+    }
+  
+  }
 
   return (
-    <UserProgramsContext.Provider value={{ programs, error, addProgram, deleteProgram }}>
+    <UserProgramsContext.Provider value={{ programs, error, addProgram, deleteProgram, handlePrograms, updateProgram }}>
       {children}
     </UserProgramsContext.Provider>
   );
