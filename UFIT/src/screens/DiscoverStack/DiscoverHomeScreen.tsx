@@ -130,6 +130,13 @@ export default function DiscoverHomeScreen({navigation: navigator}: DiscoverHome
                                     </Text>
                                 )
                             }
+                            {
+                                program.programCategory.toLowerCase() === 'custom' && (
+                                    <Text style={{color:'white', paddingLeft:5}}>
+                                        <FontAwesome5 name="pencil-ruler" size={20} color="white" /> Custom
+                                    </Text>
+                                )
+                            }
                             {program.isCreatedByAI && (
                                 <Text style={[ { color:'white', paddingLeft:5, paddingVertical:5, }]}>
                                     <FontAwesome5 name="brain" size={20} color="white" /> AI Generated

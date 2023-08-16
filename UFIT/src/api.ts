@@ -71,7 +71,7 @@ export type MovementHistory = {
 };
 export type WorkoutHistory = {
     // _id: string;
-    programId?: {$oid: string};
+    programId: {$oid: string};
     programName: string;
     sessionName: string;
     // userId: {$oid: string};
