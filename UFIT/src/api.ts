@@ -30,6 +30,7 @@ export type Session = {
 
 export type Movement = {
     _id: {$oid: string};
+    section: string,
     movementName: string;
     movementDescription: string;
     movementLink: string;
