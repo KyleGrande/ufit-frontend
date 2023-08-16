@@ -127,10 +127,17 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps) {
         <ScrollView
         // style={programStyles.programsContainer}
         >
-          {movementsData.map((movement, index) => (
+          {movements.some((m:any) => m.section === 'warmup') === true ? (
+              <Text style={[trackingStyles.movementName, { fontWeight: "bold", fontSize:28 }]}>
+              Warmup
+              </Text>
+            ): null}
+        {movementsData.map((movement, index) => (
             //map movements
-            <View key={index}>
-              <View style={[{ flexDirection: "row", alignItems: "center" }]}>
+          <View>               
+            {movement.section === "warmup" ? (
+              <View>
+                     <View style={[{ flexDirection: "row", alignItems: "center" }]}>
                 <Text
                   style={[trackingStyles.movementName, { fontWeight: "bold" }]}
                 >
@@ -153,19 +160,18 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps) {
                   />
                 </TouchableOpacity>
               </View>
-            <TouchableOpacity
-                style = {{paddingLeft: 20}}
-                onPress = {() => navigation.navigate('Edit Program Movement', {
-                    movement: movement,
-                    program: program
-                })}
-               >
-                    <Text style = {{color: 'white'}}>
-                        Edit Movement {">"}
-                    </Text>
-            </TouchableOpacity>
-
-              {movement.typeTracking.trackingType === "setsreps" && (
+                <TouchableOpacity
+                    style = {{paddingLeft: 20}}
+                    onPress = {() => navigation.navigate('Edit Program Movement', {
+                        movement: movement,
+                        program: program
+                    })}
+                  >
+                        <Text style = {{color: 'white'}}>
+                            Edit Movement {">"}
+                        </Text>
+                </TouchableOpacity>
+                {movement.typeTracking.trackingType === "setsreps" && (
                 <RepSetsTracker
                   movement={movement}
                   sets={movement.typeTracking.sets}
@@ -220,7 +226,215 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps) {
                 />
               )}
             </View>
+            ):null}
+              
+          </View>
           ))}
+          {movements.some((m:any) => m.section === 'main') === true ? (
+              <Text style={[trackingStyles.movementName, { fontWeight: "bold", fontSize:28 }]}>
+              Main Workout
+              </Text>
+            ): null}
+          
+          {movementsData.map((movement, index) => (
+          <View>
+            {movement.section === "main" ? (
+              <View>
+                     <View style={[{ flexDirection: "row", alignItems: "center" }]}>
+                <Text
+                  style={[trackingStyles.movementName, { fontWeight: "bold" }]}
+                >
+                  {movement.movementName}
+                </Text>                
+                <TouchableOpacity
+                  style={[{ justifyContent: "center", height: 35, width: 40 }]}
+                  onPress={() => handleOnInfoPress(movement)}
+                >
+                  <AntDesign name="infocirlceo" size={20} color="lightblue" />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[{ justifyContent: "center", height: 35, width: 40 }]}
+                  onPress={() => handleOnNotePress(movement)}
+                >
+                  <FontAwesome
+                    name="sticky-note-o"
+                    size={20}
+                    color="lightblue"
+                  />
+                </TouchableOpacity>
+              </View>
+                <TouchableOpacity
+                    style = {{paddingLeft: 20}}
+                    onPress = {() => navigation.navigate('Edit Program Movement', {
+                        movement: movement,
+                        program: program
+                    })}
+                  >
+                        <Text style = {{color: 'white'}}>
+                            Edit Movement {">"}
+                        </Text>
+                </TouchableOpacity>
+                {movement.typeTracking.trackingType === "setsreps" && (
+                <RepSetsTracker
+                  movement={movement}
+                  sets={movement.typeTracking.sets}
+                  reps={movement.typeTracking.reps}
+                  weight={movement.typeTracking.weight}
+                  onRepSetTrackerChange={(
+                    setsCompleted: number,
+                    weight: number,
+                    reps: number
+                  ) => {
+                    const currentData =
+                      trackingData[movement.movementName] || {};
+                    setTrackingData((prevData) => ({
+                      ...prevData,
+                      [movement.movementName]: {
+                        ...currentData,
+                        trackingType: movement.typeTracking.trackingType,
+                        setsCompleted,
+                        reps,
+                        weight,
+                      },
+                    }));
+                  }}
+                />
+              )}
+              {movement.typeTracking.trackingType === "rounds" && (
+                <RoundsTracker
+                  rounds={movement.typeTracking.rounds ?? 0}
+                  roundMin={movement.typeTracking.roundMin ?? 0}
+                  roundSec={movement.typeTracking.roundSec ?? 0}
+                  restMin={movement.typeTracking.restMin ?? 0}
+                  restSec={movement.typeTracking.restSec ?? 0}
+                  movementName={movement.movementName}
+                  onRoundsTrackerChange={(
+                    roundsCompleted: number,
+                    roundMinRemain: number,
+                    roundSecRemain: number
+                  ) => {
+                    const currentData =
+                      trackingData[movement.movementName] || {};
+                    setTrackingData((prevData) => ({
+                      ...prevData,
+                      [movement.movementName]: {
+                        ...currentData,
+                        trackingType: movement.typeTracking.trackingType,
+                        roundsCompleted,
+                        roundMinRemain,
+                        roundSecRemain,
+                      },
+                    }));
+                  }}
+                />
+              )}
+            </View>
+            ):null}
+            </View>
+            ))}
+            
+            {movements.some((m:any) => m.section === 'post') === true ? (
+              <Text style={[trackingStyles.movementName, { fontWeight: "bold", fontSize:28 }]}>
+              Post Workout
+              </Text>
+            ): null}
+            
+            {movementsData.map((movement, index) => (
+            <View>
+            {movement.section === "post" ? (
+              <View>
+                     <View style={[{ flexDirection: "row", alignItems: "center" }]}>
+                <Text
+                  style={[trackingStyles.movementName, { fontWeight: "bold" }]}
+                >
+                  {movement.movementName}
+                </Text>                
+                <TouchableOpacity
+                  style={[{ justifyContent: "center", height: 35, width: 40 }]}
+                  onPress={() => handleOnInfoPress(movement)}
+                >
+                  <AntDesign name="infocirlceo" size={20} color="lightblue" />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[{ justifyContent: "center", height: 35, width: 40 }]}
+                  onPress={() => handleOnNotePress(movement)}
+                >
+                  <FontAwesome
+                    name="sticky-note-o"
+                    size={20}
+                    color="lightblue"
+                  />
+                </TouchableOpacity>
+              </View>
+                <TouchableOpacity
+                    style = {{paddingLeft: 20}}
+                    onPress = {() => navigation.navigate('Edit Program Movement', {
+                        movement: movement,
+                        program: program
+                    })}
+                  >
+                        <Text style = {{color: 'white'}}>
+                            Edit Movement {">"}
+                        </Text>
+                </TouchableOpacity>
+                {movement.typeTracking.trackingType === "setsreps" && (
+                <RepSetsTracker
+                  movement={movement}
+                  sets={movement.typeTracking.sets}
+                  reps={movement.typeTracking.reps}
+                  weight={movement.typeTracking.weight}
+                  onRepSetTrackerChange={(
+                    setsCompleted: number,
+                    weight: number,
+                    reps: number
+                  ) => {
+                    const currentData =
+                      trackingData[movement.movementName] || {};
+                    setTrackingData((prevData) => ({
+                      ...prevData,
+                      [movement.movementName]: {
+                        ...currentData,
+                        trackingType: movement.typeTracking.trackingType,
+                        setsCompleted,
+                        reps,
+                        weight,
+                      },
+                    }));
+                  }}
+                />
+              )}
+              {movement.typeTracking.trackingType === "rounds" && (
+                <RoundsTracker
+                  rounds={movement.typeTracking.rounds ?? 0}
+                  roundMin={movement.typeTracking.roundMin ?? 0}
+                  roundSec={movement.typeTracking.roundSec ?? 0}
+                  restMin={movement.typeTracking.restMin ?? 0}
+                  restSec={movement.typeTracking.restSec ?? 0}
+                  movementName={movement.movementName}
+                  onRoundsTrackerChange={(
+                    roundsCompleted: number,
+                    roundMinRemain: number,
+                    roundSecRemain: number
+                  ) => {
+                    const currentData =
+                      trackingData[movement.movementName] || {};
+                    setTrackingData((prevData) => ({
+                      ...prevData,
+                      [movement.movementName]: {
+                        ...currentData,
+                        trackingType: movement.typeTracking.trackingType,
+                        roundsCompleted,
+                        roundMinRemain,
+                        roundSecRemain,
+                      },
+                    }));
+                  }}
+                />
+              )}
+            </View>
+            ):null}
+            </View>
+            ))}
               <TouchableOpacity style={[programStyles.buttonContainer,{marginVertical:10}]}>
                   <Button
                     title = "Add Movement"
@@ -230,7 +444,7 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps) {
                       session: session,
                     })}
                   />
-
+              
                   
               </TouchableOpacity>
                   <TouchableOpacity style={[programStyles.buttonContainer,{marginVertical:10}]} onPress={handleSubmit}>
