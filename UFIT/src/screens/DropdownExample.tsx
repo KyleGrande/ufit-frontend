@@ -27,7 +27,7 @@ const Dropdown = ({ options, selectedValue, onSelect }: any) => {
         onPress={() => setModalVisible(true)}
       >
         <Text style={styles.selectedValueText}>
-          {selectedValue?.sessionName || "Select a session"}
+          {selectedValue?.sessionName || "Select a Date"}
         </Text>
       </TouchableOpacity>
 
@@ -64,7 +64,7 @@ const Dropdown = ({ options, selectedValue, onSelect }: any) => {
                   onPress={() => handleSelect(item)}
                 >
                   <View>
-                    <Text style={styles.optionText}>{item?.sessionName}</Text>
+                    <Text style={styles.optionText}>{item?.date.toString().split("T")[0]}</Text>
                   </View>
                 </TouchableOpacity>
               )}

@@ -141,9 +141,11 @@ export default function UserAnalytics() {
     return count;
   }
   // Create options for the dropdown menu
-  const options = workoutHistory?.map((item: any, index: number) => ({
+  const sortedHistory = workoutHistory?.slice().sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()).reverse();
+
+  const options = sortedHistory?.map((item: any, index: number) => ({
     ...item,
-    label: item?.sessionName,
+    label: item?.date,
     value: item?._id || index,
   }));
   // State variable for the selected dropdown value
@@ -265,7 +267,7 @@ export default function UserAnalytics() {
             </View>
             <View style={{ width: screenWidth, alignSelf: "center", paddingBottom:10 }}>
               <PieChart
-                data={pieChartData}
+                data={pieChartData.sort((a, b) => b.count - a.count)}
                 width={screenWidth - 40}
                 height={220}
                 chartConfig={chartConfig}
@@ -357,15 +359,15 @@ export default function UserAnalytics() {
                   </Text>
                 )}
 
-                {item?.trackingData?.sets || item?.trackingData?.sets === 0 ? (
+                {item?.trackingData?.setsCompleted || item?.trackingData?.sets === 0 ? (
                   <Text style={styles.content}>
-                    {"sets: " + item?.trackingData?.sets}
+                    {"Sets Completed: " + item?.trackingData?.setsCompleted}
                   </Text>
                 ) : null}
 
                 {item?.trackingData?.reps || item?.trackingData?.reps === 0 ? (
                   <Text style={styles.content}>
-                    {"reps: " + item?.trackingData?.reps}
+                    {"Reps Per Set: " + item?.trackingData?.reps}
                   </Text>
                 ) : null}
 
