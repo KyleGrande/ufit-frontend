@@ -48,7 +48,8 @@ type TrackSessionScreenProps = {
 export default function TrackSessionScreen({ route }: TrackSessionScreenProps) {
   const { movements } = useMovementsContext();
   const { program, session } = route.params;
-  const { handlePrograms, updateProgram } = useUserPrograms();
+  const isFocused = useIsFocused();
+  const { handlePrograms, updateProgram, programs } = useUserPrograms();
   const filteredMovements = movements.filter(movement => 
       session.movementId.includes(movement._id)
     )
@@ -57,6 +58,7 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps) {
   const [programData, setProgramData] = useState(program);
   const userId = useAuth()._id as string;
   //update with data fetched from database
+
   useEffect(() => {
     const filteredMovements = movements.filter(movement =>
       session.movementId.includes(movement._id)
@@ -147,6 +149,11 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps) {
       }      
     }
   }
+
+  useEffect(()=> {
+    setProgramData(programs.find(p=> p._id === program._id))
+  }, [programs, program._id]);
+  
   return (
     <LinearGradient
       top={getGradientColors(programData.programCategory.toLowerCase())[0]}

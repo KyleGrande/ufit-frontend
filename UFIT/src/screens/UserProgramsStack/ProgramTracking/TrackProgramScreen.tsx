@@ -33,13 +33,13 @@ export default function TrackProgramScreen({
   const [history, setHistory] = useState<WorkoutHistory[]>([]);
   const { program } = route.params;
   const [programData, setProgramData] = useState(program);
-  const { deleteProgram } = useUserPrograms();
+  const { deleteProgram, programs } = useUserPrograms();
   const { movements, handleMovements } = useMovementsContext();
   const userId = useAuth()._id as string;
 
-  useEffect(()=> {
-    setProgramData(program);
-  }, [program, programData])
+  useEffect(()=> {    
+    setProgramData(programs.find(p=> p._id === program._id));        
+  }, [programs, program._id])
 
   useEffect(() => {
     handleMovements(programData);
