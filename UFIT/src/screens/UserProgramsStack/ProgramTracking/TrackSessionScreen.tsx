@@ -8,6 +8,7 @@ import {
   TextInput,
   SafeAreaView,
   Button,
+  Alert,
 } from "react-native";
 import { useEffect } from "react";
 import { RouteProp, useNavigation } from "@react-navigation/native";
@@ -129,6 +130,11 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps) {
         console.log(err);
       });
   };
+  const deleteDialog = () =>
+  Alert.alert("Delete Session?", "Are you sure you want to delete? \n This action cannot be undone.", [
+    { text: "Cancel" },
+    { text: "Yes", onPress: deleteSession },
+  ]);
   const deleteSession = async() => {
     // delete session from session array    
     if (program.session.length <= 1){
@@ -167,12 +173,8 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps) {
         <ScrollView
         // style={programStyles.programsContainer}
         >
-        <TouchableOpacity style={[programStyles.buttonContainer,{marginVertical:10, backgroundColor: 'red'}]}>
-          <Button 
-              title="Delete Session" 
-              color='white' 
-              onPress={deleteSession}
-          />
+        <TouchableOpacity style={{ alignSelf:'flex-end', marginRight:20}} onPress={deleteDialog}>
+        <AntDesign name="delete" size={30} color="white" style={{alignSelf:'flex-end'}} />
         </TouchableOpacity>
           {movementsData.some((m:any) => m.section === 'warmup') === true ? (
               <Text style={[trackingStyles.movementName, { fontWeight: "bold", fontSize:28 }]}>
