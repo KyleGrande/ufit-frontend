@@ -54,8 +54,12 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps) {
   }, [program])
   //update with data fetched from database
   useEffect(() => {
-    setMovementsData(movements);
-  }, [movements])
+    const filteredMovements = movements.filter(movement =>
+      session.movementId.includes(movement._id)
+    );
+    setMovementsData(filteredMovements);
+    console.log(filteredMovements);
+  }, [movements, session]);
   
   type TrackingData = Record<string, TrackingDataSchema[]>;
 
