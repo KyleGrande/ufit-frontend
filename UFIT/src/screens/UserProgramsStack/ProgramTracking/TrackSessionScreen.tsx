@@ -40,6 +40,7 @@ export type TrackSessionScreenRouteProp = RouteProp<
 >;
 
 type TrackSessionScreenProps = {
+
   route: TrackSessionScreenRouteProp;
 };
 export default function TrackSessionScreen({ route }: TrackSessionScreenProps) {
@@ -220,6 +221,18 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps) {
               )}
             </View>
           ))}
+              <TouchableOpacity style={[programStyles.buttonContainer,{marginVertical:10}]}>
+                  <Button
+                    title = "Add Movement"
+                    color = "white"
+                    onPress = {() => navigation.navigate("Add Movement Tracking", {
+                      program: program,
+                      session: session,
+                    })}
+                  />
+
+                  
+              </TouchableOpacity>
                   <TouchableOpacity style={[programStyles.buttonContainer,{marginVertical:10}]} onPress={handleSubmit}>
                     <Button 
                         title="Submit" 

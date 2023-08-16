@@ -110,8 +110,8 @@ export default function TrackProgramScreen({
                       )
                       .filter(Boolean) as Movement[];
                     navigation.navigate("Track a Session", {
-                      program,
-                      session,
+                      program: program,
+                      session: session,
                       movements: sessionMovements,                      
                     });
                   }

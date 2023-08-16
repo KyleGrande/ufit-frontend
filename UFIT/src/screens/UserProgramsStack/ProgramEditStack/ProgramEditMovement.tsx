@@ -112,6 +112,7 @@ export default function ProgramEditMovementScreen({navigation,route}: ProgramEdi
       console.log(trackingData)
       data.id = movement._id;
       data.typeTracking = trackingData;      
+      console.log(data);
       let res = await api.put('/movement/by-id', data);
       console.log("handleMovements type:", typeof handleMovements); // Check the type of refreshMovements
       handleMovements(program);
