@@ -21,6 +21,7 @@ export default function ProgramsMainScreen({ navigation }: ProgramsMainScreenPro
     
     // const [programs, setPrograms] = React.useState<Program[]>([]);
     const { programs } = useUserPrograms();
+    const [programData, setProgramData] = React.useState(programs);
     const [createModalVisble, setCreateModalVisible] = React.useState<boolean>(false);
     const [error, setError] = React.useState<string | null>(null);
     const userId = useAuth()._id as string;
@@ -35,6 +36,11 @@ export default function ProgramsMainScreen({ navigation }: ProgramsMainScreenPro
     //         setError('Error retrieving data');
     //     });
     // }, [userId]);
+    
+    React.useEffect(()=> {
+        setProgramData(programs);
+    }, [programs])
+
     const handleCreatePress = React.useCallback(() => {
         setCreateModalVisible(true);
     }, [setCreateModalVisible]);
@@ -56,7 +62,7 @@ export default function ProgramsMainScreen({ navigation }: ProgramsMainScreenPro
                 </TouchableOpacity>
                 </View>
                 <ScrollView style={programStyles.programsContainer}>
-                    {programs?.map((program, index) => (
+                    {programData?.map((program, index) => (
                         <Pressable
                             key={index}
                             onPress={() => navigation.navigate('Track a Program',

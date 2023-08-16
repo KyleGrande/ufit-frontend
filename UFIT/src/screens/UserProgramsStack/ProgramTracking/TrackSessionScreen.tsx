@@ -8,6 +8,7 @@ import {
   TextInput,
   SafeAreaView,
   Button,
+  Alert,
 } from "react-native";
 import { useEffect } from "react";
 import { RouteProp, useNavigation } from "@react-navigation/native";
@@ -32,6 +33,8 @@ import { useIsFocused } from '@react-navigation/native';
 import { FontAwesome } from "@expo/vector-icons";
 import { MovementNoteModal } from "../../../components/MovementNoteModal";
 import { useMovementsContext } from "../../MovementsContext";
+import useAuth from "../../../hook/useAuth";
+import { useUserPrograms } from "../../../provider/UserProgramsContext";
 
 // used for accessing route parameters in a type-safe way
 export type TrackSessionScreenRouteProp = RouteProp<
@@ -46,12 +49,25 @@ type TrackSessionScreenProps = {
 export default function TrackSessionScreen({ route }: TrackSessionScreenProps) {
   const { movements } = useMovementsContext();
   const { program, session } = route.params;
-  const [movementsData, setMovementsData] = useState(movements);
-  
+  const isFocused = useIsFocused();
+  const { handlePrograms, updateProgram, programs } = useUserPrograms();
+  const filteredMovements = movements.filter(movement => 
+      session.movementId.includes(movement._id)
+    )
+  console.log(filteredMovements);
+  const [movementsData, setMovementsData] = useState(filteredMovements);
+  const [programData, setProgramData] = useState(program);
+  const userId = useAuth()._id as string;
   //update with data fetched from database
+
   useEffect(() => {
-    setMovementsData(movements);
-  }, [movements])
+    const filteredMovements = movements.filter(movement =>
+      session.movementId.includes(movement._id)
+    );
+    setMovementsData(filteredMovements);
+    setProgramData(program);
+    console.log(filteredMovements);
+  }, [movements, session]);
   
   type TrackingData = Record<string, TrackingDataSchema[]>;
 
@@ -96,9 +112,9 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps) {
   const handleSubmit = () => {
     console.log(getMovementTrackingData());
     const histories = {
-      userId: program.userId,
-      programId: program._id,
-      programName: program.programName,
+      userId: programData.userId,
+      programId: programData._id,
+      programName: programData.programName,
       sessionName: session.name,
       date: new Date(),
       movements: getMovementTrackingData(),
@@ -114,20 +130,53 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps) {
         console.log(err);
       });
   };
+  const deleteDialog = () =>
+  Alert.alert("Delete Session?", "Are you sure you want to delete? \n This action cannot be undone.", [
+    { text: "Cancel" },
+    { text: "Yes", onPress: deleteSession },
+  ]);
+  const deleteSession = async() => {
+    // delete session from session array    
+    if (program.session.length <= 1){
+      console.log('Cannot delete session')
+      alert('Must have more than 1 session to delete');
+    }else{
+      try {        
+        let deletedSession = program.session.filter(obj => obj._id !== session._id);
+        let parsedData = {
+          id: program._id,
+          session: deletedSession
+        }
+        await updateProgram(parsedData);
+        await handlePrograms(userId);
+        navigation.goBack();
+      } catch(err){
+        console.log(err);
+      }      
+    }
+  }
 
+  useEffect(()=> {
+    setProgramData(programs.find(p=> p._id === program._id))
+  }, [programs, program._id]);
+  
   return (
     <LinearGradient
-      top={getGradientColors(program.programCategory.toLowerCase())[0]}
-      bottom={getGradientColors(program.programCategory.toLowerCase())[1]}
+      top={getGradientColors(programData.programCategory.toLowerCase())[0]}
+      bottom={getGradientColors(programData.programCategory.toLowerCase())[1]}
       style={{ minHeight: "100%" }}
     >
+      
       <SafeAreaView>
       <View style={[trackingStyles.viewContainer]}>
         {/* <Text style={[trackingStyles.titleBarText]}>{session.name}</Text> */}
         <ScrollView
         // style={programStyles.programsContainer}
         >
-          {movements.some((m:any) => m.section === 'warmup') === true ? (
+        <TouchableOpacity style={{ alignSelf:'flex-end', marginRight:20}} onPress={deleteDialog}>
+        <AntDesign name="delete" size={30} color="white" style={{alignSelf:'flex-end'}} />
+        </TouchableOpacity>
+          {movementsData.some((m:any) => m.section === 'warmup') === true ? (
               <Text style={[trackingStyles.movementName, { fontWeight: "bold", fontSize:28 }]}>
               Warmup
               </Text>
@@ -164,7 +213,7 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps) {
                     style = {{paddingLeft: 20}}
                     onPress = {() => navigation.navigate('Edit Program Movement', {
                         movement: movement,
-                        program: program
+                        program: programData
                     })}
                   >
                         <Text style = {{color: 'white'}}>
@@ -230,7 +279,7 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps) {
               
           </View>
           ))}
-          {movements.some((m:any) => m.section === 'main') === true ? (
+          {movementsData.some((m:any) => m.section === 'main') === true ? (
               <Text style={[trackingStyles.movementName, { fontWeight: "bold", fontSize:28 }]}>
               Main Workout
               </Text>
@@ -267,7 +316,7 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps) {
                     style = {{paddingLeft: 20}}
                     onPress = {() => navigation.navigate('Edit Program Movement', {
                         movement: movement,
-                        program: program
+                        program: programData
                     })}
                   >
                         <Text style = {{color: 'white'}}>
@@ -333,7 +382,7 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps) {
             </View>
             ))}
             
-            {movements.some((m:any) => m.section === 'post') === true ? (
+            {movementsData.some((m:any) => m.section === 'post') === true ? (
               <Text style={[trackingStyles.movementName, { fontWeight: "bold", fontSize:28 }]}>
               Post Workout
               </Text>
@@ -370,7 +419,7 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps) {
                     style = {{paddingLeft: 20}}
                     onPress = {() => navigation.navigate('Edit Program Movement', {
                         movement: movement,
-                        program: program
+                        program: programData
                     })}
                   >
                         <Text style = {{color: 'white'}}>
@@ -440,7 +489,7 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps) {
                     title = "Add Movement"
                     color = "white"
                     onPress = {() => navigation.navigate("Add Movement Tracking", {
-                      program: program,
+                      program: programData,
                       session: session,
                     })}
                   />
