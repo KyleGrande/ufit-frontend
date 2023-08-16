@@ -32,6 +32,8 @@ import { useIsFocused } from '@react-navigation/native';
 import { FontAwesome } from "@expo/vector-icons";
 import { MovementNoteModal } from "../../../components/MovementNoteModal";
 import { useMovementsContext } from "../../MovementsContext";
+import useAuth from "../../../hook/useAuth";
+import { useUserPrograms } from "../../../provider/UserProgramsContext";
 
 // used for accessing route parameters in a type-safe way
 export type TrackSessionScreenRouteProp = RouteProp<
@@ -46,22 +48,21 @@ type TrackSessionScreenProps = {
 export default function TrackSessionScreen({ route }: TrackSessionScreenProps) {
   const { movements } = useMovementsContext();
   const { program, session } = route.params;
+  const { handlePrograms, updateProgram } = useUserPrograms();
   const filteredMovements = movements.filter(movement => 
       session.movementId.includes(movement._id)
     )
   console.log(filteredMovements);
   const [movementsData, setMovementsData] = useState(filteredMovements);
   const [programData, setProgramData] = useState(program);
-
-  useEffect(() => {
-    setProgramData(program);
-  }, [program])
+  const userId = useAuth()._id as string;
   //update with data fetched from database
   useEffect(() => {
     const filteredMovements = movements.filter(movement =>
       session.movementId.includes(movement._id)
     );
     setMovementsData(filteredMovements);
+    setProgramData(program);
     console.log(filteredMovements);
   }, [movements, session]);
   
@@ -126,19 +127,46 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps) {
         console.log(err);
       });
   };
-
+  const deleteSession = async() => {
+    // delete session from session array    
+    if (program.session.length <= 1){
+      console.log('Cannot delete session')
+      alert('Must have more than 1 session to delete');
+    }else{
+      try {        
+        let deletedSession = program.session.filter(obj => obj._id !== session._id);
+        let parsedData = {
+          id: program._id,
+          session: deletedSession
+        }
+        await updateProgram(parsedData);
+        await handlePrograms(userId);
+        navigation.goBack();
+      } catch(err){
+        console.log(err);
+      }      
+    }
+  }
   return (
     <LinearGradient
       top={getGradientColors(programData.programCategory.toLowerCase())[0]}
       bottom={getGradientColors(programData.programCategory.toLowerCase())[1]}
       style={{ minHeight: "100%" }}
     >
+      
       <SafeAreaView>
       <View style={[trackingStyles.viewContainer]}>
         {/* <Text style={[trackingStyles.titleBarText]}>{session.name}</Text> */}
         <ScrollView
         // style={programStyles.programsContainer}
         >
+        <TouchableOpacity style={[programStyles.buttonContainer,{marginVertical:10, backgroundColor: 'red'}]}>
+          <Button 
+              title="Delete Session" 
+              color='white' 
+              onPress={deleteSession}
+          />
+        </TouchableOpacity>
           {movementsData.some((m:any) => m.section === 'warmup') === true ? (
               <Text style={[trackingStyles.movementName, { fontWeight: "bold", fontSize:28 }]}>
               Warmup
