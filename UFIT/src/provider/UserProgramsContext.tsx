@@ -7,7 +7,7 @@ type UserProgramsContextProps = {
   error: string | null;
   addProgram: (program: Program) => void; 
   deleteProgram: (programId: { $oid: string; }) => void;
-  handlePrograms: ()=>void;
+  handlePrograms: (userId:any)=>void;
   updateProgram: (data:any) => void;
 };
 
@@ -25,7 +25,7 @@ export function UserProgramsProvider({ children }: { children: React.ReactNode }
   const [error, setError] = useState<string | null>(null);
   const userId = useAuth()._id as string;
 
-  const handlePrograms = async() => {
+  const handlePrograms = async(userId:any) => {
     try{
       let res = await API.getProgramsByUserId(userId);
       setPrograms(res.data.data);
@@ -37,7 +37,7 @@ export function UserProgramsProvider({ children }: { children: React.ReactNode }
   }
 
   useEffect(() => {
-    handlePrograms();
+    handlePrograms(userId);
   }, [userId]);
 
   const addProgram = (program: Program) => {

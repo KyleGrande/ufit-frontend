@@ -39,7 +39,7 @@ export default function TrackProgramScreen({
 
   useEffect(()=> {
     setProgramData(program);
-  }, [program])
+  }, [program, programData])
 
   useEffect(() => {
     handleMovements(programData);

@@ -23,6 +23,7 @@ import {
   import LinearGradient from "../../../components/LinearGradient";
   import { api } from "../../../api";
   import { useUserPrograms } from "../../../provider/UserProgramsContext";
+  import useAuth from "../../../hook/useAuth";
   interface SessionData {
     name: string;
     restDays: string;  
@@ -39,7 +40,8 @@ import {
   export default function ProgramAddSession({navigation,route}: ProgramAddSessionProps) {
     // Form state management + form validation     
     const { program } = route.params; 
-    const { handlePrograms,updateProgram } = useUserPrograms()
+    const { handlePrograms,updateProgram } = useUserPrograms();
+    const userId = useAuth()._id as string;
     const methods = useForm<SessionData>({
       defaultValues: {      
         restDays: "0",      
@@ -92,13 +94,13 @@ import {
           console.log('Error: ', err);
           return [];
         }
-      }
-  
+      }      
       return movementsBuffer;
     }
     const handleSession = async(data:any) => {
       try {
         let handledMovements = await createMovements(data.movements);
+        console.log(handledMovements);
         data["movementId"] = handledMovements;
       }catch(err){
         console.log(err);
@@ -118,10 +120,14 @@ import {
 
     const onSessionSubmit = async(data:any) => {
         try {
-          let movementReq = await handleSession(data);
-          data.id = program._id;
-          await updateProgram(data);
-          await handlePrograms();
+          let movementReq = await handleSession(data);          
+          let parsedData = {
+            id: program._id,
+            session: [...program.session, data]
+          }
+          console.log(parsedData);
+          await updateProgram(parsedData);
+          await handlePrograms(userId);
           navigation.goBack();
         }catch(err){
           console.log(err);
