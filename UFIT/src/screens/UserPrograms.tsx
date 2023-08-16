@@ -12,6 +12,7 @@ import ProgramsMainScreen from "./UserProgramsStack/ProgramsMainScreen";
 import TrackProgramScreen from "./UserProgramsStack/ProgramTracking/TrackProgramScreen";
 import TrackSessionScreen from "./UserProgramsStack/ProgramTracking/TrackSessionScreen";
 import ProgramEditMovementScreen from "./UserProgramsStack/ProgramEditStack/ProgramEditMovement";
+import ProgramAddMovementScreen from "./UserProgramsStack/ProgramEditStack/ProgramAddMovement";
 import ProgramWriteFeedBack from "./UserProgramsStack/ProgramFeedback/WriteProgramFeedback";
 import { Program, Session, Movement } from "../api";
 import FormProvider from "./StateContext";
@@ -57,6 +58,10 @@ export type StackParamList = {
   "Write Feedback": {
     programId: string,
     userId: string
+  }
+  "Add Movement Tracking":{
+    program: any,
+    session: any,
   }
 };
 // Login: { setIsLoggedIn: (value: boolean) => void };
@@ -165,6 +170,13 @@ export default function UserPrograms() {
       <stack.Screen
         name="Edit Program Movement"
         component={ProgramEditMovementScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <stack.Screen
+        name = "Add Movement Tracking"
+        component={ProgramAddMovementScreen}
         options={{
           headerShown: false,
         }}
