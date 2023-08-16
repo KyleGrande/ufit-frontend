@@ -79,8 +79,8 @@ export default function ProgramMovementCreate({
       movementLink: "",
       typeTracking: {
         trackingType: "setsreps",
-        reps: "0",
-        sets: "0",
+        reps: "1",
+        sets: "1",
         rounds: "1",
         roundMin: "0",
         roundSec: "0",
