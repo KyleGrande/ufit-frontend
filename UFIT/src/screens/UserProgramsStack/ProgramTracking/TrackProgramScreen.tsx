@@ -63,9 +63,9 @@ export default function TrackProgramScreen({
 
   const handleDelete = () => {
     deleteProgram(programData._id);
+    navigation.navigate("User Programs");
     API.deleteProgram(programData._id).then((response) => {
       console.log(response.data.data);
-      navigation.navigate("User Programs");
     });
   };
 
