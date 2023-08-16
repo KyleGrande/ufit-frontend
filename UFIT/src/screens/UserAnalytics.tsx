@@ -64,7 +64,7 @@ export default function UserAnalytics() {
   // // State variables
   const [workoutHistory, setWorkoutHistory] = useState<any>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedASession, setSelectedASession] = useState<boolean>(false);
+  const [selectedASession, setSelectedASession] = useState<boolean>(true);
 
   // TODO: step1: fetch userId from storage using useAuth hook
   const { _id, token } = useAuth();
