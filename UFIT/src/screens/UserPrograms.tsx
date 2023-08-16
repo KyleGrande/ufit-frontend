@@ -65,7 +65,9 @@ export type StackParamList = {
     program: any,
     session: any,
   };
-  "Program Add Session":{}
+  "Program Add Session":{
+    program: any
+  }
   "Program Add Session Movement":{
     addMovement: any,
   }
