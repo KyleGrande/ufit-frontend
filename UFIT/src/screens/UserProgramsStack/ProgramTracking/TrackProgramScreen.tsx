@@ -173,7 +173,7 @@ export default function TrackProgramScreen({
       <Button
                     title = "Add Session"
                     color = "white"
-                    onPress = {() => navigation.navigate('Program Add Session')}
+                    onPress = {() => navigation.navigate('Program Add Session', {program:program})}
         />
         </TouchableOpacity>
         </ScrollView>
