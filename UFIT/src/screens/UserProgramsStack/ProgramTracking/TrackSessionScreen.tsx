@@ -46,7 +46,11 @@ type TrackSessionScreenProps = {
 export default function TrackSessionScreen({ route }: TrackSessionScreenProps) {
   const { movements } = useMovementsContext();
   const { program, session } = route.params;
-  const [movementsData, setMovementsData] = useState(movements);
+  const filteredMovements = movements.filter(movement => 
+      session.movementId.includes(movement._id)
+    )
+  console.log(filteredMovements);
+  const [movementsData, setMovementsData] = useState(filteredMovements);
   const [programData, setProgramData] = useState(program);
 
   useEffect(() => {
@@ -135,7 +139,7 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps) {
         <ScrollView
         // style={programStyles.programsContainer}
         >
-          {movements.some((m:any) => m.section === 'warmup') === true ? (
+          {movementsData.some((m:any) => m.section === 'warmup') === true ? (
               <Text style={[trackingStyles.movementName, { fontWeight: "bold", fontSize:28 }]}>
               Warmup
               </Text>
@@ -238,7 +242,7 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps) {
               
           </View>
           ))}
-          {movements.some((m:any) => m.section === 'main') === true ? (
+          {movementsData.some((m:any) => m.section === 'main') === true ? (
               <Text style={[trackingStyles.movementName, { fontWeight: "bold", fontSize:28 }]}>
               Main Workout
               </Text>
@@ -341,7 +345,7 @@ export default function TrackSessionScreen({ route }: TrackSessionScreenProps) {
             </View>
             ))}
             
-            {movements.some((m:any) => m.section === 'post') === true ? (
+            {movementsData.some((m:any) => m.section === 'post') === true ? (
               <Text style={[trackingStyles.movementName, { fontWeight: "bold", fontSize:28 }]}>
               Post Workout
               </Text>
