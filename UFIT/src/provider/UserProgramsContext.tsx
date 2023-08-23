@@ -3,27 +3,47 @@ import API, { Program,api } from '../api';
 import useAuth from '../hook/useAuth';
 
 type UserProgramsContextProps = {
+  discoverData: Program[] | null;
   programs: Program[] | null;
   error: string | null;
+  discoverError: string | null;
   addProgram: (program: Program) => void; 
   deleteProgram: (programId: { $oid: string; }) => void;
   handlePrograms: (userId:any)=>void;
   updateProgram: (data:any) => void;
+  handleDiscoverPrograms: () => void;
 };
 
 export const UserProgramsContext = createContext<UserProgramsContextProps>({
+  discoverData: null,
   programs: null,
   error: null,
+  discoverError: null,
   addProgram: () => {},
   deleteProgram: () => {},
   handlePrograms: () =>{},
   updateProgram: ()=>{},
+  handleDiscoverPrograms: ()=>{},
 });
 
 export function UserProgramsProvider({ children }: { children: React.ReactNode }) {
+  const [discoverData, setDiscoverData] = useState<Program[] | null>(null);
+  const [discoverError, setDiscoverError] = useState<null | string>(null);
   const [programs, setPrograms] = useState<Program[] | null>(null);
   const [error, setError] = useState<string | null>(null);
   const userId = useAuth()._id as string;
+
+  const handleDiscoverPrograms = async() => {
+    try {
+      let response = await API.getPrograms()
+      let noOriginalPrograms = response.data.data.filter((program: Program) => !program.originalProgramId);
+      setDiscoverData(noOriginalPrograms);
+      setDiscoverError(null);
+    }catch(err){
+      console.log(err);
+      setDiscoverError('Error retrieving data');
+    }
+  }
 
   const handlePrograms = async(userId:any) => {
     try{
@@ -35,6 +55,10 @@ export function UserProgramsProvider({ children }: { children: React.ReactNode }
       setError('Error Retrieving Data');
     }
   }
+  
+  useEffect(()=> {
+    handleDiscoverPrograms();
+  }, [])
 
   useEffect(() => {
     handlePrograms(userId);
@@ -71,7 +95,7 @@ export function UserProgramsProvider({ children }: { children: React.ReactNode }
   }
 
   return (
-    <UserProgramsContext.Provider value={{ programs, error, addProgram, deleteProgram, handlePrograms, updateProgram }}>
+    <UserProgramsContext.Provider value={{ discoverData, programs, error, discoverError, addProgram, deleteProgram, handlePrograms, updateProgram, handleDiscoverPrograms }}>
       {children}
     </UserProgramsContext.Provider>
   );
