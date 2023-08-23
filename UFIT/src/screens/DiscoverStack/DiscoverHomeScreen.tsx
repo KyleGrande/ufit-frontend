@@ -11,13 +11,13 @@ import { FeedStyles, programStyles, trackingStyles, discoverProgramStyles } from
 import { Picker } from '@react-native-picker/picker';
 import { Ionicons } from '@expo/vector-icons';
 import {FontAwesome5} from '@expo/vector-icons';
-
+import { useUserPrograms } from '../../provider/UserProgramsContext';
 type DiscoverHomeScreenProps = {
     navigation: NativeStackNavigationProp<StackParamList, 'Discovers'>;
 };
 
 export default function DiscoverHomeScreen({navigation: navigator}: DiscoverHomeScreenProps) {
-
+    const {discoverData, discoverError} = useUserPrograms();
     const [programs, setPrograms] = React.useState<Program[]>([]);
     const [error, setError] = React.useState<null | string>(null);
     const [filter, setFilter] = React.useState<string>('');
@@ -29,17 +29,13 @@ export default function DiscoverHomeScreen({navigation: navigator}: DiscoverHome
     
     // get all programs from the database
     React.useEffect(() => {
-        API.getPrograms().then((response) => {
-            //works?
-            let noOriginalPrograms = response.data.data.filter((program: Program) => !program.originalProgramId);
-            setPrograms(noOriginalPrograms);
-            setError(null);
-        })
-        .catch((err) => {
-            console.log(err);
-            setError('Error retrieving data');
-        });
-    }, []);
+        if(discoverData != null){
+            setPrograms(discoverData);
+            setError(discoverError);
+        }else{
+            setError('Network error in fetching data');
+        }                
+    }, [discoverData, discoverError]);
     // if there is an error
     if (error) {
         return (
