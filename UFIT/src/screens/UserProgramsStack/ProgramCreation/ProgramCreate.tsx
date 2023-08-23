@@ -37,7 +37,7 @@ type ProgramsMainScreenProps = {
 export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
   const { control, handleSubmit, getValues, setValue, watch } = useFormContext();
   const userId = useAuth()._id as string;
-
+  const { handleDiscoverPrograms } = useUserPrograms()
   const sessionsFieldArray = useFieldArray({
     control: control,
     name: 'sessions'
@@ -54,7 +54,7 @@ export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
     setValue('sessions', sessions.filter((_,i)=> i !== index));
   }
 
-  const createMovements = async(movements) => {
+  const createMovements = async(movements:any) => {
     let movementsBuffer = []
     for(const m of movements){
       try{
@@ -79,7 +79,7 @@ export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
     return movementsBuffer;
   }
 
-  const handleSessions = async(data) => {
+  const handleSessions = async(data:any) => {
     let sessions = data.sessions;
     console.log("inside handle Sessions");
     console.log(sessions);
@@ -119,6 +119,7 @@ export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
         console.log(formSubmission.data.data);
         let createdProgram = formSubmission.data.data;
         addProgram(createdProgram);
+        handleDiscoverPrograms();
         navigation.navigate('User Programs');
       }else{
         console.log('Error: ', 'Form submission was a failure'); // maybe a notification system to notify the user
