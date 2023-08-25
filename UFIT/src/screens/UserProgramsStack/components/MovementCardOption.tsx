@@ -8,11 +8,11 @@ const MovementComponentOption = ({ movement, deleteMovement, idx }:any) => {
       <View style = {{flexDirection: 'row', justifyContent: 'space-between'}}>
           <View style = {{width: '60%'}}>
               <Text 
-              style = {{textAlign: 'left'}}
+              style = {{textAlign: 'left', fontWeight: 'bold'}}
               >{movement.movementName}</Text>
           </View>
           <View style = {{width: '40%'}}>
-              <Text style = {{textAlign: 'right'}}>
+              <Text style = {{textAlign: 'right', color: 'purple'}}>
                   {movement.typeTracking.trackingType === "setsreps" ? (
                       <Text>{movement.typeTracking.sets} X {movement.typeTracking.reps}</Text>
                   ) : null}
