@@ -139,7 +139,7 @@ export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
     >   
     <SafeAreaView>
     {/* <View style={{...creatingStyles.viewContainer,paddingRight: 20}}> */}
-      <View style={{ paddingLeft: 15, paddingTop: 15 }}>
+      <View style={{ paddingLeft: 15, paddingRight: 15, paddingTop:15 }}>
         <ScrollView>
           {/* <Text style={{ fontSize: 30, fontWeight: "bold", color: "white" }}>
             Create A Program
