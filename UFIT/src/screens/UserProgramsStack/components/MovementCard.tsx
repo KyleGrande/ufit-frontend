@@ -6,13 +6,12 @@ const MovementComponent = ({ movement }:any) => {
     return (
         
             <View style = {{flexDirection: 'row', justifyContent: 'space-between', backgroundColor: 'white', padding: 20, margin: 10, borderRadius: 20}}>
-                <View>
-                    <Text>{movement.movementName}</Text>
-                    
+                <View style = {{width: '60%'}}>
+                    <Text style = {{textAlign: 'left', fontWeight: 'bold'}}>{movement.movementName}</Text>
                 </View>
 
-                <View>
-                    <Text>
+                <View style = {{width: '40%'}}>
+                    <Text style = {{textAlign: 'right', color: 'purple'}}>
                         {movement.typeTracking.trackingType === "setsreps" ? (
                             <Text>{movement.typeTracking.sets} X {movement.typeTracking.reps}</Text>
                         ) : null}
