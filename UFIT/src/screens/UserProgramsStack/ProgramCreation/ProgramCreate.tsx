@@ -18,7 +18,7 @@ import { useForm, Controller, Form, useFieldArray } from 'react-hook-form';
 import { useFormContext } from "../../StateContext";
 import SessionComponent from "../components/SessionComponent";
 import FormErrorMsg from "../components/FormErrorMsg";
-import { LogBox } from 'react-native';
+import { LogBox, Switch } from 'react-native';
 import axios from "axios"
 import LinearGradient from "../../../components/LinearGradient";
 import {api} from "../../../api";
@@ -35,6 +35,8 @@ type ProgramsMainScreenProps = {
 };
 
 export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
+  // state for public toggler 
+  const [publicToggle, setPublicToggle ] = useState(true);
   const { control, handleSubmit, getValues, setValue, watch } = useFormContext();
   const userId = useAuth()._id as string;
   const { handleDiscoverPrograms } = useUserPrograms()
@@ -98,7 +100,6 @@ export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
     }    
   }
 
-
   const { addProgram } = useUserPrograms();
   const onSubmit = async(data:any) => {         
     console.log('Form Data:', data);   
@@ -130,6 +131,7 @@ export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
       console.log(err);
     }
   };
+  const toggleSwitch = () => setPublicToggle(previous => !previous);
 
   return (
      <LinearGradient
@@ -183,8 +185,20 @@ export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
               )}           
             </View>
             )}
-          />
-         
+          /
+            >
+          <View style = {{flexDirection: 'row', justifyContent: 'space-between', paddingBottom:10, paddingTop:10}}>
+            <Text style = {{fontSize:20, color: 'white', fontWeight: 'bold'}}>
+                Public: 
+            </Text>
+            <Switch
+                trackColor={{false: '#767577', true: '#81b0ff'}}
+                thumbColor={publicToggle? '#f5dd4b' : '#f4f3f4'}
+                onValueChange={toggleSwitch}
+                value={publicToggle}
+              />
+          </View>
+
             <Controller
               control = {control}
               rules={{
