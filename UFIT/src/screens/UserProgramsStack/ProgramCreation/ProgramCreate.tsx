@@ -192,8 +192,8 @@ export default function ProgramCreate({ navigation }: ProgramsMainScreenProps) {
                 Public: 
             </Text>
             <Switch
-                trackColor={{false: '#767577', true: '#81b0ff'}}
-                thumbColor={publicToggle? '#f5dd4b' : '#f4f3f4'}
+                trackColor={{false: '#DEDFDF', true: '#5ADB4F'}}
+                thumbColor={publicToggle? '#FEFFFE' : '#FEFFFE'}
                 onValueChange={toggleSwitch}
                 value={publicToggle}
               />
