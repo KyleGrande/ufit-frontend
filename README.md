@@ -1,5 +1,5 @@
 # ufit-frontend
-A capstone project.
+[https://d33wubrfki0l68.cloudfront.net/c7865f112828771a692729cafb7decef7ef1086c/01cd9/assets/images/portfolio/port5.png]
 
 ## Setting up your ENVIRONMENT
 
